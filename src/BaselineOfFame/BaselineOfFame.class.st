@@ -4,17 +4,12 @@ Baseline for the Fame project.
 Class {
 	#name : #BaselineOfFame,
 	#superclass : #BaselineOf,
-	#instVars : [
-		'repository'
-	],
 	#category : #BaselineOfFame
 }
 
 { #category : #baseline }
 BaselineOfFame >> baseline: spec [
 	<baseline>
-	repository := self packageRepositoryURL.
-
 	spec
 		for: #common
 		do: [ "Dependencies"
@@ -67,14 +62,6 @@ BaselineOfFame >> mocketry: spec [
 		with: [ spec
 				loads: #('Core');
 				repository: 'github://dionisiydk/Mocketry:v6.0.x' ]
-]
-
-{ #category : #accessing }
-BaselineOfFame >> packageRepositoryURL [
-	^ super packageRepositoryURL
-		ifEmpty: [ | packageName |
-			packageName := self class package name.
-			'tonel://' , (IceRepository registry detect: [ :repo | repo workingCopy packageNames includes: packageName ] ifFound: [ :repo | repo location pathString , '/' , repo subdirectory ] ifNone: [ '' ]) ]
 ]
 
 { #category : #dependencies }
