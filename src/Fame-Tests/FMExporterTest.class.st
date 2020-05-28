@@ -5,21 +5,49 @@ Class {
 }
 
 { #category : #tests }
+FMExporterTest >> testExportAsJSon [
+	| printer metamodel lines |
+	printer := FMJSONPrinter onString.
+	metamodel := FMMetaModelBuilder metamodelFrom: {LIBLibrary . LIBBook . LIBPerson}.
+	metamodel exportWithPrinter: printer.
+	lines := printer stream contents lines.
+	self assert: (lines first beginsWith: '[') .
+	self assert: (lines anySatisfy: [ :l | l includesSubstring: 'FM3.Package'] ) .
+	self assert: (lines anySatisfy: [ :l | l includesSubstring: 'FM3.Class'] ) .
+	self assert: (lines anySatisfy: [ :l | l includesSubstring: 'FM3.Property'] ) .
+	self assert: (lines last endsWith: ']' )
+]
+
+{ #category : #tests }
 FMExporterTest >> testExportAsMSE [
-	| printer |
+	| printer metamodel lines |
 	printer := FMMSEPrinter onString.
-	FMMetaMetaModel default exportWithPrinter: printer.
+	metamodel := FMMetaModelBuilder metamodelFrom: {LIBLibrary . LIBBook . LIBPerson}.
+	metamodel exportWithPrinter: printer.
 	self assert: printer stream contents isString.
-	self assert: printer stream contents first equals: $(
+	lines := printer stream contents lines.
+	self assert: lines first equals: '(' .
+	self assert: printer stream contents lines size equals: 66.
+	self assert: (lines allButFirst allSatisfy: [ :l | l beginsWith: '	'] ) .
+	self assert: (lines anySatisfy: [ :l | l includesSubstring: 'FM3.Package'] ) .
+	self assert: (lines anySatisfy: [ :l | l includesSubstring: 'FM3.Class'] ) .
+	self assert: (lines anySatisfy: [ :l | l includesSubstring: 'FM3.Property'] ) .
+	self assert: (lines last endsWith: ')' )
 ]
 
 { #category : #tests }
 FMExporterTest >> testExportAsXML [
-	| printer |
+	| printer metamodel lines |
 	printer := FMXMLPrinter onString.
-	FMMetaMetaModel default exportWithPrinter: printer.
-	self assert: printer stream contents isString.
-	self assert: printer stream contents first equals: $<
+	metamodel := FMMetaModelBuilder metamodelFrom: {LIBLibrary . LIBBook . LIBPerson}.
+	metamodel exportWithPrinter: printer.
+	lines := printer stream contents lines.
+	self assert: (lines first beginsWith: '<') .
+	self assert: (lines allButFirst allSatisfy: [ :l | (l beginsWith: '<') or: [l beginsWith: '	']] ) .
+	self assert: (lines anySatisfy: [ :l | l includesSubstring: 'FM3.Package'] ) .
+	self assert: (lines anySatisfy: [ :l | l includesSubstring: 'FM3.Class'] ) .
+	self assert: (lines anySatisfy: [ :l | l includesSubstring: 'FM3.Property'] ) .
+	self assert: (lines allSatisfy: [ :l | l endsWith: '>'] )
 ]
 
 { #category : #tests }
