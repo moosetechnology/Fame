@@ -57,7 +57,12 @@ FMNullMultivalueLink >> basicIterator [
 
 { #category : #accessing }
 FMNullMultivalueLink >> byName: aName ifAbsent: aBlock [
-	^aBlock value
+	^ aBlock value
+]
+
+{ #category : #accessing }
+FMNullMultivalueLink >> byName: name ifPresent: aBlock ifAbsent: exceptionBlock [
+	^ exceptionBlock value
 ]
 
 { #category : #enumerating }

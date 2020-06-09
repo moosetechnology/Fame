@@ -100,11 +100,17 @@ FMMultivalueLink >> byName: name [
 
 { #category : #accessing }
 FMMultivalueLink >> byName: name ifAbsent: exceptionBlock [
+	^ values
+		detect: [ :each | each name asString = name asString ]
+		ifNone: exceptionBlock
+]
 
-	^values
-			detect: [ :each | each name asString = name asString ]
-			ifNone: exceptionBlock
-	 
+{ #category : #accessing }
+FMMultivalueLink >> byName: name ifPresent: aBlock ifAbsent: exceptionBlock [
+	^ values
+		detect: [ :each | each name asString = name asString ]
+		ifFound: aBlock
+		ifNone: exceptionBlock
 ]
 
 { #category : #enumerating }

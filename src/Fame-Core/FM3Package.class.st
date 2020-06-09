@@ -43,6 +43,11 @@ FM3Package >> classNamed: aString ifAbsent: aBlock [
 	^ classes byName: aString ifAbsent: aBlock
 ]
 
+{ #category : #'accessing-query' }
+FM3Package >> classNamed: aString ifPresent: aBlock ifAbsent: anotherBlock [
+	^ classes byName: aString ifPresent: aBlock ifAbsent: anotherBlock
+]
+
 { #category : #accessing }
 FM3Package >> classes [
 	<FMProperty: #classes type: #FM3Class opposite: #package>

@@ -67,11 +67,17 @@ FMSlotMultivalueLink >> byName: name [
 
 { #category : #accessing }
 FMSlotMultivalueLink >> byName: name ifAbsent: exceptionBlock [
+	^ values
+		detect: [ :each | each name asString = name asString ]
+		ifNone: exceptionBlock
+]
 
-	^values
-			detect: [ :each | each name asString = name asString ]
-			ifNone: exceptionBlock
-	 
+{ #category : #accessing }
+FMSlotMultivalueLink >> byName: name ifPresent: aBlock ifAbsent: exceptionBlock [
+	^ values
+		detect: [ :each | each name asString = name asString ]
+		ifFound: aBlock
+		ifNone: exceptionBlock
 ]
 
 { #category : #enumerating }
