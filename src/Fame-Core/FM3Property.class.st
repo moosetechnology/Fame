@@ -62,7 +62,8 @@ Class {
 		'isTarget',
 		'isSource',
 		'comment',
-		'isDependencySource'
+		'isDependencySource',
+		'isDependencyTarget'
 	],
 	#category : #'Fame-Core-Model'
 }
@@ -150,6 +151,7 @@ FM3Property >> initialize [
 	isMultivalued := false.
 	isSource := false.
 	isDependencySource := false.
+	isDependencyTarget := false.
 	isTarget := false
 ]
 
@@ -179,6 +181,16 @@ FM3Property >> isDependencySource [
 { #category : #accessing }
 FM3Property >> isDependencySource: anObject [
 	isDependencySource := anObject
+]
+
+{ #category : #accessing }
+FM3Property >> isDependencyTarget [
+	^isDependencyTarget
+]
+
+{ #category : #accessing }
+FM3Property >> isDependencyTarget: aBoolean [
+	isDependencyTarget := aBoolean
 ]
 
 { #category : #accessing }
