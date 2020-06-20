@@ -259,6 +259,7 @@ FMMetaModelBuilder >> processInfosFrom: aMethod for: prop [
 	(aMethod pragmaAt: #derived) ifNotNil: [ prop isDerived: true ].
 	(aMethod pragmaAt: #source) ifNotNil: [ prop isSource: true ].
 	(aMethod pragmaAt: #dependencySource) ifNotNil: [ prop isDependencySource: true ].
+	(aMethod pragmaAt: #dependencyTarget) ifNotNil: [ prop isDependencyTarget: true ].
 	(aMethod pragmaAt: #target) ifNotNil: [ prop isTarget: true ].
 	(aMethod pragmaAt: #multivalued) ifNotNil: [ prop isMultivalued: true ].
 	
