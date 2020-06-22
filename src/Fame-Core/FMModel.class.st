@@ -78,12 +78,12 @@ FMModel >> addAll: elementCollection [
 
 { #category : #accessing }
 FMModel >> additionalProperties [
-	^ additionalProperties ifNil: [ additionalProperties := IdentityDictionary new ]
+	^ additionalProperties
 ]
 
 { #category : #accessing }
 FMModel >> additionalPropertiesFor: entityClass [
-	^ self additionalProperties at: entityClass ifAbsentPut: [ IdentityDictionary new ]
+	^ self additionalProperties fmModelAt: entityClass
 ]
 
 { #category : #accessing }
@@ -150,7 +150,8 @@ FMModel >> includes: element [
 { #category : #initialization }
 FMModel >> initialize [
 	super initialize.
-	elements := IdentitySet new
+	elements := IdentitySet new.
+	additionalProperties := IdentityDictionary new
 ]
 
 { #category : #testing }
