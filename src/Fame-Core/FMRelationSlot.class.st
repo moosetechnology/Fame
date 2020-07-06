@@ -26,7 +26,8 @@ Class {
 	#superclass : #InstanceVariableSlot,
 	#instVars : [
 		'targetClass',
-		'inverseName'
+		'inverseName',
+		'inverseSlotDic'
 	],
 	#category : #'Fame-Core-Utilities'
 }
@@ -104,6 +105,12 @@ FMRelationSlot >> inClass: aTargetClassOrSymbol [
 ]
 
 { #category : #initialization }
+FMRelationSlot >> initialize [
+	super initialize.
+	inverseSlotDic := IdentityDictionary new
+]
+
+{ #category : #initialization }
 FMRelationSlot >> inverse: anInverseSymbol inClass: aTargetClassOrSymbol [
 	self inClass: aTargetClassOrSymbol.
 	inverseName := anInverseSymbol
@@ -166,7 +173,7 @@ FMRelationSlot >> printOn: aStream [
 
 { #category : #accessing }
 FMRelationSlot >> realInverseSlotFor: anObject [
-	^ anObject class slotNamed: self inverseName
+	^ inverseSlotDic at: anObject class ifAbsentPut: [ anObject class slotNamed: self inverseName ]
 ]
 
 { #category : #internal }
