@@ -26,7 +26,8 @@ Class {
 	#superclass : #InstanceVariableSlot,
 	#instVars : [
 		'targetClass',
-		'inverseName'
+		'inverseName',
+		'inverseSlotDic'
 	],
 	#category : #'Fame-Core-Utilities'
 }
@@ -60,15 +61,17 @@ FMRelationSlot >> addAssociationFrom: ownerObject to: otherObject [
 { #category : #'code generation' }
 FMRelationSlot >> emitStore: aMethodBuilder [
 	| tempName |
-	tempName := Object new.
+	tempName := '0slotTempForStackManipulation'.
 	aMethodBuilder
 		addTemp: tempName;
 		storeTemp: tempName;
 		popTop;
-		pushReceiver;
-		pushLiteralVariable: (AdditionalBinding key: #slot value: self);
+		pushLiteral: self;
+		pushInstVar: index;
 		pushTemp: tempName;
-		send: #writeSlot:value:
+		pushReceiver;
+		send: #updateOld:new:in:;
+		storeInstVar: index
 ]
 
 { #category : #'code generation' }
@@ -99,6 +102,12 @@ FMRelationSlot >> hash [
 { #category : #initialization }
 FMRelationSlot >> inClass: aTargetClassOrSymbol [
 	targetClass := aTargetClassOrSymbol
+]
+
+{ #category : #initialization }
+FMRelationSlot >> initialize [
+	super initialize.
+	inverseSlotDic := IdentityDictionary new
 ]
 
 { #category : #initialization }
@@ -164,7 +173,7 @@ FMRelationSlot >> printOn: aStream [
 
 { #category : #accessing }
 FMRelationSlot >> realInverseSlotFor: anObject [
-	^ anObject class slotNamed: self inverseName
+	^ inverseSlotDic at: anObject class ifAbsentPut: [ anObject class slotNamed: self inverseName ]
 ]
 
 { #category : #internal }
