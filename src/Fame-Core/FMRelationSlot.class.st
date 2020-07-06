@@ -60,15 +60,17 @@ FMRelationSlot >> addAssociationFrom: ownerObject to: otherObject [
 { #category : #'code generation' }
 FMRelationSlot >> emitStore: aMethodBuilder [
 	| tempName |
-	tempName := Object new.
+	tempName := '0slotTempForStackManipulation'.
 	aMethodBuilder
 		addTemp: tempName;
 		storeTemp: tempName;
 		popTop;
-		pushReceiver;
-		pushLiteralVariable: (AdditionalBinding key: #slot value: self);
+		pushLiteral: self;
+		pushInstVar: index;
 		pushTemp: tempName;
-		send: #writeSlot:value:
+		pushReceiver;
+		send: #updateOld:new:in:;
+		storeInstVar: index
 ]
 
 { #category : #'code generation' }
