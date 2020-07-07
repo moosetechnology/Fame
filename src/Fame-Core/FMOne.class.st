@@ -28,7 +28,9 @@ FMOne >> updateOld: oldValue new: newValue in: anObject [
 		ifTrue: [ oldValue ifNotNil: [ self removeAssociationFrom: anObject to: oldValue ].
 			newValue ifNotNil: [ self addAssociationFrom: anObject to: newValue ] ].
 
-	super write: newValue to: anObject
+	super write: newValue to: anObject.
+
+	^ newValue
 ]
 
 { #category : #'meta-object-protocol' }
