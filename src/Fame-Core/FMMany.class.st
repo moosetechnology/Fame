@@ -35,3 +35,10 @@ FMMany >> remove: oldObject from: collectionOwner [
 		ifTrue: [ self removeAssociationFrom: collectionOwner to: oldObject ]
 
 ]
+
+{ #category : #internal }
+FMMany >> updateOld: oldValue new: newValue in: anObject [
+	"We usually should not end up here, but it might appen if someone directly write an object in a FMMany instead of using #value:."
+
+	^ anObject writeSlot: self value: newValue
+]
