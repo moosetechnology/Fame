@@ -54,3 +54,8 @@ FMModelVisitor >> visitPrimitive: aFM3Primitive [
 FMModelVisitor >> visitProperty: aFM3Property [
 	^ self subclassResponsibility
 ]
+
+{ #category : #visiting }
+FMModelVisitor >> visitTrait: aFM3Trait [
+	^ self visitAll: aFM3Trait properties
+]

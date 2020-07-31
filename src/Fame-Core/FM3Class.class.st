@@ -30,15 +30,12 @@ Internal Representation and Key Implementation Points.
 "
 Class {
 	#name : #FM3Class,
-	#superclass : #FM3Element,
+	#superclass : #FM3Type,
 	#instVars : [
 		'isAbstract',
 		'superclass',
-		'package',
 		'implementingClass',
-		'subclasses',
-		'traits',
-		'properties'
+		'subclasses'
 	],
 	#category : #'Fame-Core-Model'
 }
@@ -58,11 +55,6 @@ FM3Class class >> defaultSuperclass [
 { #category : #visiting }
 FM3Class >> accept: aVisitor [
 	aVisitor visitClass: self
-]
-
-{ #category : #adding }
-FM3Class >> addTraits: aCollection [
-	self traits addAll: aCollection
 ]
 
 { #category : #'accessing-query' }
@@ -89,13 +81,6 @@ FM3Class >> allProperties [
 	nameDict := Dictionary new: 60.	"estimated initial size."
 	self allPropertiesDo: [ :each | nameDict at: each name ifAbsentPut: [ each ] ].
 	^ nameDict values asArray
-]
-
-{ #category : #enumerating }
-FM3Class >> allPropertiesDo: block [
-	properties do: block.
-	self superclass ifNotNil: [ :class | class allPropertiesDo: block ].
-	self traits do: [ :trait | trait allPropertiesDo: block ]
 ]
 
 { #category : #accessing }
@@ -172,11 +157,9 @@ FM3Class >> inheritsFrom: aClass [
 { #category : #initialization }
 FM3Class >> initialize [
 	super initialize.
-	properties := FMMultivalueLink on: self opposite: #mmClass:.
 	isAbstract := false.
 	superclass := self class defaultSuperclass.
-	subclasses := FMMultivalueLink on: self opposite: #superclass:.
-	traits := Set new
+	subclasses := FMMultivalueLink on: self opposite: #superclass:
 ]
 
 { #category : #testing }
@@ -229,37 +212,9 @@ FM3Class >> ownerProperties [
 	^ self allProperties select: #isContainer
 ]
 
-{ #category : #accessing }
-FM3Class >> package [
-	<FMProperty: #package type: #FM3Package opposite: #classes>
-	<container>
-	^ package
-]
-
-{ #category : #accessing }
-FM3Class >> package: newPackage [
-	package := FMMultivalueLink
-		on: self
-		update: #classes
-		from: self package
-		to: newPackage
-]
-
 { #category : #'accessing-query' }
 FM3Class >> primitiveProperties [
 	^ self properties select: [ :attr | attr type isPrimitive ]
-]
-
-{ #category : #accessing }
-FM3Class >> properties [
-	<FMProperty: #properties type: 'FM3.Property' opposite: #class>
-	<multivalued>
-	^ properties
-]
-
-{ #category : #accessing }
-FM3Class >> properties: anObject [
-	properties value: anObject
 ]
 
 { #category : #'accessing-query' }
@@ -305,13 +260,6 @@ FM3Class >> superclass: newClass [
 		update: #subclasses
 		from: self superclass
 		to: newClass
-]
-
-{ #category : #accessing }
-FM3Class >> traits [
-	<FMProperty: #traits type: #FM3Class>
-	<multivalued>
-	^ traits
 ]
 
 { #category : #accessing }

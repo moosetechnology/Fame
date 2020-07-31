@@ -1,13 +1,9 @@
 Class {
 	#name : #FM3Trait,
-	#superclass : #FM3Element,
+	#superclass : #FM3Type,
 	#instVars : [
 		'superclass',
-		'package',
-		'implementingClass',
-		'subclasses',
-		'traits',
-		'properties'
+		'implementingClass'
 	],
 	#category : #'Fame-Core-Model'
 }
@@ -26,12 +22,7 @@ FM3Trait class >> defaultSuperclass [
 
 { #category : #visiting }
 FM3Trait >> accept: aVisitor [
-	aVisitor visitClass: self
-]
-
-{ #category : #adding }
-FM3Trait >> addTraits: aCollection [
-	self traits addAll: aCollection
+	aVisitor visitTrait: self
 ]
 
 { #category : #'accessing-query' }
@@ -125,9 +116,7 @@ FM3Trait >> inheritsFrom: aClass [
 { #category : #initialization }
 FM3Trait >> initialize [
 	super initialize.
-	properties := FMMultivalueLink on: self opposite: #mmClass:.
 	superclass := self class defaultSuperclass.
-	traits := Set new
 ]
 
 { #category : #accessing }
@@ -173,22 +162,6 @@ FM3Trait >> owner [
 { #category : #'accessing-query' }
 FM3Trait >> ownerProperties [
 	^ self allProperties select: #isContainer
-]
-
-{ #category : #accessing }
-FM3Trait >> package [
-	<FMProperty: #package type: #FM3Package opposite: #classes>
-	<container>
-	^ package
-]
-
-{ #category : #accessing }
-FM3Trait >> package: newPackage [
-	package := FMMultivalueLink
-		on: self
-		update: #classes
-		from: self package
-		to: newPackage
 ]
 
 { #category : #'accessing-query' }
@@ -238,20 +211,6 @@ FM3Trait >> superclass: newClass [
 		update: #subclasses
 		from: self superclass
 		to: newClass
-]
-
-{ #category : #accessing }
-FM3Trait >> traits [
-	<FMProperty: #traits type: #FM3Class>
-	<multivalued>
-	^ traits
-]
-
-{ #category : #accessing }
-FM3Trait >> withAllSubclasses [
-	^ self allSubclasses
-		add: self;
-		yourself
 ]
 
 { #category : #accessing }

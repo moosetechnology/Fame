@@ -223,7 +223,7 @@ FM3Property >> isTarget: anObject [
 
 { #category : #accessing }
 FM3Property >> mmClass [
-	<FMProperty: #class type: #FM3Class opposite: #properties>
+	<FMProperty: #class type: #FM3Type opposite: #properties>
 	<container>
 	
 	^class 
