@@ -130,6 +130,11 @@ FMMetaModel >> properties [
 	^ self elements select: [ :each | each isFM3Property ]
 ]
 
+{ #category : #accessing }
+FMMetaModel >> traits [
+	^ self elements select: [ :each | each isFM3Trait ]
+]
+
 { #category : #private }
 FMMetaModel >> updateCache [
 	nameDict := (FM3Constant constants collect: [ :const | const name asString -> const ]) asDictionary.

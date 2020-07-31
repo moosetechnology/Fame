@@ -72,15 +72,11 @@ FM3Class >> allPrimitiveProperties [
 	^ self allProperties select: [ :attr | attr type isNotNil and: [ attr type isPrimitive ] ]
 ]
 
-{ #category : #'accessing-query' }
-FM3Class >> allProperties [
-	<FMProperty: #allProperties type: 'FM3.Property'>
-	<multivalued>
-	<derived>
-	| nameDict |
-	nameDict := Dictionary new: 60.	"estimated initial size."
-	self allPropertiesDo: [ :each | nameDict at: each name ifAbsentPut: [ each ] ].
-	^ nameDict values asArray
+{ #category : #enumerating }
+FM3Class >> allPropertiesDo: block [
+	properties do: block.
+	self superclass ifNotNil: [ :class | class allPropertiesDo: block ].
+	self traits do: [ :trait | trait allPropertiesDo: block ]
 ]
 
 { #category : #accessing }
@@ -215,23 +211,6 @@ FM3Class >> ownerProperties [
 { #category : #'accessing-query' }
 FM3Class >> primitiveProperties [
 	^ self properties select: [ :attr | attr type isPrimitive ]
-]
-
-{ #category : #'accessing-query' }
-FM3Class >> propertiesNamed: aListOfSymbol [
-	^ aListOfSymbol collect: [ :each | self propertyNamed: each ]
-]
-
-{ #category : #'accessing-query' }
-FM3Class >> propertyNamed: aString [
-	^ self propertyNamed: aString ifAbsent: nil
-]
-
-{ #category : #'accessing-query' }
-FM3Class >> propertyNamed: aString ifAbsent: aBlock [
-	self allPropertiesDo: [ :attr | attr name = aString ifTrue: [ ^ attr ] ].
-
-	^ aBlock value
 ]
 
 { #category : #accessing }
