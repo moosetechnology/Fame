@@ -36,7 +36,7 @@ FMMetaMetaModelTest >> testFM3IsComplete [
 	names := metaMetaModel elements collect: [ :each | each fullName ].	"The package"
 	self assert: (names includes: 'FM3').
 	self
-		assert: (metaMetaModel elements detect: [ :el | el fullName = 'FM3.Class.package' ]) opposite
+		assert: (metaMetaModel elements detect: [ :el | el fullName = 'FM3.Type.package' ]) opposite
 		equals: (metaMetaModel elements detect: [ :el | el fullName = 'FM3.Package.classes' ]).
 	"The superclass of everything"	"name, fullName, and owner are the 3 properties that define an element"
 	self assert: (names includes: 'FM3.Element').
@@ -49,10 +49,11 @@ FMMetaMetaModelTest >> testFM3IsComplete [
 	self assert: (names includes: 'FM3.Class.root').
 	self assert: (names includes: 'FM3.Class.superclass').
 	self assert: (names includes: 'FM3.Class.subclasses').
-	self assert: (names includes: 'FM3.Class.traits').
-	self assert: (names includes: 'FM3.Class.package').
-	self assert: (names includes: 'FM3.Class.allProperties').
-	self assert: (names includes: 'FM3.Class.properties').
+	self assert: (names includes: 'FM3.Type').
+	self assert: (names includes: 'FM3.Type.traits').
+	self assert: (names includes: 'FM3.Type.package').
+	self assert: (names includes: 'FM3.Type.allProperties').
+	self assert: (names includes: 'FM3.Type.properties').
 	self assert: (names includes: 'FM3.Property').
 	self assert: (names includes: 'FM3.Property.composite').
 	self assert: (names includes: 'FM3.Property.container').
@@ -65,8 +66,11 @@ FMMetaMetaModelTest >> testFM3IsComplete [
 	self assert: (names includes: 'FM3.Package').
 	self assert: (names includes: 'FM3.Package.extensions').
 	self assert: (names includes: 'FM3.Package.classes').
-	self assert: names size equals: 27.
-	self assert: (names select: [ :n | n beginsWith: 'FM3.' ]) size equals: 26
+	self assert: (names includes: 'FM3.Trait').
+	self assert: (names includes: 'FM3.Trait.primitive').
+	self assert: (names includes: 'FM3.Trait.root').
+	self assert: names size equals: 31.
+	self assert: (names select: [ :n | n beginsWith: 'FM3.' ]) size equals: 30
 ]
 
 { #category : #tests }
