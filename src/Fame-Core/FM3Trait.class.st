@@ -2,7 +2,6 @@ Class {
 	#name : #FM3Trait,
 	#superclass : #FM3Type,
 	#instVars : [
-		'superclass',
 		'implementingClass'
 	],
 	#category : #'Fame-Core-Model'
@@ -10,14 +9,9 @@ Class {
 
 { #category : #meta }
 FM3Trait class >> annotation [
-	<FMClass: #Trait super: #FM3Element>
+	<FMClass: #Trait super: #FM3Type>
 	<package: #FM3>
 
-]
-
-{ #category : #accessing }
-FM3Trait class >> defaultSuperclass [
-	^ FM3TraitConstant instance
 ]
 
 { #category : #visiting }
@@ -53,8 +47,7 @@ FM3Trait >> allProperties [
 
 { #category : #enumerating }
 FM3Trait >> allPropertiesDo: block [
-	properties do: block.
-	self superclass ifNotNil: [ :class | class allPropertiesDo: block ].
+	self properties do: block.
 	self traits do: [ :trait | trait allPropertiesDo: block ]
 ]
 
@@ -92,11 +85,6 @@ FM3Trait >> hasPackage [
 	^ package isNotNil
 ]
 
-{ #category : #testing }
-FM3Trait >> hasSuperclass [
-	^ superclass isNotNil
-]
-
 { #category : #accessing }
 FM3Trait >> implementingClass [
 	^ implementingClass
@@ -111,12 +99,6 @@ FM3Trait >> implementingClass: smalltalkClass [
 FM3Trait >> inheritsFrom: aClass [
 	self allSuperclassesDo: [ :each | each = aClass ifTrue: [ ^ true ] ].
 	^ false
-]
-
-{ #category : #initialization }
-FM3Trait >> initialize [
-	super initialize.
-	superclass := self class defaultSuperclass.
 ]
 
 { #category : #accessing }
@@ -136,7 +118,7 @@ FM3Trait >> isConstant [
 ]
 
 { #category : #testing }
-FM3Trait >> isFM3Class [
+FM3Trait >> isFM3Trait [
 	^ true
 ]
 
@@ -196,21 +178,6 @@ FM3Trait >> propertyNamed: aString ifAbsent: aBlock [
 	self allPropertiesDo: [ :attr | attr name = aString ifTrue: [ ^ attr ] ].
 
 	^ aBlock value
-]
-
-{ #category : #accessing }
-FM3Trait >> superclass [
-	<FMProperty: #superclass type: #FM3Class opposite: #subclasses>
-	^ superclass
-]
-
-{ #category : #accessing }
-FM3Trait >> superclass: newClass [
-	superclass := FMMultivalueLink
-		on: self
-		update: #subclasses
-		from: self superclass
-		to: newClass
 ]
 
 { #category : #accessing }

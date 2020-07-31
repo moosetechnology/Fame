@@ -42,7 +42,7 @@ Class {
 
 { #category : #meta }
 FM3Class class >> annotation [
-	<FMClass: #Class super: #FM3Element>
+	<FMClass: #Class super: #FM3Type>
 	<package: #FM3>
 
 ]

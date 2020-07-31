@@ -339,7 +339,7 @@ FMMetaModelBuilder >> resolveObjectReferences [
 	self classes do: [ :meta | metaDict at: meta fullName asString put: meta ].
 
 	"establish class-superclass associations"
-	superclassDict keysAndValuesDo: [ :meta :value | meta superclass: (self ensureClass: value) ].
+	superclassDict keysAndValuesDo: [ :meta :value | meta isFM3Class ifTrue: [ meta superclass: (self ensureClass: value) ] ].
 
 	"establish property-type-opposite relations"
 	typeDict keysAndValuesDo: [ :prop :value | prop type: (self ensureClass: value) ].

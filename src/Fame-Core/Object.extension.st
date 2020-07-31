@@ -16,6 +16,11 @@ Object >> isFM3Property [
 ]
 
 { #category : #'*Fame-Core' }
+Object >> isFM3Trait [
+	^false
+]
+
+{ #category : #'*Fame-Core' }
 Object >> isMetamodelEntity [
 	^ self class isMetamodelEntity
 ]
