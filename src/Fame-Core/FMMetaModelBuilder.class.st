@@ -204,23 +204,26 @@ FMMetaModelBuilder >> processClass: aClass [
 
 { #category : #private }
 FMMetaModelBuilder >> processClass: aClass ifPragmaAbsent: anErrorBlock [
-	aClass metamodelDefinitionPragma
-		ifNil: anErrorBlock
-		ifNotNil: [ :pragma | 
-			| fm3Class |
-			fm3Class := FM3Class named: (pragma argumentAt: 1).
-			superclassDict at: fm3Class put: (pragma argumentAt: 2).
-			fm3Class implementingClass: aClass.
-
-			(pragma method pragmaAt: #abstract) ifNotNil: [ fm3Class isAbstract: true ].
-			self extractPackageFrom: pragma method for: fm3Class.
-			classDict at: aClass put: fm3Class.
-			(self methodsToProcessFrom: aClass) do: [ :each | self processCompiledMethod: each ].
-			aClass localSlots select: #isFMRelationSlot thenDo: [ :each | self processSlot: each in: aClass ].
-
-			traitsDict at: fm3Class put: aClass allGeneratedTraits.
-
-			elements add: fm3Class ]
+	aClass isTrait
+		ifTrue: [ self processTrait: aClass ifPragmaAbsent: anErrorBlock ]
+		ifFalse: [ aClass metamodelDefinitionPragma
+				ifNil: anErrorBlock
+				ifNotNil: [ :pragma | 
+					| fm3Class |
+					fm3Class := FM3Class named: (pragma argumentAt: 1).
+					superclassDict at: fm3Class put: (pragma argumentAt: 2).
+					fm3Class implementingClass: aClass.
+					(pragma method pragmaAt: #abstract)
+						ifNotNil: [ fm3Class isAbstract: true ].
+					self extractPackageFrom: pragma method for: fm3Class.
+					classDict at: aClass put: fm3Class.
+					(self methodsToProcessFrom: aClass)
+						do: [ :each | self processCompiledMethod: each ].
+					aClass localSlots
+						select: #isFMRelationSlot
+						thenDo: [ :each | self processSlot: each in: aClass ].
+					traitsDict at: fm3Class put: aClass allGeneratedTraits.
+					elements add: fm3Class ] ]
 ]
 
 { #category : #private }
@@ -280,6 +283,26 @@ FMMetaModelBuilder >> processSlot: aSlot in: aClass [
 	aClass compiledMethodAt: aSlot name asSymbol ifPresent: [ :aMethod | self processInfosFrom: aMethod for: prop ].
 
 	elements add: prop
+]
+
+{ #category : #private }
+FMMetaModelBuilder >> processTrait: aTrait ifPragmaAbsent: anErrorBlock [
+	aTrait metamodelDefinitionPragma
+				ifNil: anErrorBlock
+				ifNotNil: [ :pragma | 
+					| fm3Trait |
+					fm3Trait := FM3Trait named: (pragma argumentAt: 1).
+					superclassDict at: fm3Trait put: (pragma argumentAt: 2).
+					fm3Trait implementingClass: aTrait.
+					self extractPackageFrom: pragma method for: fm3Trait.
+					classDict at: aTrait put: fm3Trait.
+					(self methodsToProcessFrom: aTrait)
+						do: [ :each | self processCompiledMethod: each ].
+					aTrait localSlots
+						select: #isFMRelationSlot
+						thenDo: [ :each | self processSlot: each in: aTrait ].
+					traitsDict at: fm3Trait put: aTrait allGeneratedTraits.
+					elements add: fm3Trait ]
 ]
 
 { #category : #accessing }
