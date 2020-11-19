@@ -33,6 +33,14 @@ Note you can replace the #master by another branch such as #development or a tag
 
 TODO
 
+### Export to mse
+
+To export a model (or metamodel) in the mse format (for example to use FameJava and VerveineJ), execute the following code:
+
+```Smalltalk
+'/path/to/file.mse' asFileReference writeStreamDo: [ :writeStream | MyModel metamodel exportOn: writeStream ]
+```
+
 ## Version management 
 
 This project use semantic versioning to define the releases. This means that each stable release of the project will be assigned a version number of the form `vX.Y.Z`. 
