@@ -31,3 +31,9 @@ FMGenericModelVisitor >> visitPackage: aFM3Package [
 FMGenericModelVisitor >> visitProperty: aFM3Property [
 	^ self visitElement: aFM3Property
 ]
+
+{ #category : #visiting }
+FMGenericModelVisitor >> visitTrait: aFM3Trait [
+	self visitElement: aFM3Trait.
+	^ super visitTrait: aFM3Trait
+]

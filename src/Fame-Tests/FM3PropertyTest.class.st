@@ -19,7 +19,7 @@ FM3PropertyTest >> testClassHasOpposite [
 	| e |
 	e := metaMetamodel elementNamed: 'FM3.Property.class'.
 	self assert: e hasOpposite.
-	self assert: e opposite fullName equals: 'FM3.Class.properties'
+	self assert: e opposite fullName equals: 'FM3.Type.properties'
 ]
 
 { #category : #tests }

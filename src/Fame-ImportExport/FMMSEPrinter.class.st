@@ -36,7 +36,6 @@ FMMSEPrinter >> beginEntity: name [
 
 { #category : #parsing }
 FMMSEPrinter >> beginProperty: name [
-
 	indent := indent + 1.
 	self crTabs.
 	stream 
