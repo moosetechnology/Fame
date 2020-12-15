@@ -10,6 +10,9 @@ on:
       - main
       - v*
       - development
+  pull_request:
+    types: [assigned, opened, synchronize, reopened]
+
 jobs:
   test:
     runs-on: ubuntu-latest
