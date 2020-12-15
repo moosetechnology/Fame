@@ -1,5 +1,7 @@
 # Fame
 
+![CI](https://github.com/moosetechnology/Fame/workflows/CI/badge.svg?branch=development)
+
 Fame is an meta-modelling framework for executable models. 
 
   - [Installation](#installation)
