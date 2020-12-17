@@ -7,7 +7,7 @@ SmalltalkCISpec {
   ],
    #testing : {
     #coverage : {
-      #packages : [ 'Fame-*' ],
+      #packages : [ 'Fame.*' ],
       #format : #lcov
     }
   }
