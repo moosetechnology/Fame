@@ -109,25 +109,32 @@ FMJSONParser >> Serial [
 
 { #category : #tokens }
 FMJSONParser >> String [
+
+	| previousChar |
+	"read a string"
 	$" == chararacter ifFalse: [ ^ nil ].
 
 	buffer reset.
-
-	[ [ self next.
+	"read the string"
+	[ 
+	previousChar := chararacter.
+	self next.
 	chararacter ifNil: [ self syntaxError ].
-	$" == chararacter ] whileFalse: [ buffer nextPut: chararacter ].
-	$" == self next ] whileTrue: [ buffer nextPut: chararacter ].
+	$" == chararacter and: [ $\ ~= previousChar ] ] whileFalse: [ ($\ ~= chararacter or: [ previousChar == $\ ]) ifTrue: [ buffer nextPut: chararacter ] ].
+	"eat the last "" character"
+	self next.
 	self tWHITESPACE.
 	^ buffer contents
 ]
 
 { #category : #tokens }
 FMJSONParser >> Value [
+
 	"Matchs a value (returns true)."
 
 	"Value := Reference | Primitive | Entity"
 
-	^ self Primitive or: [ self Reference or: [ self Reference2 or: [ self MultiEntity ] ] ]
+	^ self Primitive or: [ self Reference or: [ self Reference2 or: [ self MultiEntity or: [ self Entity ] ] ] ]
 ]
 
 { #category : #tokens }

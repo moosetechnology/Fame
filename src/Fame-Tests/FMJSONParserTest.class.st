@@ -735,3 +735,19 @@ FMJSONParserTest >> testFamixModel [
 	self assert: outgoingAccesses isFM3Property.
 	self assert: accessorProperty opposite equals: outgoingAccesses
 ]
+
+{ #category : #tests }
+FMJSONParserTest >> testMatchString [
+	p fromString: '"Lorem"'.
+	r := p String.
+	self assert: r equals: 'Lorem'.
+	self assert: p atEnd.
+	p fromString: '"Eo"ipso"'.
+	r := p String.
+	self assert: r equals: 'Eo'.
+	self assert: p peek equals: $i.
+	p fromString: '"Eo\"ipso"'.
+	r := p String.
+	self assert: r equals: 'Eo"ipso'.
+	self assert: p atEnd
+]
