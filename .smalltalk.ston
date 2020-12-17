@@ -4,5 +4,11 @@ SmalltalkCISpec {
       #baseline : 'Fame',
       #directory : 'src'
     }
-  ]
+  ],
+   #testing : {
+    #coverage : {
+      #packages : [ 'Fame-*' ],
+      #format : #lcov
+    }
+  }
 }
