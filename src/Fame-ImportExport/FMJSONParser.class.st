@@ -100,6 +100,7 @@ FMJSONParser >> Serial [
 	| position serial |
 	position := self position.
 	self tID ifFalse: [ ^ self backtrack: position ].
+	self tPropertyNameSeparator ifFalse: [ ^ self backtrack: position ].
 	serial := self Identifier.
 	serial ifNil: [ ^ self backtrack: position ].
 	importer serial: serial.
@@ -145,7 +146,8 @@ FMJSONParser >> tCLOSE [
 { #category : #tokens }
 FMJSONParser >> tFULLNAME [
 	self tFULLNAMEPropertyOpen ifFalse: [ ^ nil ].
-	
+	self tPropertyNameSeparator ifFalse: [ ^ nil ].
+	self tPropertyNameOPEN ifFalse: [ ^ nil ].
 	buffer reset.
 	[ 
 	buffer nextPut: chararacter.
@@ -167,14 +169,14 @@ FMJSONParser >> tFULLNAMEPropertyClose [
 
 { #category : #tokens }
 FMJSONParser >> tFULLNAMEPropertyOpen [
-	^ self matchesWord: '"FM3":"'
+	^ self matchesWord: '"FM3"'
 ]
 
 { #category : #tokens }
 FMJSONParser >> tID [
 	"Match id keyword (returns boolean)."
 
-	^ self matchesWord: '"id":'
+	^ self matchesWord: '"id"'
 ]
 
 { #category : #tokens }
@@ -200,6 +202,11 @@ FMJSONParser >> tPropertyNameClose [
 { #category : #tokens }
 FMJSONParser >> tPropertyNameOPEN [
 	^ self matchesWord: '"'
+]
+
+{ #category : #tokens }
+FMJSONParser >> tPropertyNameSeparator [
+	^ self matchesWord: ':'
 ]
 
 { #category : #tokens }

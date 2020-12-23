@@ -663,6 +663,70 @@ FMJSONParserTest >> setUp [
 ]
 
 { #category : #tests }
+FMJSONParserTest >> testBacktrack [
+	| pos |
+	p fromString: 'abcdefg'.
+	self assert: p peek equals: $a.
+	self assert: p next equals: $b.
+	pos := p position.
+	self assert: p peek equals: $b.
+	self assert: p next equals: $c.
+	self assert: p next equals: $d.
+	self assert: p next equals: $e.
+	p backtrack: pos.
+	self assert: p peek equals: $b.
+	self assert: p next equals: $c.
+	self assert: p next equals: $d.
+	self assert: p next equals: $e
+]
+
+{ #category : #tests }
+FMJSONParserTest >> testEmptyDocument [
+	p fromString: ''.
+	p Document.
+	self assert: r contents equals: #(#(#beginDocument) #(#endDocument)).
+	self assert: p atEnd
+]
+
+{ #category : #tests }
+FMJSONParserTest >> testEmptyExportString [
+	p fromString: ''.
+	p Document.
+	self assert: r exportJsonString equals: '[
+]'
+]
+
+{ #category : #tests }
+FMJSONParserTest >> testEntity [
+	a := #(#(#beginEntity: 'Foo') #(#endEntity: 'Foo')).
+	r reset.
+	p fromString: '{"FM3":"Foo"}'.
+	p Entity.
+	self assert: r contents equals: a.
+	self assert: p atEnd.
+	r reset.
+	p fromString: '{ "FM3" : "Foo" }  '.
+	p Entity.
+	self assert: r contents equals: a.
+	self assert: p atEnd
+]
+
+{ #category : #tests }
+FMJSONParserTest >> testEntityWithID [
+	a := #(#(#beginEntity: 'Foo') #(#serial: 42) #(#endEntity: 'Foo')).
+	r reset.
+	p fromString: '{"FM3":"Foo","id":42}'.
+	p Entity.
+	self assert: r contents equals: a.
+	self assert: p atEnd.
+	r reset.
+	p fromString: '{  "FM3"   :   "Foo"   ,   "id"   :   42   }  '.
+	p Entity.
+	self assert: r contents equals: a.
+	self assert: p atEnd
+]
+
+{ #category : #tests }
 FMJSONParserTest >> testFamixModel [
 	| metamodel names famixPackage accessClass accessorProperty behaviouralEntity outgoingAccesses |
 	metamodel := FMMetaModel fromJSONString: self class famix30mse.
