@@ -992,3 +992,140 @@ FMJSONParserTest >> testPropertyWithReferences [
 	self assert: r contents equals: a.
 	self assert: p atEnd
 ]
+
+{ #category : #tests }
+FMJSONParserTest >> testPropertyWithStrings2 [
+	a := #(#(#beginProperty: 'name') #(#primitive: 'bar"ba"rossa') #(#endProperty: 'name')).
+	r reset.
+	p fromString: '"name":"bar\"ba\"rossa"'.
+	p Property.
+	self assert: r contents equals: a.
+	self assert: p atEnd.
+	r reset.
+	p fromString: '"name"  :   "bar\"ba\"rossa"  '.
+	p Property.
+	self assert: r contents equals: a.
+	self assert: p atEnd
+]
+
+{ #category : #tests }
+FMJSONParserTest >> testSerial [
+	p fromString: '"id":42'.
+	p Serial.
+	self assert: r contents equals: #(#(#serial: 42)).
+	self assert: p atEnd.
+	self setUp.
+	p fromString: '"id" :  42 '.
+	p Serial.
+	self assert: r contents equals: #(#(#serial: 42)).
+	self assert: p atEnd.
+	self setUp
+]
+
+{ #category : #tests }
+FMJSONParserTest >> testSimpleDocument [
+	p fromString: '[]'.
+	p Document.
+	self assert: r contents equals: #(#(#beginDocument) #(#endDocument)).
+	self assert: p atEnd.
+	r reset.
+	p fromString: '  [  ]   '.
+	p Document.
+	self assert: r contents equals: #(#(#beginDocument) #(#endDocument)).
+	self assert: p atEnd
+]
+
+{ #category : #tests }
+FMJSONParserTest >> testValueFloat [
+	r reset.
+	p fromString: '3.14'.
+	p Value.
+	self assert: r contents equals: #(#(#primitive: 3.14)).
+	self assert: p atEnd
+]
+
+{ #category : #tests }
+FMJSONParserTest >> testValueFloatError [
+	r reset.
+	p fromString: '3.14e$'.
+	self should: [ p Value ] raise: FMSyntaxError
+]
+
+{ #category : #tests }
+FMJSONParserTest >> testValueFloatError2 [
+	r reset.
+	p fromString: '1..2'.
+	self should: [ p Value ] raise: FMSyntaxError
+]
+
+{ #category : #tests }
+FMJSONParserTest >> testValueFloatWithExponent [
+	r reset.
+	p fromString: '1.291e3'.
+	p Value.
+	self assert: r contents equals: #(#(#primitive: 1291)).
+	self assert: p atEnd
+]
+
+{ #category : #tests }
+FMJSONParserTest >> testValueNegativeNumber [
+	r reset.
+	p fromString: '-42'.
+	p Value.
+	self assert: r contents equals: #(#(#primitive: -42)).
+	self assert: p atEnd
+]
+
+{ #category : #tests }
+FMJSONParserTest >> testValueNegativeNumberError [
+	r reset.
+	p fromString: '--42'.
+	p Value.
+	self assertEmpty: r contents.
+	self assert: p position equals: 1
+]
+
+{ #category : #tests }
+FMJSONParserTest >> testValueNumber [
+	r reset.
+	p fromString: '13'.
+	p Value.
+	self assert: r contents equals: #(#(#primitive: 13)).
+	self assert: p atEnd
+]
+
+{ #category : #tests }
+FMJSONParserTest >> testValueReference [
+	r reset.
+	p fromString: '{"ref": 24}'.
+	p Value.
+	self assert: r contents equals: #(#(#referenceNumber: 24)).
+	self assert: p atEnd
+]
+
+{ #category : #tests }
+FMJSONParserTest >> testValueReferenceBigInteger [
+	r reset.
+	p fromString: '{"ref": 112233445566778899}'.
+	p Value.
+	self assert: r contents equals: #(#(#referenceNumber: 112233445566778899)).
+	self assert: p atEnd
+]
+
+{ #category : #tests }
+FMJSONParserTest >> testValueReferenceFullName [
+	r reset.
+	p fromString: '{"ref": "EG.Foo"}'.
+	p Value.
+	self assert: r contents equals: #(#(#referenceName: 'EG.Foo')).
+	self assert: p atEnd
+]
+
+{ #category : #tests }
+FMJSONParserTest >> testValueReferenceName [
+	r reset.
+	p fromString: '{"ref": "Foo"}'.
+	p Value.
+	self assert: r contents equals: #(#(#referenceName: 'Foo')).
+	self assert: p atEnd
+]
