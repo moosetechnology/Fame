@@ -45,6 +45,14 @@ FMDebugImporter >> endProperty: name [
 ]
 
 { #category : #accessing }
+FMDebugImporter >> exportJsonString [
+	| printer |
+	printer := FMJSONPrinter onString.
+	self replayOn: printer.
+	^ printer stream contents
+]
+
+{ #category : #accessing }
 FMDebugImporter >> exportString [
 	| printer |
 	printer := FMMSEPrinter onString.
