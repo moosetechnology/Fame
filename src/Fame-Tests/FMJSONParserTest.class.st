@@ -727,6 +727,36 @@ FMJSONParserTest >> testEntityWithID [
 ]
 
 { #category : #tests }
+FMJSONParserTest >> testEntityWithProperties [
+	a := #(#(#beginEntity: 'Foo') #(#beginProperty: 'name') #(#primitive: 'test') #(#endProperty: 'name') #(#beginProperty: 'count') #(#primitive: 12) #(#endProperty: 'count') #(#endEntity: 'Foo')).
+	r reset.
+	p fromString: '{"FM3":"Foo","name":"test","count":12}'.
+	p Entity.
+	self assert: r contents equals: a.
+	self assert: p atEnd.
+	r reset.
+	p fromString: '{ "FM3" : "Foo" , "name" : "test" , "count" : 12 } '.
+	p Entity.
+	self assert: r contents equals: a.
+	self assert: p atEnd
+]
+
+{ #category : #tests }
+FMJSONParserTest >> testEntityWithPropertiesAndID [
+	a := #(#(#beginEntity: 'Foo') #(#serial: 42) #(#beginProperty: 'name') #(#primitive: 'test') #(#endProperty: 'name') #(#beginProperty: 'count') #(#primitive: 12) #(#endProperty: 'count') #(#endEntity: 'Foo')).
+	r reset.
+	p fromString: '{"FM3":"Foo","id":42,"name":"test","count":12}'.
+	p Entity.
+	self assert: r contents equals: a.
+	self assert: p atEnd.
+	r reset.
+	p fromString: '{ "FM3" : "Foo" , "id" : 42 , "name" : "test" , "count" : 12 } '.
+	p Entity.
+	self assert: r contents equals: a.
+	self assert: p atEnd
+]
+
+{ #category : #tests }
 FMJSONParserTest >> testFamixModel [
 	| metamodel names famixPackage accessClass accessorProperty behaviouralEntity outgoingAccesses |
 	metamodel := FMMetaModel fromJSONString: self class famix30mse.
@@ -801,6 +831,47 @@ FMJSONParserTest >> testFamixModel [
 ]
 
 { #category : #tests }
+FMJSONParserTest >> testFullName [
+	p fromString: '"FM3":"Foo"'.
+	r := p tFULLNAME.
+	self assert: r equals: 'Foo'.
+	self assert: p atEnd.
+	p fromString: '"FM3" : "A" '.
+	r := p tFULLNAME.
+	self assert: r equals: 'A'.
+	self assert: p atEnd
+]
+
+{ #category : #tests }
+FMJSONParserTest >> testFullName2 [
+	p fromString: '"FM3":"Foo.Bar"'.
+	r := p tFULLNAME.
+	self assert: r equals: 'Foo.Bar'.
+	self assert: p atEnd.
+	p fromString: '"FM3" : "A.b" '.
+	r := p tFULLNAME.
+	self assert: r equals: 'A.b'.
+	self assert: p atEnd
+]
+
+{ #category : #tests }
+FMJSONParserTest >> testFullName3 [
+	p fromString: '"FM3":"Foo.Bar.Qux"'.
+	r := p tFULLNAME.
+	self assert: r equals: 'Foo.Bar.Qux'.
+	self assert: p atEnd.
+	p fromString: '"FM3" : "A.b.q" '.
+	r := p tFULLNAME.
+	self assert: r equals: 'A.b.q'.
+	self assert: p atEnd
+]
+
+{ #category : #tests }
+FMJSONParserTest >> testImporter [
+	self assert: p importer equals: r
+]
+
+{ #category : #tests }
 FMJSONParserTest >> testMatchString [
 	p fromString: '"Lorem"'.
 	r := p String.
@@ -813,5 +884,111 @@ FMJSONParserTest >> testMatchString [
 	p fromString: '"Eo\"ipso"'.
 	r := p String.
 	self assert: r equals: 'Eo"ipso'.
+	self assert: p atEnd
+]
+
+{ #category : #tests }
+FMJSONParserTest >> testNumber [
+	p fromString: '14'.
+	r := p Number.
+	self assert: r equals: 14.
+	self assert: p atEnd.
+	p fromString: '-23x'.
+	r := p Number.
+	self assert: r equals: -23.
+	self assert: p peek equals: $x.
+	p fromString: '1'.
+	r := p Number.
+	self assert: r equals: 1.
+	self assert: p atEnd.
+	p fromString: '-1'.
+	r := p Number.
+	self assert: r equals: -1.
+	self assert: p atEnd
+]
+
+{ #category : #tests }
+FMJSONParserTest >> testNumber2 [
+	p fromString: '12.91'.
+	r := p Number.
+	self assert: p atEnd.
+	self assert: r equals: 12.91.
+	p fromString: '-47.11'.
+	r := p Number.
+	self assert: r equals: -47.11.
+	self assert: p atEnd.
+	p fromString: '1.1'.
+	r := p Number.
+	self assert: r equals: 1.1.
+	self assert: p atEnd.
+	p fromString: '-1.1'.
+	r := p Number.
+	self assert: r equals: -1.1.
+	self assert: p atEnd
+]
+
+{ #category : #tests }
+FMJSONParserTest >> testNumber3 [
+	p fromString: '12.91e33'.
+	r := p Number.
+	self assert: p atEnd.
+	self assert: r equals: 1.291e34.
+	p fromString: '-47.11e22'.
+	r := p Number.
+	self assert: r equals: -4.711e23.
+	self assert: p atEnd.
+	p fromString: '-23.11e-15'.
+	r := p Number.
+	self assert: r equals: -2.311e-14.
+	self assert: p atEnd.
+	p fromString: '1.1e2'.
+	r := p Number.
+	self assert: r equals: 110.0.
+	self assert: p atEnd.
+	p fromString: '-1.1e2'.
+	r := p Number.
+	self assert: r equals: -110.0.
+	self assert: p atEnd
+]
+
+{ #category : #tests }
+FMJSONParserTest >> testNumberTrailingDotFails [
+	p fromString: '12.'.
+	self should: [ p Number ] raise: Error
+]
+
+{ #category : #tests }
+FMJSONParserTest >> testNumberTrailingLetterFails [
+	p fromString: '12.11e'.
+	self should: [ p Number ] raise: Error
+]
+
+{ #category : #tests }
+FMJSONParserTest >> testProperty [
+	a := #(#(#beginProperty: 'name') #(#primitive: true) #(#endProperty: 'name')).
+	r reset.
+	p fromString: '"name":true'.
+	p Property.
+	self assert: r contents equals: a.
+	self assert: p atEnd.
+	r reset.
+	p fromString: '"name"  :  true  '.
+	p Property.
+	self assert: r contents equals: a.
+	self assert: p atEnd
+]
+
+{ #category : #tests }
+FMJSONParserTest >> testPropertyWithReferences [
+	a := #(#(#beginProperty: 'name') #(#referenceNumber: 2) #(#endProperty: 'name')).
+	r reset.
+	p fromString: '"name":{"ref":2}'.
+	p Property.
+	self assert: r contents equals: a.
+	self assert: p atEnd.
+	r reset.
+	p fromString: '"name"  :  {  "ref"  :  2  }  '.
+	p Property.
+	self assert: r contents equals: a.
 	self assert: p atEnd
 ]
