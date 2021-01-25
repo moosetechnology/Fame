@@ -73,9 +73,13 @@ FMJSONParser >> Entity [
 
 { #category : #tokens }
 FMJSONParser >> MultiEntity [
-	self tMultiOPEN ifFalse: [ ^ self backtrack: self position ].
-	[ 	self Entity. 	self incrementProgressBar. self tPropertySeparator ] whileTrue.
-	self tMultiCLOSE ifFalse: [ ^ self syntaxError ].
+	self tMultiOPEN
+		ifFalse: [ ^ self backtrack: self position ].
+	[ self Entity or: [ self Reference or: [ self Reference2 ] ].
+	self incrementProgressBar.
+	self tPropertySeparator ] whileTrue.
+	self tMultiCLOSE
+		ifFalse: [ ^ self syntaxError ].
 	^ true
 ]
 
