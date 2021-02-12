@@ -33,7 +33,6 @@ Note you can replace the #master by another branch such as #development or a tag
 
 ## Documentation
 
-TODO
 
 ### Export to mse
 
@@ -41,6 +40,12 @@ To export a model (or metamodel) in the mse format (for example to use FameJava 
 
 ```Smalltalk
 '/path/to/file.mse' asFileReference writeStreamDo: [ :writeStream | MyModel metamodel exportOn: writeStream ]
+```
+
+### Export to JSON
+
+```Smalltalk
+String streamContents: [ :writeStream | MyModel metamodel exportOn: writeStream usingPrinter: FMJSONPrinter ]
 ```
 
 ## Version management 
