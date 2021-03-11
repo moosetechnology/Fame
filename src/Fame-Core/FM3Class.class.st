@@ -54,7 +54,7 @@ FM3Class class >> defaultSuperclass [
 
 { #category : #visiting }
 FM3Class >> accept: aVisitor [
-	aVisitor visitClass: self
+	^ aVisitor visitClass: self
 ]
 
 { #category : #'accessing-query' }
