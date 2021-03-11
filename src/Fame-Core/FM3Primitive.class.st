@@ -28,7 +28,7 @@ FM3Primitive class >> isAbstract [
 
 { #category : #visiting }
 FM3Primitive >> accept: aVisitor [
-	aVisitor visitPrimitive: self
+	^ aVisitor visitPrimitive: self
 ]
 
 { #category : #testing }

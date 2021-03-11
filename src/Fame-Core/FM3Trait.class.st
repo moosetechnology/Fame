@@ -16,7 +16,7 @@ FM3Trait class >> annotation [
 
 { #category : #visiting }
 FM3Trait >> accept: aVisitor [
-	aVisitor visitTrait: self
+	^ aVisitor visitTrait: self
 ]
 
 { #category : #'accessing-query' }

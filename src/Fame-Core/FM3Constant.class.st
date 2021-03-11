@@ -99,7 +99,7 @@ FM3Constant class >> reset [
 
 { #category : #visiting }
 FM3Constant >> accept: aVisitor [
-	aVisitor visitConstant: self
+	^ aVisitor visitConstant: self
 ]
 
 { #category : #initialization }
