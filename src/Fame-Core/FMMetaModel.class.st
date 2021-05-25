@@ -34,7 +34,7 @@ Class {
 	#name : #FMMetaModel,
 	#superclass : #FMModel,
 	#instVars : [
-		'classDict',
+		'typeDict',
 		'nameDict'
 	],
 	#category : #'Fame-Core-Models'
@@ -69,12 +69,12 @@ FMMetaModel >> descriptionOf: smalltalkClass [
 
 { #category : #accessing }
 FMMetaModel >> descriptionOf: smalltalkClass ifAbsent: elseBlock [
-	^ classDict at: smalltalkClass ifAbsent: elseBlock
+	^ typeDict at: smalltalkClass ifAbsent: elseBlock
 ]
 
 { #category : #accessing }
 FMMetaModel >> descriptionOf: smalltalkClass ifPresent: aBlock ifAbsent: elseBlock [
-	^ classDict at: smalltalkClass ifPresent: aBlock ifAbsent: elseBlock
+	^ typeDict at: smalltalkClass ifPresent: aBlock ifAbsent: elseBlock
 ]
 
 { #category : #accessing }
@@ -138,12 +138,16 @@ FMMetaModel >> traits [
 { #category : #private }
 FMMetaModel >> updateCache [
 	nameDict := (FM3Constant constants collect: [ :const | const name asString -> const ]) asDictionary.
-	classDict := (FM3Constant constants collect: [ :const | const class -> const ]) asDictionary.
+	typeDict := (FM3Constant constants collect: [ :const | const class -> const ]) asDictionary.
 	self elements do: [ :each | self updateCacheWith: each ]
 ]
 
 { #category : #private }
 FMMetaModel >> updateCacheWith: element [
-	element fullName ifNotNil: [ :fullName | nameDict at: fullName put: element ].
-	element isFM3Class ifTrue: [ element implementingClass ifNotNil: [ :class | classDict at: class put: element ] ]
+
+	element fullName ifNotNil: [ :fullName | 
+		nameDict at: fullName put: element ].
+	(element isFM3Class or: [ element isFM3Trait ]) ifTrue: [ 
+		element implementingClass ifNotNil: [ :class | 
+			typeDict at: class put: element ] ]
 ]
