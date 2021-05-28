@@ -113,7 +113,7 @@ FMLibraryExample >> testMetamodelSmalltalkBinding [
 FMLibraryExample >> testPragmaProcessing [
 	| pragmaProcessor |
 	pragmaProcessor := FMMetaModelBuilder new
-		queue: {LIBBook . LIBLibrary . LIBPerson};
+		queue: {LIBBook . LIBLibrary . LIBPerson . LIBTNamed};
 		run.
 	self denyEmpty: pragmaProcessor elements.
 	self denyEmpty: pragmaProcessor packages.

@@ -101,3 +101,9 @@ FM3Type >> traits [
 	<multivalued>
 	^ traits
 ]
+
+{ #category : #accessing }
+FM3Type >> traits: anObject [
+
+	traits := anObject
+]
