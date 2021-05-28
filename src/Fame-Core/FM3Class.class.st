@@ -160,7 +160,7 @@ FM3Class >> initialize [
 
 { #category : #testing }
 FM3Class >> isAbstract [
-	<FMProperty: #abstract type: #Boolean>
+	<FMProperty: #abstract type: #Boolean defaultValue: false>
 	^ isAbstract
 ]
 
@@ -186,14 +186,14 @@ FM3Class >> isFM3Class [
 
 { #category : #testing }
 FM3Class >> isPrimitive [
-	<FMProperty: #primitive type: #Boolean>
+	<FMProperty: #primitive type: #Boolean defaultValue: false>
 	<derived>
 	^ false
 ]
 
 { #category : #testing }
 FM3Class >> isRoot [
-	<FMProperty: #root type: #Boolean>
+	<FMProperty: #root type: #Boolean defaultValue: false>
 	<derived>
 	^ false
 ]

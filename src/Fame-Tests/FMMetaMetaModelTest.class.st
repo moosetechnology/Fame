@@ -33,7 +33,8 @@ FMMetaMetaModelTest >> assertDefaultValueFor: fullName is: aValue [
 { #category : #running }
 FMMetaMetaModelTest >> setUp [
 	super setUp.
-	metaMetaModel := FMMetaMetaModel default
+	metaMetaModel := FMMetaMetaModel default.
+	metaMetaModel class reset.
 ]
 
 { #category : #tests }
@@ -53,6 +54,13 @@ FMMetaMetaModelTest >> testFM3Classes [
 { #category : #tests }
 FMMetaMetaModelTest >> testFM3DefaultValue [
 	self assertDefaultValueFor: 'FM3.Property.container' is: false.
+	self assertDefaultValueFor: 'FM3.Property.derived' is: false.
+	self assertDefaultValueFor: 'FM3.Property.multivalued' is: false.
+	self assertDefaultValueFor: 'FM3.Class.abstract' is: false.
+	self assertDefaultValueFor: 'FM3.Class.root' is: false.
+	self assertDefaultValueFor: 'FM3.Class.primitive' is: false.
+	self assertDefaultValueFor: 'FM3.Trait.primitive' is: false.
+	self assertDefaultValueFor: 'FM3.Trait.root' is: false.
 
 	
 ]

@@ -184,7 +184,7 @@ FM3Property >> isContainer: anObject [
 
 { #category : #accessing }
 FM3Property >> isDerived [
-	<FMProperty: #derived type: #Boolean>
+	<FMProperty: #derived type: #Boolean defaultValue: false>
 	^isDerived
 ]
 
@@ -205,7 +205,7 @@ FM3Property >> isFM3Property [
 
 { #category : #accessing }
 FM3Property >> isMultivalued [
-	<FMProperty: #multivalued type: #Boolean>
+	<FMProperty: #multivalued type: #Boolean defaultValue: false>
 	^isMultivalued
 ]
 
