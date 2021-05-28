@@ -7,6 +7,29 @@ Class {
 	#category : #'Fame-Tests-Core'
 }
 
+{ #category : #tests }
+FMMetaMetaModelTest >> assertDefaultValueFor: fullName is: aValue [
+	| method pragma defaultValue prop implementingSelector implementingClass |
+	
+	prop := (metaMetaModel elements select: [ :each | each fullName = fullName ]) at: 1.
+	
+	implementingSelector := prop implementingSelector.
+	implementingClass := prop mmClass implementingClass.
+	method := implementingClass lookupSelector: implementingSelector.
+	
+	self assert: method pragmas isNotEmpty.
+	
+	pragma := method pragmas at: 1.
+	self assert: pragma selector equals: #FMProperty:type:defaultValue:.
+	
+	defaultValue := pragma arguments at: 3.
+	
+	
+	self assert: prop defaultValue equals: defaultValue.
+	self assert: prop defaultValue equals: aValue.
+	self assert: defaultValue equals: aValue.
+]
+
 { #category : #running }
 FMMetaMetaModelTest >> setUp [
 	super setUp.
@@ -25,6 +48,13 @@ FMMetaMetaModelTest >> testFM3Classes [
 	self assert: (metaMetaModel descriptionOf: FM3Package ifAbsent: [ nil ]) isNotNil.
 	self assert: (metaMetaModel descriptionOf: FM3Class ifAbsent: [ nil ]) isNotNil.
 	self assert: (metaMetaModel descriptionOf: FMMetaModelTest ifAbsent: [ nil ]) isNil
+]
+
+{ #category : #tests }
+FMMetaMetaModelTest >> testFM3DefaultValue [
+	self assertDefaultValueFor: 'FM3.Property.container' is: false.
+
+	
 ]
 
 { #category : #tests }

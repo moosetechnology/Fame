@@ -173,7 +173,7 @@ FM3Property >> isChildrenProperty [
 
 { #category : #accessing }
 FM3Property >> isContainer [
-	<FMProperty: #container type: #Boolean>
+	<FMProperty: #container type: #Boolean defaultValue: false>
 	^isContainer
 ]
 
