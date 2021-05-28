@@ -11,7 +11,7 @@ Class {
 FMMetaMetaModelTest >> assertDefaultValueFor: fullName is: aValue [
 	| method pragma defaultValue prop implementingSelector implementingClass |
 	
-	prop := (metaMetaModel elements select: [ :each | each fullName = fullName ]) at: 1.
+	prop := self findProperty: fullName.
 	
 	implementingSelector := prop implementingSelector.
 	implementingClass := prop mmClass implementingClass.
@@ -28,6 +28,11 @@ FMMetaMetaModelTest >> assertDefaultValueFor: fullName is: aValue [
 	self assert: prop defaultValue equals: defaultValue.
 	self assert: prop defaultValue equals: aValue.
 	self assert: defaultValue equals: aValue.
+]
+
+{ #category : #tests }
+FMMetaMetaModelTest >> findProperty: fullName [
+	^ (metaMetaModel elements select: [ :each | each fullName = fullName ]) at: 1.
 ]
 
 { #category : #running }
@@ -62,7 +67,7 @@ FMMetaMetaModelTest >> testFM3DefaultValue [
 	self assertDefaultValueFor: 'FM3.Trait.primitive' is: false.
 	self assertDefaultValueFor: 'FM3.Trait.root' is: false.
 
-	
+	self assert: (self findProperty: 'FM3.Element.fullName') defaultValue equals: nil.
 ]
 
 { #category : #tests }
