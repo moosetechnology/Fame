@@ -91,7 +91,7 @@ FM3Property >> compiledMethod [
 
 { #category : #private }
 FM3Property >> defaultValue [
-	<FMProperty: #defaultValue type: #Object >
+	<FMProperty: #defaultValue type: #Object>
 	"The type of this property should be FM3Primitive or something else, but it's currently impossible to reference abstract classes"
 	^ defaultValue 
 ]
