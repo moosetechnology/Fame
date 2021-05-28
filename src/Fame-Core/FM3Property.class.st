@@ -61,7 +61,8 @@ Class {
 		'implementingSelector',
 		'isTarget',
 		'isSource',
-		'comment'
+		'comment',
+		'defaultValue'
 	],
 	#category : #'Fame-Core-Model'
 }
@@ -86,6 +87,18 @@ FM3Property >> comment: anObject [
 { #category : #accessing }
 FM3Property >> compiledMethod [
 	^ self mmClass ifNotNil: [ :aClass | aClass implementingClass >> self implementingSelector ]
+]
+
+{ #category : #private }
+FM3Property >> defaultValue [
+	<FMProperty: #defaultValue type: #Object >
+	"The type of this property should be FM3Primitive or something else, but it's currently impossible to reference abstract classes"
+	^ defaultValue 
+]
+
+{ #category : #private }
+FM3Property >> defaultValue: aValue [
+	defaultValue := aValue
 ]
 
 { #category : #private }
