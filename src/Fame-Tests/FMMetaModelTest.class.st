@@ -45,6 +45,14 @@ FMMetaModelTest >> testDescriptionOfIfPresentIfAbsent [
 ]
 
 { #category : #tests }
+FMMetaModelTest >> testDescriptionOfTrait [
+	| metamodel tNamed |
+	metamodel := LIBRoot libraryMetaModel.
+	tNamed := (metamodel packageNamed: 'LIB') classNamed: 'TNamed'.
+	self assert: (metamodel descriptionOf: LIBTNamed) identicalTo: tNamed.
+]
+
+{ #category : #tests }
 FMMetaModelTest >> testElementNamed [
 	| metamodel |
 	metamodel := FMMetaModel fromString: '((FM3.Package (name ''EG'') (classes (FM3.Class (name ''Boe'')))))'.

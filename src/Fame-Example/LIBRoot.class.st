@@ -21,7 +21,7 @@ LIBRoot class >> library [
 
 { #category : #examples }
 LIBRoot class >> libraryMetaModel [
-	^ FMMetaModelBuilder metamodelFrom: {LIBLibrary . LIBBook . LIBPerson}
+	^ FMMetaModelBuilder metamodelFrom: {LIBLibrary . LIBBook . LIBPerson. LIBTNamed }
 ]
 
 { #category : #examples }

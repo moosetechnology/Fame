@@ -8,7 +8,7 @@ Class {
 FMExporterTest >> testExportAsJSon [
 	| printer metamodel lines |
 	printer := FMJSONPrinter onString.
-	metamodel := FMMetaModelBuilder metamodelFrom: {LIBLibrary . LIBBook . LIBPerson}.
+	metamodel := FMMetaModelBuilder metamodelFrom: {LIBLibrary . LIBBook . LIBPerson . LIBTNamed}.
 	metamodel exportWithPrinter: printer.
 	lines := printer stream contents lines.
 	self assert: (lines first beginsWith: '[') .
@@ -22,12 +22,12 @@ FMExporterTest >> testExportAsJSon [
 FMExporterTest >> testExportAsMSE [
 	| printer metamodel lines |
 	printer := FMMSEPrinter onString.
-	metamodel := FMMetaModelBuilder metamodelFrom: {LIBLibrary . LIBBook . LIBPerson}.
+	metamodel := FMMetaModelBuilder metamodelFrom: {LIBLibrary . LIBBook . LIBPerson . LIBTNamed}.
 	metamodel exportWithPrinter: printer.
 	self assert: printer stream contents isString.
 	lines := printer stream contents lines.
 	self assert: lines first equals: '(' .
-	self assert: printer stream contents lines size equals: 66.
+	self assert: printer stream contents lines size equals: 72.
 	self assert: (lines allButFirst allSatisfy: [ :l | l beginsWith: '	'] ) .
 	self assert: (lines anySatisfy: [ :l | l includesSubstring: 'FM3.Package'] ) .
 	self assert: (lines anySatisfy: [ :l | l includesSubstring: 'FM3.Class'] ) .
@@ -39,7 +39,7 @@ FMExporterTest >> testExportAsMSE [
 FMExporterTest >> testExportAsXML [
 	| printer metamodel lines |
 	printer := FMXMLPrinter onString.
-	metamodel := FMMetaModelBuilder metamodelFrom: {LIBLibrary . LIBBook . LIBPerson}.
+	metamodel := FMMetaModelBuilder metamodelFrom: {LIBLibrary . LIBBook . LIBPerson . LIBTNamed}.
 	metamodel exportWithPrinter: printer.
 	lines := printer stream contents lines.
 	self assert: (lines first beginsWith: '<') .
@@ -53,7 +53,7 @@ FMExporterTest >> testExportAsXML [
 { #category : #tests }
 FMExporterTest >> testExportedModelIsTheSameAsBeforeExport [
 	| metamodel printer |
-	metamodel := FMMetaModelBuilder metamodelFrom: {LIBLibrary . LIBBook . LIBPerson}.
+	metamodel := FMMetaModelBuilder metamodelFrom: {LIBLibrary . LIBBook . LIBPerson . LIBTNamed}.
 
 	self assert: metamodel packages size equals: 1.
 	self assert: metamodel classes size equals: 3.
