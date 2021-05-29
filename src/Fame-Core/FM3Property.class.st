@@ -120,6 +120,12 @@ FM3Property >> getRawFrom: element [
 	^ element perform: self implementingSelector
 ]
 
+{ #category : #private }
+FM3Property >> hasDefaultValue [
+	^ defaultValue isNotNil 
+	
+]
+
 { #category : #testing }
 FM3Property >> hasImplementingSelector [
 	^ self implementingSelector isNotNil

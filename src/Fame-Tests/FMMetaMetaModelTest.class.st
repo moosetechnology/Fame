@@ -12,6 +12,7 @@ FMMetaMetaModelTest >> assertDefaultValueFor: fullName is: aValue [
 	| method pragma defaultValue prop implementingSelector implementingClass |
 	
 	prop := self findProperty: fullName.
+	self assert: prop hasDefaultValue.
 	
 	implementingSelector := prop implementingSelector.
 	implementingClass := prop mmClass implementingClass.
