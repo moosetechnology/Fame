@@ -16,10 +16,36 @@ Examples
 Class {
 	#name : #FMProperty,
 	#superclass : #InstanceVariableSlot,
+	#instVars : [
+		'defaultValue'
+	],
 	#category : #'Fame-Core-Utilities'
 }
 
 { #category : #testing }
+FMProperty >> defaultValue [
+	^ defaultValue 
+]
+
+{ #category : #testing }
+FMProperty >> defaultValue: aValue [
+	defaultValue := aValue
+]
+
+{ #category : #testing }
 FMProperty >> isFameSlot [
 	^ true
+]
+
+{ #category : #testing }
+FMProperty >> printOn: aStream [
+
+	aStream
+		store: self name;
+		nextPutAll: ' => ';
+		nextPutAll: self class name.
+	self defaultValue ifNotNil: [ 
+		aStream
+			nextPutAll: ' defaultValue: ';
+			store: self defaultValue ]
 ]
