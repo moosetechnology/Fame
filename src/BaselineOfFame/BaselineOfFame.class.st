@@ -9,33 +9,35 @@ Class {
 
 { #category : #baseline }
 BaselineOfFame >> baseline: spec [
+
 	<baseline>
-	spec
-		for: #common
-		do: [ "Dependencies"
-			self
-				hashtable: spec;
-				mocketry: spec;
-				pharoBackwardCompatibility: spec;
-				iterators: spec;
-				treeQuery: spec.
+	spec for: #common do: [ "Dependencies"
+		self
+			hashtable: spec;
+			mocketry: spec;
+			pharoBackwardCompatibility: spec;
+			iterators: spec;
+			treeQuery: spec.
 
-			"Packages"
-			spec
-				package: 'Fame-Core' with: [ spec requires: #('Hashtable' 'TreeQuery' 'Iterators' 'PharoBackwardCompatibility') ];
-				package: 'Fame-Rules';
-				package: 'Fame-ImportExport' with: [ spec requires: #('Fame-Core') ];
-				package: 'Fame-Example';
-				package: 'Fame-Tests' with: [ spec requires: #('Fame-Core' 'Fame-ImportExport' 'Fame-Example' 'Mocketry') ];
-				package: 'Fame-GT' with: [ spec requires: #('Fame-ImportExport') ];
-				package: 'Fame-Deprecated' with: [ spec requires: #('Fame-ImportExport') ].
+		"Packages"
+		spec
+			package: 'Fame-Core' with: [ spec requires: #( 'Hashtable' 'TreeQuery' 'Iterators' 'PharoBackwardCompatibility' ) ];
+			package: 'Fame-Rules';
+			package: 'Fame-ImportExport' with: [ spec requires: #( 'Fame-Core' ) ];
+			package: 'Fame-Example';
+			package: 'Fame-Tests' with: [ spec requires: #( 'Fame-Core' 'Fame-ImportExport' 'Fame-Example' 'Mocketry' ) ];
+			package: 'Fame-GT' with: [ spec requires: #( 'Fame-ImportExport' ) ];
+			package: 'Fame-Deprecated' with: [ spec requires: #( 'Fame-ImportExport' ) ].
 
-			"Groups"
-			spec
-				group: 'Core' with: #('Fame-Core' 'Fame-ImportExport' 'Fame-Rules');
-				group: 'GT' with: #('Core' 'Fame-GT');
-				group: 'Deprecated' with: #('Core' 'Fame-Deprecated');
-				group: 'Tests' with: #('Fame-Tests') ]
+		spec for: #( #'pharo6.x' #'pharo7.x' #'pharo8.x' ) do: [ spec package: 'Fame-GT' with: [ spec requires: #( 'Fame-ImportExport' ) ] ].
+		spec for: #( #'pharo9.x' ) do: [ spec package: 'Fame-Spec2' ].
+
+		"Groups"
+		spec
+			group: 'Core' with: #( 'Fame-Core' 'Fame-ImportExport' 'Fame-Rules' );
+			group: 'GT' with: #( 'Core' 'Fame-GT' );
+			group: 'Deprecated' with: #( 'Core' 'Fame-Deprecated' );
+			group: 'Tests' with: #( 'Fame-Tests' ) ]
 ]
 
 { #category : #dependencies }
