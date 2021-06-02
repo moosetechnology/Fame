@@ -14,9 +14,13 @@ FMMetaModel >> stFmInspectorClasses: aBuilder [
 FMMetaModel >> stFmInspectorHierarchies: aBuilder [
 
 	<inspectorPresentationOrder: 3 title: 'Hierarchies'>
-	1 h.
 	^ aBuilder newTree
-		  roots: self packages;
+		  roots: (self classes select: [ :each | each superclass = FM3Object instance ]);
+		  children: [ :c | c subclasses ];
+		  display: [ :each | 
+			  each isAbstract
+				  ifTrue: [ Text string: each fullName attribute: TextEmphasis italic ]
+				  ifFalse: [ Text fromString: each fullName ] ];
 		  yourself
 ]
 
