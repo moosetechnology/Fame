@@ -26,7 +26,6 @@ BaselineOfFame >> baseline: spec [
 			package: 'Fame-ImportExport' with: [ spec requires: #( 'Fame-Core' ) ];
 			package: 'Fame-Example';
 			package: 'Fame-Tests' with: [ spec requires: #( 'Fame-Core' 'Fame-ImportExport' 'Fame-Example' 'Mocketry' ) ];
-			package: 'Fame-GT' with: [ spec requires: #( 'Fame-ImportExport' ) ];
 			package: 'Fame-Deprecated' with: [ spec requires: #( 'Fame-ImportExport' ) ].
 
 		spec for: #( #'pharo6.x' #'pharo7.x' #'pharo8.x' ) do: [ spec package: 'Fame-GT' with: [ spec requires: #( 'Fame-ImportExport' ) ] ].
@@ -35,7 +34,6 @@ BaselineOfFame >> baseline: spec [
 		"Groups"
 		spec
 			group: 'Core' with: #( 'Fame-Core' 'Fame-ImportExport' 'Fame-Rules' );
-			group: 'GT' with: #( 'Core' 'Fame-GT' );
 			group: 'Deprecated' with: #( 'Core' 'Fame-Deprecated' );
 			group: 'Tests' with: #( 'Fame-Tests' ) ]
 ]
