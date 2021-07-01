@@ -61,7 +61,8 @@ Class {
 		'implementingSelector',
 		'isTarget',
 		'isSource',
-		'comment'
+		'comment',
+		'defaultValue'
 	],
 	#category : #'Fame-Core-Model'
 }
@@ -89,6 +90,18 @@ FM3Property >> compiledMethod [
 ]
 
 { #category : #private }
+FM3Property >> defaultValue [
+	<FMProperty: #defaultValue type: #Object>
+	"The type of this property should be FM3Primitive or something else, but it's currently impossible to reference abstract classes"
+	^ defaultValue 
+]
+
+{ #category : #private }
+FM3Property >> defaultValue: aValue [
+	defaultValue := aValue
+]
+
+{ #category : #private }
 FM3Property >> getFrom: element [
 	"This method is meant to be used by the repository"
 
@@ -105,6 +118,12 @@ FM3Property >> getRawFrom: element [
 	By default call the implementing selector."
 
 	^ element perform: self implementingSelector
+]
+
+{ #category : #private }
+FM3Property >> hasDefaultValue [
+	^ defaultValue isNotNil 
+	
 ]
 
 { #category : #testing }
@@ -160,7 +179,7 @@ FM3Property >> isChildrenProperty [
 
 { #category : #accessing }
 FM3Property >> isContainer [
-	<FMProperty: #container type: #Boolean>
+	<FMProperty: #container type: #Boolean defaultValue: false>
 	^isContainer
 ]
 
@@ -171,7 +190,7 @@ FM3Property >> isContainer: anObject [
 
 { #category : #accessing }
 FM3Property >> isDerived [
-	<FMProperty: #derived type: #Boolean>
+	<FMProperty: #derived type: #Boolean defaultValue: false>
 	^isDerived
 ]
 
@@ -192,7 +211,7 @@ FM3Property >> isFM3Property [
 
 { #category : #accessing }
 FM3Property >> isMultivalued [
-	<FMProperty: #multivalued type: #Boolean>
+	<FMProperty: #multivalued type: #Boolean defaultValue: false>
 	^isMultivalued
 ]
 

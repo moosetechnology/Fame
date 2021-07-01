@@ -107,14 +107,14 @@ FM3Trait >> isFM3Trait [
 
 { #category : #testing }
 FM3Trait >> isPrimitive [
-	<FMProperty: #primitive type: #Boolean>
+	<FMProperty: #primitive type: #Boolean defaultValue: false>
 	<derived>
 	^ false
 ]
 
 { #category : #testing }
 FM3Trait >> isRoot [
-	<FMProperty: #root type: #Boolean>
+	<FMProperty: #root type: #Boolean defaultValue: false>
 	<derived>
 	^ false
 ]
