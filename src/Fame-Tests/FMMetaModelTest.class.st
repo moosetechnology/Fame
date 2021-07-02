@@ -20,15 +20,6 @@ FMMetaModelTest >> importedOfficeMetamodel [
 ]
 
 { #category : #tests }
-FMMetaModelTest >> testDescriptionOf [
-	| metamodel bookClass |
-	metamodel := LIBRoot libraryMetaModel.
-	bookClass := (metamodel packageNamed: 'LIB') classNamed: 'Book'.
-	self assert: (metamodel descriptionOf: LIBBook) identicalTo: bookClass.
-	self should: [ metamodel descriptionOf: FMMetaMetaModelTest ] raise: NotFound
-]
-
-{ #category : #tests }
 FMMetaModelTest >> testDescriptionOfIfAbsent [
 	| metamodel |
 	metamodel := LIBRoot libraryMetaModel.
@@ -45,19 +36,32 @@ FMMetaModelTest >> testDescriptionOfIfPresentIfAbsent [
 ]
 
 { #category : #tests }
-FMMetaModelTest >> testDescriptionOfTrait [
-	| metamodel tNamed |
-	metamodel := LIBRoot libraryMetaModel.
-	tNamed := (metamodel packageNamed: 'LIB') classNamed: 'TNamed'.
-	self assert: (metamodel descriptionOf: LIBTNamed) identicalTo: tNamed.
-]
-
-{ #category : #tests }
 FMMetaModelTest >> testElementNamed [
 	| metamodel |
 	metamodel := FMMetaModel fromString: '((FM3.Package (name ''EG'') (classes (FM3.Class (name ''Boe'')))))'.
 	self assert: (metamodel elementNamed: 'EG') isNotNil.
 	self assert: (metamodel elementNamed: 'EG.Boe') isNotNil
+]
+
+{ #category : #tests }
+FMMetaModelTest >> testFmTypeOf [
+
+	| metamodel bookClass |
+	metamodel := LIBRoot libraryMetaModel.
+	bookClass := (metamodel packageNamed: 'LIB') classNamed: 'Book'.
+	self assert: (metamodel fmTypeOf: LIBBook) identicalTo: bookClass.
+	self
+		should: [ metamodel fmTypeOf: FMMetaMetaModelTest ]
+		raise: NotFound
+]
+
+{ #category : #tests }
+FMMetaModelTest >> testFmTypeOfTrait [
+
+	| metamodel tNamed |
+	metamodel := LIBRoot libraryMetaModel.
+	tNamed := (metamodel packageNamed: 'LIB') classNamed: 'TNamed'.
+	self assert: (metamodel fmTypeOf: LIBTNamed) identicalTo: tNamed
 ]
 
 { #category : #tests }

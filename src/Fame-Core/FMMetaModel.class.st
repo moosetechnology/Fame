@@ -64,6 +64,7 @@ FMMetaModel >> defaultMetamodel [
 
 { #category : #accessing }
 FMMetaModel >> descriptionOf: smalltalkClass [
+	self deprecated: 'Use #fmTypeOf: instead' transformWith: '``@object descriptionOf: ``@arg1' -> '``@object fmTypeOf: ``@arg1 '.
 	^ self descriptionOf: smalltalkClass ifAbsent: [ NotFound signalFor: smalltalkClass in: self ]
 ]
 
@@ -85,6 +86,12 @@ FMMetaModel >> elementNamed: aString [
 { #category : #accessing }
 FMMetaModel >> elementNamed: aString ifAbsent: exceptionBlock [
 	^ nameDict at: aString ifAbsent: exceptionBlock
+]
+
+{ #category : #accessing }
+FMMetaModel >> fmTypeOf: smalltalkClass [
+	
+	^ self descriptionOf: smalltalkClass ifAbsent: [ NotFound signalFor: smalltalkClass in: self ]
 ]
 
 { #category : #testing }
