@@ -888,6 +888,20 @@ FMJSONParserTest >> testMatchString [
 ]
 
 { #category : #tests }
+FMJSONParserTest >> testMultiValueString [
+	p fromString: '["public"]'.
+	p MultiEntity.
+	self assert: r exportJsonString equals: '"public"'
+]
+
+{ #category : #tests }
+FMJSONParserTest >> testMultiValueWithMultiString [
+	p fromString: '["public", "hello"]'.
+	p MultiEntity.
+	self assert: r exportJsonString equals: '"public""hello"'
+]
+
+{ #category : #tests }
 FMJSONParserTest >> testNumber [
 	p fromString: '14'.
 	r := p Number.
