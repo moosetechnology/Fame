@@ -27,6 +27,22 @@ FM3Type >> addTraits: aCollection [
 ]
 
 { #category : #'accessing-query' }
+FM3Type >> allComplexProperties [
+	^ self allProperties reject: [ :attr | attr type isNotNil and: [ attr type isPrimitive ] ]
+]
+
+{ #category : #'accessing-query' }
+FM3Type >> allContainerProperties [
+
+	^ self allProperties select: [ :property | property isContainer ]
+]
+
+{ #category : #'accessing-query' }
+FM3Type >> allPrimitiveProperties [
+	^ self allProperties select: [ :attr | attr type isNotNil and: [ attr type isPrimitive ] ]
+]
+
+{ #category : #'accessing-query' }
 FM3Type >> allProperties [
 	<FMProperty: #allProperties type: 'FM3.Property'>
 	<multivalued>
@@ -41,6 +57,12 @@ FM3Type >> allProperties [
 FM3Type >> allPropertiesDo: block [
 	self properties do: block.
 	self traits do: [ :trait | trait allPropertiesDo: block ]
+]
+
+{ #category : #'accessing-query' }
+FM3Type >> allRelationProperties [
+
+	^ self allProperties select: [ :property | property isRelation ]
 ]
 
 { #category : #accessing }

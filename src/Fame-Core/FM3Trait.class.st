@@ -19,21 +19,6 @@ FM3Trait >> accept: aVisitor [
 	^ aVisitor visitTrait: self
 ]
 
-{ #category : #'accessing-query' }
-FM3Trait >> allComplexProperties [
-	^ self allProperties reject: [ :attr | attr type isNotNil and: [ attr type isPrimitive ] ]
-]
-
-{ #category : #'accessing-query' }
-FM3Trait >> allContainerProperties [
-	^ self allProperties select: #isContainer
-]
-
-{ #category : #'accessing-query' }
-FM3Trait >> allPrimitiveProperties [
-	^ self allProperties select: [ :attr | attr type isNotNil and: [ attr type isPrimitive ] ]
-]
-
 { #category : #accessing }
 FM3Trait >> allSuperclasses [
 	| mmclass superclasses |
