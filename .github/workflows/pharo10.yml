@@ -20,6 +20,3 @@ jobs:
       - run: smalltalkci -s ${{ matrix.smalltalk }}
         shell: bash
         timeout-minutes: 15
-      
-
-This workflow is meant only for the pharo10-compatibility branch.
