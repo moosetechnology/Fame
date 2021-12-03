@@ -57,21 +57,6 @@ FM3Class >> accept: aVisitor [
 	^ aVisitor visitClass: self
 ]
 
-{ #category : #'accessing-query' }
-FM3Class >> allComplexProperties [
-	^ self allProperties reject: [ :attr | attr type isNotNil and: [ attr type isPrimitive ] ]
-]
-
-{ #category : #'accessing-query' }
-FM3Class >> allContainerProperties [
-	^ self allProperties select: #isContainer
-]
-
-{ #category : #'accessing-query' }
-FM3Class >> allPrimitiveProperties [
-	^ self allProperties select: [ :attr | attr type isNotNil and: [ attr type isPrimitive ] ]
-]
-
 { #category : #enumerating }
 FM3Class >> allPropertiesDo: block [
 	properties do: block.

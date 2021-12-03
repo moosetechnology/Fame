@@ -221,6 +221,17 @@ FM3Property >> isMultivalued: anObject [
 ]
 
 { #category : #accessing }
+FM3Property >> isRelation [
+
+	^ self hasOpposite and: [ 
+		  isContainer not and: [ 
+			  opposite isContainer not and: [ 
+				  isSource not and: [ 
+					  isTarget not and: [ 
+						  opposite isSource not and: [ opposite isTarget not ] ] ] ] ] ]
+]
+
+{ #category : #accessing }
 FM3Property >> isSource [
 	^ isSource
 ]
