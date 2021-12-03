@@ -37,6 +37,12 @@ FMMany >> remove: oldObject from: collectionOwner [
 ]
 
 { #category : #internal }
+FMMany >> reverseAddAssociationFrom: ownerObject to: otherObject [
+
+	(self read: otherObject) inverseAdd: ownerObject
+]
+
+{ #category : #internal }
 FMMany >> reverseRemoveAssociation: ownerObject to: otherObject [
 
 	(self read: otherObject) inverseRemove: ownerObject

@@ -40,22 +40,24 @@ FMRelationSlot class >> named: aSymbol inverse: anInverseSymbol inClass: aTarget
 
 { #category : #comparing }
 FMRelationSlot >> = anObject [
-	^ super = anObject and: [ self targetClassName = anObject targetClassName and: [ inverseName = anObject inverseName ] ]
+
+	^ super = anObject and: [ 
+		  self targetClassName = anObject targetClassName and: [ 
+			  self inverseName = anObject inverseName ] ]
 ]
 
 { #category : #internal }
 FMRelationSlot >> addAssociationFrom: ownerObject to: otherObject [
+
 	"A new reference from <ownerObject> to <otherObject> is created. Here we update the other 
 	side of the association. If the other side is a ToOne association this means that an other
 	association may have to be removed first."
 
 	| realInverseSlot |
 	realInverseSlot := self realInverseSlotFor: otherObject.
-
-	realInverseSlot isToOne
-		ifTrue: [ (realInverseSlot read: otherObject) ifNotNil: [ :oldObject | realInverseSlot removeAssociationFrom: otherObject to: oldObject ].
-			realInverseSlot writeInverse: ownerObject to: otherObject ]
-		ifFalse: [ (realInverseSlot read: otherObject) inverseAdd: ownerObject ]
+	realInverseSlot
+		reverseAddAssociationFrom: ownerObject
+		to: otherObject
 ]
 
 { #category : #'code generation' }
@@ -84,19 +86,23 @@ FMRelationSlot >> emitValue: aMethodBuilder [
 
 { #category : #testing }
 FMRelationSlot >> hasInverse [
-	^ inverseName isNotNil
+
+	^ self inverseName isNotNil
 ]
 
 { #category : #comparing }
 FMRelationSlot >> hasSameDefinitionAs: otherSlot [
-	^ (super hasSameDefinitionAs: otherSlot)
-		and: [ self targetClassName = otherSlot targetClassName
-			and: [ inverseName = otherSlot inverseName ] ]
+
+	^ (super hasSameDefinitionAs: otherSlot) and: [ 
+		  self targetClassName = otherSlot targetClassName and: [ 
+			  self inverseName = otherSlot inverseName ] ]
 ]
 
 { #category : #comparing }
 FMRelationSlot >> hash [
-	^ (super hash bitXor: self targetClassName hash) bitXor: inverseName hash
+
+	^ (super hash bitXor: self targetClassName hash) bitXor:
+		  self inverseName hash
 ]
 
 { #category : #initialization }
@@ -158,6 +164,7 @@ FMRelationSlot >> isWrittenIn: aMethod [
 
 { #category : #printing }
 FMRelationSlot >> printOn: aStream [
+
 	aStream
 		store: self name;
 		nextPutAll: ' => ';
@@ -165,19 +172,22 @@ FMRelationSlot >> printOn: aStream [
 	aStream
 		nextPutAll: ' type: ';
 		store: self targetClassName.
-	self hasInverse
-		ifTrue: [ aStream
-				nextPutAll: ' opposite: ';
-				store: inverseName ]
+	self hasInverse ifTrue: [ 
+		aStream
+			nextPutAll: ' opposite: ';
+			store: self inverseName ]
 ]
 
 { #category : #accessing }
 FMRelationSlot >> realInverseSlotFor: anObject [
+
 	^ (inverseSlotDic at: anObject class ifAbsentPut: [ 
-		  MessageSend
-			  receiver: anObject class
-			  selector: #slotNamed:
-			  arguments: { self inverseName } ]) value 
+		   MessageSend
+			   receiver: self
+			   selector: #resolveSlotNamed:for:
+			   arguments: { 
+					   self inverseName.
+					   anObject class } ]) value
 ]
 
 { #category : #internal }
@@ -190,6 +200,21 @@ FMRelationSlot >> removeAssociationFrom: ownerObject to: otherObject [
 	| realInverseSlot |
 	realInverseSlot := self realInverseSlotFor: otherObject.
 	realInverseSlot reverseRemoveAssociation: ownerObject to: otherObject
+]
+
+{ #category : #accessing }
+FMRelationSlot >> resolveSlotNamed: aName for: anObject [
+
+	^ anObject slotNamed: aName ifFound: [ :a | a ] ifNone: [ 
+		  FMVirtualSlot new
+			  slotName: aName asSymbol;
+			  yourself ]
+]
+
+{ #category : #internal }
+FMRelationSlot >> reverseAddAssociationFrom: ownerObject to: otherObject [
+
+	self subclassResponsibility
 ]
 
 { #category : #internal }

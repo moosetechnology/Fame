@@ -159,18 +159,6 @@ FM3RelationSlotTestCase >> superClassSlot [
 ]
 
 { #category : #initialization }
-FM3RelationSlotTestCase >> testAddingObjectToMethodListRaisesMethodNotUnderstand [
-
-	| class method |
-	method := self newTestingMethod.
-	class := Object new.
-
-	self
-		should: [ self addMethod: method to: class ]
-		raise: MessageNotUnderstood
-]
-
-{ #category : #initialization }
 FM3RelationSlotTestCase >> testSetSuperClassAddsSubclass [
 
 	| superclass subclass |
@@ -227,6 +215,19 @@ FM3RelationSlotTestCase >> testTestSetOneToOne [
 
 	self assert: (self getMethodFromThatThing: class) equals: method.
 	self assert: (self getThatThing: method) equals: class
+]
+
+{ #category : #initialization }
+FM3RelationSlotTestCase >> testTestSetOneToOneToAnObjectGetsMessageNotUnderstood [
+
+	| class method |
+	method := self newTestingMethod.
+
+	class := Object new.
+
+	self
+		should: [ self setThatThing: class to: method ]
+		raise: MessageNotUnderstood
 ]
 
 { #category : #'as yet unclassified' }

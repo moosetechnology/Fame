@@ -23,6 +23,14 @@ FMOne >> isToOne [
 ]
 
 { #category : #internal }
+FMOne >> reverseAddAssociationFrom: ownerObject to: otherObject [
+
+	(self read: otherObject) ifNotNil: [ :oldObject | 
+		self removeAssociationFrom: otherObject to: oldObject ].
+	self writeInverse: ownerObject to: otherObject
+]
+
+{ #category : #internal }
 FMOne >> reverseRemoveAssociation: ownerObject to: otherObject [
 
 	self writeInverse: nil to: otherObject
