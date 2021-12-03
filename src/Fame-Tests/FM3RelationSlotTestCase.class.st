@@ -159,6 +159,18 @@ FM3RelationSlotTestCase >> superClassSlot [
 ]
 
 { #category : #initialization }
+FM3RelationSlotTestCase >> testAddingObjectToMethodListRaisesMethodNotUnderstand [
+
+	| class method |
+	method := self newTestingMethod.
+	class := Object new.
+
+	self
+		should: [ self addMethod: method to: class ]
+		raise: MessageNotUnderstood
+]
+
+{ #category : #initialization }
 FM3RelationSlotTestCase >> testSetSuperClassAddsSubclass [
 
 	| superclass subclass |

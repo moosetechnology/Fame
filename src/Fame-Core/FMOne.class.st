@@ -23,6 +23,12 @@ FMOne >> isToOne [
 ]
 
 { #category : #internal }
+FMOne >> reverseRemoveAssociation: ownerObject to: otherObject [
+
+	self writeInverse: nil to: otherObject
+]
+
+{ #category : #internal }
 FMOne >> updateOld: oldValue new: newValue in: anObject [
 	self hasInverse
 		ifTrue: [ oldValue ifNotNil: [ self removeAssociationFrom: anObject to: oldValue ].
