@@ -2,7 +2,7 @@
 An error thrown when Fame looks for a given element in a model and does not find it
 "
 Class {
-	#name : #FameElementNotFound,
+	#name : #FMElementNotFound,
 	#superclass : #Error,
 	#instVars : [
 		'element'
@@ -11,18 +11,18 @@ Class {
 }
 
 { #category : #accessing }
-FameElementNotFound >> element [
+FMElementNotFound >> element [
 
 	^ element
 ]
 
 { #category : #accessing }
-FameElementNotFound >> element: anObject [
+FMElementNotFound >> element: anObject [
 
 	element := anObject
 ]
 
 { #category : #accessing }
-FameElementNotFound >> messageText [
+FMElementNotFound >> messageText [
 	^'Element ''' , element asString , ''' not found'
 ]
