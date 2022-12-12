@@ -80,7 +80,8 @@ FMMetaModel >> descriptionOf: smalltalkClass ifPresent: aBlock ifAbsent: elseBlo
 
 { #category : #accessing }
 FMMetaModel >> elementNamed: aString [
-	^ self elementNamed: aString ifAbsent: [ self error: 'Element ''' , aString , ''' not found.' ]
+	^ self elementNamed: aString ifAbsent: [ FameElementNotFound new element: aString ; signal
+		"self error: 'Element ''' , aString , ''' not found.'" ]
 ]
 
 { #category : #accessing }
