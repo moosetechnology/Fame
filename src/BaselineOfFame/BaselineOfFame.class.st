@@ -29,7 +29,7 @@ BaselineOfFame >> baseline: spec [
 			package: 'Fame-Deprecated' with: [ spec requires: #( 'Fame-ImportExport' ) ].
 
 		spec for: #( #'pharo6.x' #'pharo7.x' #'pharo8.x' ) do: [ spec package: 'Fame-GT' with: [ spec requires: #( 'Fame-ImportExport' ) ] ].
-		spec for: #( #'pharo9.x' ) do: [ spec package: 'Fame-Spec2' ].
+		spec for: (self pharoVersionsFrom: 9) do: [ spec package: 'Fame-Spec2' with: [ spec requires: #( 'Fame-Core' ) ] ].
 
 		"Groups"
 		spec
@@ -67,6 +67,12 @@ BaselineOfFame >> mocketry: spec [
 { #category : #dependencies }
 BaselineOfFame >> pharoBackwardCompatibility: spec [
 	spec baseline: 'PharoBackwardCompatibility' with: [ spec repository: 'github://jecisc/PharoBackwardCompatibility:v1.x.x/src' ]
+]
+
+{ #category : #accessing }
+BaselineOfFame >> pharoVersionsFrom: aVersion [
+
+	^ (aVersion to: SystemVersion current major) collect: [ :v | ('pharo' , v asString , '.x') asSymbol ]
 ]
 
 { #category : #accessing }
