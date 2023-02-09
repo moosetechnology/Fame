@@ -76,6 +76,13 @@ FM3Trait >> inheritsFrom: aClass [
 	^ false
 ]
 
+{ #category : #initialization }
+FM3Trait >> initialize [
+
+	super initialize.
+	users := Set new
+]
+
 { #category : #accessing }
 FM3Trait >> isAbstract [
 	self flag: 'This is for compatibility purpose'.
