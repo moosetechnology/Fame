@@ -27,6 +27,26 @@ FM3Trait >> addUser: aFM3Type [
 	self users add: aFM3Type
 ]
 
+{ #category : #accessing }
+FM3Trait >> classUsers [
+
+	| classes |
+	classes := Set new.
+
+	self users do: [ :user | self classUsersOf: user in: classes ].
+
+	^ classes
+]
+
+{ #category : #accessing }
+FM3Trait >> classUsersOf: aFM3Type in: aSet [
+
+	aFM3Type isFM3Trait
+		ifFalse: [ aSet add: aFM3Type ]
+		ifTrue: [ 
+		aFM3Type users do: [ :user | self classUsersOf: user in: aSet ] ]
+]
+
 { #category : #'accessing-query' }
 FM3Trait >> complexProperties [
 
