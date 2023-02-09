@@ -2,7 +2,8 @@ Class {
 	#name : #FM3Trait,
 	#superclass : #FM3Type,
 	#instVars : [
-		'implementingClass'
+		'implementingClass',
+		'users'
 	],
 	#category : #'Fame-Core-Model'
 }
@@ -17,6 +18,12 @@ FM3Trait class >> annotation [
 { #category : #visiting }
 FM3Trait >> accept: aVisitor [
 	^ aVisitor visitTrait: self
+]
+
+{ #category : #adding }
+FM3Trait >> addUser: aFM3Type [
+
+	self users add: aFM3Type
 ]
 
 { #category : #accessing }
@@ -69,6 +76,13 @@ FM3Trait >> inheritsFrom: aClass [
 	^ false
 ]
 
+{ #category : #initialization }
+FM3Trait >> initialize [
+
+	super initialize.
+	users := Set new
+]
+
 { #category : #accessing }
 FM3Trait >> isAbstract [
 	self flag: 'This is for compatibility purpose'.
@@ -117,6 +131,20 @@ FM3Trait >> ownerProperties [
 { #category : #'accessing-query' }
 FM3Trait >> primitiveProperties [
 	^ self properties select: [ :attr | attr type isPrimitive ]
+]
+
+{ #category : #accessing }
+FM3Trait >> users [
+
+	<FMProperty: #users type: #FM3Type>
+	<multivalued>
+	^ users
+]
+
+{ #category : #accessing }
+FM3Trait >> users: aCollection [
+
+	users := aCollection
 ]
 
 { #category : #accessing }

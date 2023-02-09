@@ -348,6 +348,7 @@ FMMetaModelBuilder >> resolveObjectReferences [
 
 	"establish class-traits relations"
 	traitsDict keysAndValuesDo: [ :class :traits | class addTraits: (traits collect: [ :t | classDict at: t ]) ].
+	traitsDict keysAndValuesDo: [ :class :traits | traits do: [ :t | (classDict at: t) addUser: class ] ].
 
 	" Fill in oppositelinks"
 	oppositeDict keysAndValuesDo: [ :prop :oppName | prop opposite: (prop type propertyNamed: oppName) ]

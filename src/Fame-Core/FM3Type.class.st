@@ -65,7 +65,7 @@ FM3Type >> allRelationProperties [
 	^ self allProperties select: [ :property | property isRelation ]
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 FM3Type >> initialize [
 	super initialize.
 	properties := FMMultivalueLink on: self opposite: #mmClass:.
