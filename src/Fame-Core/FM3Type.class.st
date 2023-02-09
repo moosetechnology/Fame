@@ -119,7 +119,8 @@ FM3Type >> propertyNamed: aString ifAbsent: aBlock [
 
 { #category : #accessing }
 FM3Type >> traits [
-	<FMProperty: #traits type: #FM3Trait>
+
+	<FMProperty: #traits type: #FM3Trait opposite: #users>
 	<multivalued>
 	^ traits
 ]

@@ -128,7 +128,7 @@ FM3Trait >> primitiveProperties [
 { #category : #accessing }
 FM3Trait >> users [
 
-	<FMProperty: #users type: #FM3Type>
+	<FMProperty: #users type: #FM3Type opposite: #traits>
 	<multivalued>
 	^ users
 ]
