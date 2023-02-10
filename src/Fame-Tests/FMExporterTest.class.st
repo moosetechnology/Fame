@@ -27,7 +27,7 @@ FMExporterTest >> testExportAsMSE [
 	self assert: printer stream contents isString.
 	lines := printer stream contents lines.
 	self assert: lines first equals: '(' .
-	self assert: printer stream contents lines size equals: 72.
+	self assert: printer stream contents lines size equals: 73.
 	self assert: (lines allButFirst allSatisfy: [ :l | l beginsWith: '	'] ) .
 	self assert: (lines anySatisfy: [ :l | l includesSubstring: 'FM3.Package'] ) .
 	self assert: (lines anySatisfy: [ :l | l includesSubstring: 'FM3.Class'] ) .

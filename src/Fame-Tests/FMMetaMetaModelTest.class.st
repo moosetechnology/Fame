@@ -113,9 +113,10 @@ FMMetaMetaModelTest >> testFM3IsComplete [
 	self assert: (names includes: 'FM3.Trait').
 	self assert: (names includes: 'FM3.Trait.primitive').
 	self assert: (names includes: 'FM3.Trait.root').
+	self assert: (names includes: 'FM3.Trait.users').
 	self assert: (names includes: 'FM3.Property.defaultValue').
-	self assert: names size equals: 32.
-	self assert: (names select: [ :n | n beginsWith: 'FM3.' ]) size equals: 31
+	self assert: names size equals: 33.
+	self assert: (names select: [ :n | n beginsWith: 'FM3.' ]) size equals: 32
 ]
 
 { #category : #tests }
