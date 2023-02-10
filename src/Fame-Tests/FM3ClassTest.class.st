@@ -79,6 +79,12 @@ FM3ClassTest >> testIsRoot [
 ]
 
 { #category : #tests }
+FM3ClassTest >> testMetamodel [
+
+	self assert: (metaMetamodel elementNamed: 'FM3.Class') metamodel equals: metaMetamodel
+]
+
+{ #category : #tests }
 FM3ClassTest >> testProperties [
 	element := metaMetamodel elementNamed: 'FM3.Class'.
 	self assert: element properties isNotNil.

@@ -30,6 +30,12 @@ FM3PropertyTest >> testIsCompositeDerived [
 ]
 
 { #category : #tests }
+FM3PropertyTest >> testMetamodel [
+
+	self assert: (metaMetamodel elementNamed: 'FM3.Property.class') metamodel equals: metaMetamodel
+]
+
+{ #category : #tests }
 FM3PropertyTest >> testTypeHasOpposite [
 	| e |
 	e := metaMetamodel elementNamed: 'FM3.Property.type'.

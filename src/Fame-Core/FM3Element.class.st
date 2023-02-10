@@ -25,7 +25,8 @@ Class {
 	#name : #FM3Element,
 	#superclass : #Object,
 	#instVars : [
-		'name'
+		'name',
+		'metamodel'
 	],
 	#category : #'Fame-Core-Model'
 }
@@ -70,6 +71,18 @@ FM3Element >> fullName [
 { #category : #testing }
 FM3Element >> hasOwner [
 	^ self owner isNotNil
+]
+
+{ #category : #accessing }
+FM3Element >> metamodel [
+
+	^ metamodel
+]
+
+{ #category : #accessing }
+FM3Element >> metamodel: anObject [
+
+	metamodel := anObject
 ]
 
 { #category : #accessing }

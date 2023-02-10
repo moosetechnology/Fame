@@ -40,3 +40,9 @@ FM3PackageTest >> testHasOwner [
 	self addUnamedOwnerTo: element.
 	self deny: element hasOwner
 ]
+
+{ #category : #tests }
+FM3PackageTest >> testMetamodel [
+
+	self assert: (metaMetamodel packageNamed: 'FM3') metamodel equals: metaMetamodel
+]
