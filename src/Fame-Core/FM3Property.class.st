@@ -61,7 +61,6 @@ Class {
 		'implementingSelector',
 		'isTarget',
 		'isSource',
-		'comment',
 		'defaultValue'
 	],
 	#category : #'Fame-Core-Model'
@@ -72,16 +71,6 @@ FM3Property class >> annotation [
 	<FMClass: #Property super: #FM3Element>
 	<package: #FM3>
 
-]
-
-{ #category : #accessing }
-FM3Property >> comment [
-	^ comment
-]
-
-{ #category : #accessing }
-FM3Property >> comment: anObject [
-	comment := anObject
 ]
 
 { #category : #accessing }
