@@ -4,17 +4,25 @@ Class {
 	#instVars : [
 		'metamodel',
 		'changesToApply',
-		'prefix'
+		'prefix',
+		'packageSelection'
 	],
 	#category : #'Fame-PharoCodeGenerator'
 }
 
 { #category : #generation }
-FMPharoCodeMetamodelGenerator class >> generateFor: aMetamodel prefix: aString [
+FMPharoCodeMetamodelGenerator class >> generateFor: aMetamodel prefix: aString selectingPackages: aBlock [
 
 	self new
 		prefix: aString;
+		packageSelection: aBlock;
 		generateFor: aMetamodel
+]
+
+{ #category : #'as yet unclassified' }
+FMPharoCodeMetamodelGenerator >> classesToGenerate [
+
+	^ self packagesToGenerate flatCollect: [ :p | p classes ]
 ]
 
 { #category : #generation }
@@ -40,6 +48,36 @@ FMPharoCodeMetamodelGenerator >> initialize [
 
 	super initialize.
 	changesToApply := OrderedCollection new
+]
+
+{ #category : #accessing }
+FMPharoCodeMetamodelGenerator >> metamodel [
+
+	^ metamodel
+]
+
+{ #category : #accessing }
+FMPharoCodeMetamodelGenerator >> metamodel: anObject [
+
+	metamodel := anObject
+]
+
+{ #category : #accessing }
+FMPharoCodeMetamodelGenerator >> packageSelection [
+
+	^ packageSelection
+]
+
+{ #category : #accessing }
+FMPharoCodeMetamodelGenerator >> packageSelection: anObject [
+
+	packageSelection := anObject
+]
+
+{ #category : #'as yet unclassified' }
+FMPharoCodeMetamodelGenerator >> packagesToGenerate [
+
+	^ self metamodel packages select: [ :p | self packageSelection cull: p ]
 ]
 
 { #category : #accessing }
@@ -71,9 +109,10 @@ FMPharoCodeMetamodelGenerator >> recordClassChangesFor: aFMType [
 FMPharoCodeMetamodelGenerator >> recordClassesChanges [
 
 	| notSorted sorted toMove |
-	metamodel classes ifEmpty: [ ^ self ].
 
-	notSorted := metamodel classes asOrderedCollection.
+	self classesToGenerate ifEmpty: [ ^ self ].
+
+	notSorted := self classesToGenerate asOrderedCollection.
 
 	sorted := OrderedCollection new.
 	[ 
@@ -89,7 +128,7 @@ FMPharoCodeMetamodelGenerator >> recordClassesChanges [
 { #category : #generation }
 FMPharoCodeMetamodelGenerator >> recordPackagesChanges [
 
-	metamodel packages
+	self packagesToGenerate
 		reject: [ :package | RPackageOrganizer default includesPackageNamed: package name ]
 		thenDo: [ :package | changesToApply add: (FmxPackageAddition named: package name) ]
 ]
