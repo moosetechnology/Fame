@@ -100,9 +100,19 @@ FMPharoCodeMetamodelGenerator >> recordClassChangesFor: aFMType [
 	realClass
 		ifNil: [ changesToApply add: (FmxClassAddition definition: (aFMType definitionWithPrefix: self prefix)) ]
 		ifNotNil: [ "self recordAdoptionOfClassDefinitionFrom: realClass to: aFMType" ].
-	"self recordClassCommentChangeOf: realClass to: aFMType.
-	self recordMethodsAdoptionsOf: realClass to: aFMType realClassName: aFMType name.
+	self recordClassCommentChangeOf: realClass to: aFMType.
+	"self recordMethodsAdoptionsOf: realClass to: aFMType realClassName: aFMType name.
 	self recordMethodsAdoptionsOf: (realClass ifNotNil: #class) to: aFMType classSide realClassName: aFMType name"
+]
+
+{ #category : #generation }
+FMPharoCodeMetamodelGenerator >> recordClassCommentChangeOf: realClass to: aFMType [
+
+	| newComment |
+	newComment := aFMType comment.
+	(realClass isNotNil and: [ newComment = realClass comment ]) ifTrue: [ ^ self ].
+
+	newComment isEmptyOrNil ifFalse: [ changesToApply add: (FmxClassCommentUpdate className: self prefix , aFMType name comment: newComment) ]
 ]
 
 { #category : #generation }
@@ -131,4 +141,13 @@ FMPharoCodeMetamodelGenerator >> recordPackagesChanges [
 	self packagesToGenerate
 		reject: [ :package | RPackageOrganizer default includesPackageNamed: package name ]
 		thenDo: [ :package | changesToApply add: (FmxPackageAddition named: package name) ]
+]
+
+{ #category : #accessing }
+FMPharoCodeMetamodelGenerator >> todo [
+	"
+- Check to manage better the prefix instead of appening it everywhere
+- Check if we still need the trait resolution in #dependsOn:
+- Manage the full class definition and not just class name and package
+- Manage properties"
 ]
