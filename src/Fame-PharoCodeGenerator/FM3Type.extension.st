@@ -38,12 +38,3 @@ FM3Type >> definitionWithPrefix: aString [
 			  nextPutAll: self package name;
 			  nextPutAll: ''') install' ]
 ]
-
-{ #category : #'*Fame-PharoCodeGenerator' }
-FM3Type >> dependsOn: anotherType [
-
-	self == anotherType ifTrue: [ ^ false ].
-	
-	1halt.
-	self flag: #todo.
-]
