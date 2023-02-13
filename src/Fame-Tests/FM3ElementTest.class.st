@@ -62,6 +62,12 @@ FM3ElementTest >> testHasOwner [
 ]
 
 { #category : #tests }
+FM3ElementTest >> testMetamodel [
+
+	self subclassResponsibility
+]
+
+{ #category : #tests }
 FM3ElementTest >> testNameIsSymbol [
 	element name: 'Test'.
 	self assert: element name isSymbol

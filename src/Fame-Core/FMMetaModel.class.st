@@ -133,6 +133,7 @@ FMMetaModel >> packages [
 
 { #category : #private }
 FMMetaModel >> postAdd: element [
+	element metamodel: self.
 	self updateCacheWith: element
 ]
 
