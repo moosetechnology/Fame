@@ -65,6 +65,14 @@ FM3Type >> allRelationProperties [
 	^ self allProperties select: [ :property | property isRelation ]
 ]
 
+{ #category : #accessing }
+FM3Type >> classUsers [
+
+	"This method allows polymorphism with FM3Trait>>#classUsers"
+
+	^ { self }
+]
+
 { #category : #initialization }
 FM3Type >> initialize [
 	super initialize.
