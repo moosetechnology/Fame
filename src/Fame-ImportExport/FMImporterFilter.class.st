@@ -139,7 +139,8 @@ FMImporterFilter >> referenceNumber: index [
 
 { #category : #running }
 FMImporterFilter >> run [
-	FMMSEParser new
+
+	importer parser new
 		stream: importer stream;
 		importer: self;
 		run
