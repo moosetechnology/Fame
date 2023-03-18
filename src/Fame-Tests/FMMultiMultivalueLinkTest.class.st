@@ -83,6 +83,24 @@ FMMultiMultivalueLinkTest >> testOneHeroKillTwoDragons [
 ]
 
 { #category : #tests }
+FMMultiMultivalueLinkTest >> testOneHeroKillTwoDragonsAndFinallyOnlyOne [
+
+	| dragon1 dragon2 hero1 |
+	dragon1 := RPGDragon new.
+	dragon2 := RPGDragon new.
+	hero1 := RPGHero new.
+	hero1 kills: { 
+			dragon1.
+			dragon2 }.
+	hero1 kills: { dragon1 }.
+	self assert: hero1 kills size equals: 1.
+	self assertCollection: hero1 kills hasSameElements: { dragon1 }.
+	self assert: dragon1 killedBy size equals: 1.
+	self assert: dragon1 killedBy anyOne equals: hero1.
+	self assert: dragon2 killedBy size equals: 0
+]
+
+{ #category : #tests }
 FMMultiMultivalueLinkTest >> testOneHeroKilledLotOfDragon [
 
 	"This is a performance test"
