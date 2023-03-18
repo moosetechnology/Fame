@@ -43,7 +43,12 @@ FMMultiMultivalueLinkTest >> testOneHeroKillOneDragonsThenTwoWithTheFirstOneAgai
 	self assert: hero1 kills size equals: 2.
 	self assertCollection: hero1 kills hasSameElements: { 
 			dragon1.
-			dragon2 }
+			dragon2 }.
+
+	self assert: dragon1 killedBy size equals: 1.
+	self assert: dragon2 killedBy size equals: 1.
+	self assert: dragon1 killedBy anyOne equals: hero1.
+	self assert: dragon2 killedBy anyOne equals: hero1
 ]
 
 { #category : #tests }

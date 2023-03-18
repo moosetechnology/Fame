@@ -75,7 +75,7 @@ FMMultivalueLink >> = otherCollection [
 	^ values hasEqualElements: otherCollection asOrderedCollection
 ]
 
-{ #category : #accessing }
+{ #category : #adding }
 FMMultivalueLink >> add: anElement [
 	anElement perform: opposite with: owner.
 	self unsafeAdd: anElement.
@@ -204,7 +204,7 @@ FMMultivalueLink >> unsafeRemove: element [
 	values remove: element ifAbsent: nil
 ]
 
-{ #category : #accessing }
+{ #category : #adding }
 FMMultivalueLink >> value: aCollection [
 
 	^self removeAll: values copy; addAll: aCollection

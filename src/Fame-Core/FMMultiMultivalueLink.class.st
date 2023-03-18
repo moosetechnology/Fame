@@ -45,6 +45,14 @@ FMMultiMultivalueLink >> removeAll [
 		do: [ :anElement | (anElement perform: opposite) remove: owner ]
 ]
 
+{ #category : #adding }
+FMMultiMultivalueLink >> value: aCollection [
+
+	^ self
+		  removeAll: values copy;
+		  uncheckAddAll: aCollection asOrderedCollection removeDuplicates
+]
+
 { #category : #private }
 FMMultiMultivalueLink >> with: element opposite: oppositeSelector [
 	self assert: oppositeSelector numArgs = 0.
