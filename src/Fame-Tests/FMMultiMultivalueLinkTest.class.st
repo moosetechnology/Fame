@@ -115,6 +115,63 @@ FMMultiMultivalueLinkTest >> testTwoDragonsAreKilledByTwoHeros [
 ]
 
 { #category : #tests }
+FMMultiMultivalueLinkTest >> testTwoHerosKillTWiceTwoDragons [
+
+	| dragon1 dragon2 hero1 hero2 |
+	dragon1 := RPGDragon new.
+	dragon2 := RPGDragon new.
+	hero1 := RPGHero new.
+	hero2 := RPGHero new.
+	hero1 kills: { 
+			dragon1.
+			dragon1.
+			dragon2.
+			dragon2 }.
+	hero2 kills: { 
+			dragon1.
+			dragon1.
+			dragon2.
+			dragon2 }.
+	self assert: hero1 kills size equals: 2.
+	self assert: hero1 kills anyOne equals: dragon1.
+	self assert: hero2 kills size equals: 2.
+	self assert: hero2 kills anyOne equals: dragon1.
+	self assert: dragon1 killedBy size equals: 2.
+	self assertCollection: dragon1 killedBy hasSameElements: { 
+			hero1.
+			hero2 }.
+	self assert: dragon2 killedBy size equals: 2.
+	self assertCollection: dragon2 killedBy hasSameElements: { 
+			hero1.
+			hero2 }
+]
+
+{ #category : #tests }
+FMMultiMultivalueLinkTest >> testTwoHerosKillThriceTheSameDragon [
+
+	| dragon1 hero1 hero2 |
+	dragon1 := RPGDragon new.
+	hero1 := RPGHero new.
+	hero2 := RPGHero new.
+	hero1 kills: { 
+			dragon1.
+			dragon1 }.
+	hero1 kills add: dragon1.
+	hero2 kills: { 
+			dragon1.
+			dragon1 }.
+	hero2 kills add: dragon1.
+	self assert: hero1 kills size equals: 1.
+	self assert: hero1 kills anyOne equals: dragon1.
+	self assert: hero2 kills size equals: 1.
+	self assert: hero2 kills anyOne equals: dragon1.
+	self assert: dragon1 killedBy size equals: 2.
+	self assertCollection: dragon1 killedBy hasSameElements: { 
+			hero1.
+			hero2 }
+]
+
+{ #category : #tests }
 FMMultiMultivalueLinkTest >> testTwoHerosKillTwiceTheSameDragon [
 
 	| dragon1 hero1 hero2 |
