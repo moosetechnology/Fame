@@ -45,6 +45,34 @@ FMMultiMultivalueLink >> removeAll [
 		do: [ :anElement | (anElement perform: opposite) remove: owner ]
 ]
 
+{ #category : #'private - adding' }
+FMMultiMultivalueLink >> uncheckAdd: anElement [ 
+	(anElement perform: opposite) uncheckUnsafeAdd: owner.
+	values add: anElement.
+	^ anElement
+]
+
+{ #category : #'private - adding' }
+FMMultiMultivalueLink >> uncheckAddAll: aCollection [ 
+	"Include all the elements of aCollection as the receiver's elements. Answer 
+	aCollection. Actually, any object responding to #do: can be used as argument."
+	aCollection do: [ :each | self uncheckAdd: each ].
+	^ aCollection
+]
+
+{ #category : #'private - adding' }
+FMMultiMultivalueLink >> uncheckUnsafeAdd: element [ 
+	values add: element
+]
+
+{ #category : #adding }
+FMMultiMultivalueLink >> value: aCollection [
+
+	^ self
+		  removeAll: values copy;
+		  uncheckAddAll: aCollection asOrderedCollection removeDuplicates
+]
+
 { #category : #private }
 FMMultiMultivalueLink >> with: element opposite: oppositeSelector [
 	self assert: oppositeSelector numArgs = 0.

@@ -1,3 +1,8 @@
+"
+This class contains tests.
+
+More tests dedicated to `FMMultiMultivalueLink` are in `FMMultiMultivalueLinkTest`
+"
 Class {
 	#name : #FMDungeonExample,
 	#superclass : #TestCase,
