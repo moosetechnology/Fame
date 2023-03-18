@@ -30,6 +30,23 @@ FMMultiMultivalueLinkTest >> testOneHeroKillOneDragon [
 ]
 
 { #category : #tests }
+FMMultiMultivalueLinkTest >> testOneHeroKillOneDragonsThenTwoWithTheFirstOneAgain [
+
+	| dragon1 dragon2 hero1 |
+	dragon1 := RPGDragon new.
+	dragon2 := RPGDragon new.
+	hero1 := RPGHero new.
+	hero1 kills: { dragon1 }.
+	hero1 kills: { 
+			dragon1.
+			dragon2 }.
+	self assert: hero1 kills size equals: 2.
+	self assertCollection: hero1 kills hasSameElements: { 
+			dragon1.
+			dragon2 }
+]
+
+{ #category : #tests }
 FMMultiMultivalueLinkTest >> testOneHeroKillTwiceTheSameDragon [
 
 	| dragon1 hero1 |
@@ -58,6 +75,19 @@ FMMultiMultivalueLinkTest >> testOneHeroKillTwoDragons [
 	self assertCollection: hero1 kills hasSameElements: { 
 			dragon1.
 			dragon2 }
+]
+
+{ #category : #tests }
+FMMultiMultivalueLinkTest >> testOneHeroKilledLotOfDragon [
+
+	"This is a performance test"
+
+	| dragons hero1 |
+	dragons := OrderedCollection new.
+	1 to: 50000 do: [ :index | dragons add: RPGDragon new ].
+	hero1 := RPGHero new.
+	hero1 kills: dragons.
+	self assert: hero1 kills size equals: 50000.
 ]
 
 { #category : #tests }
