@@ -50,7 +50,7 @@ FM3Package >> classNamed: aString ifPresent: aBlock ifAbsent: anotherBlock [
 
 { #category : #accessing }
 FM3Package >> classes [
-	<FMProperty: #classes type: #FM3Class opposite: #package>
+	<FMProperty: #classes type: #FM3Type opposite: #package>
 	<multivalued>
 	^ classes
 ]

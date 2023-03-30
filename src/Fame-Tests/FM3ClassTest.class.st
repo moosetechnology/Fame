@@ -26,7 +26,7 @@ FM3ClassTest >> testAllProperties [
 FM3ClassTest >> testAllPropertiesMoreThanProperties [
 	element := metaMetamodel elementNamed: 'FM3.Class'.
 	self assert: element allProperties size > element properties size.
-	self assert: element allProperties size equals: element properties size + element superclass properties size.
+	self assert: element allProperties size equals: element properties size + element superclass properties size + element superclass superclass properties size.
 	self assert: (element allProperties includesAll: element properties)
 ]
 
@@ -48,7 +48,7 @@ FM3ClassTest >> testAllSuperclasses [
 	element := metaMetamodel elementNamed: 'FM3.Class'.
 	self assert: element allSuperclasses isNotNil.
 	self assert: element allSuperclasses isCollection.
-	self assert: element allSuperclasses size equals: 2
+	self assert: element allSuperclasses size equals: 3
 ]
 
 { #category : #tests }
@@ -76,6 +76,12 @@ FM3ClassTest >> testIsPrimitive [
 { #category : #tests }
 FM3ClassTest >> testIsRoot [
 	self deny: metaMetamodel classes anyOne isRoot
+]
+
+{ #category : #tests }
+FM3ClassTest >> testMetamodel [
+
+	self assert: (metaMetamodel elementNamed: 'FM3.Class') metamodel equals: metaMetamodel
 ]
 
 { #category : #tests }

@@ -55,10 +55,25 @@ FM3ElementTest >> testFullNameOfNonameOwnerIsNil [
 ]
 
 { #category : #tests }
+FM3ElementTest >> testHasComment [
+
+	self deny: element hasComment.
+	element comment: 'Element comment'.
+	self assert: element hasComment.
+	self assert: element comment equals: 'Element comment'
+]
+
+{ #category : #tests }
 FM3ElementTest >> testHasOwner [
 	self deny: element hasOwner.
 	self addUnamedOwnerTo: element.
 	self assert: element hasOwner
+]
+
+{ #category : #tests }
+FM3ElementTest >> testMetamodel [
+
+	self subclassResponsibility
 ]
 
 { #category : #tests }

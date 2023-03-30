@@ -9,33 +9,33 @@ Class {
 
 { #category : #baseline }
 BaselineOfFame >> baseline: spec [
+
 	<baseline>
-	spec
-		for: #common
-		do: [ "Dependencies"
-			self
-				hashtable: spec;
-				mocketry: spec;
-				pharoBackwardCompatibility: spec;
-				iterators: spec;
-				treeQuery: spec.
+	spec for: #common do: [ "Dependencies"
+		self
+			hashtable: spec;
+			mocketry: spec;
+			pharoBackwardCompatibility: spec;
+			iterators: spec;
+			treeQuery: spec.
 
-			"Packages"
-			spec
-				package: 'Fame-Core' with: [ spec requires: #('Hashtable' 'TreeQuery' 'Iterators' 'PharoBackwardCompatibility') ];
-				package: 'Fame-Rules';
-				package: 'Fame-ImportExport' with: [ spec requires: #('Fame-Core') ];
-				package: 'Fame-Example';
-				package: 'Fame-Tests' with: [ spec requires: #('Fame-Core' 'Fame-ImportExport' 'Fame-Example' 'Mocketry') ];
-				package: 'Fame-GT' with: [ spec requires: #('Fame-ImportExport') ];
-				package: 'Fame-Deprecated' with: [ spec requires: #('Fame-ImportExport') ].
+		"Packages"
+		spec
+			package: 'Fame-Core' with: [ spec requires: #( 'Hashtable' 'TreeQuery' 'Iterators' 'PharoBackwardCompatibility' ) ];
+			package: 'Fame-Rules';
+			package: 'Fame-ImportExport' with: [ spec requires: #( 'Fame-Core' ) ];
+			package: 'Fame-Example';
+			package: 'Fame-Tests' with: [ spec requires: #( 'Fame-Core' 'Fame-ImportExport' 'Fame-Example' 'Mocketry' ) ];
+			package: 'Fame-Deprecated' with: [ spec requires: #( 'Fame-ImportExport' ) ].
 
-			"Groups"
-			spec
-				group: 'Core' with: #('Fame-Core' 'Fame-ImportExport' 'Fame-Rules');
-				group: 'GT' with: #('Core' 'Fame-GT');
-				group: 'Deprecated' with: #('Core' 'Fame-Deprecated');
-				group: 'Tests' with: #('Fame-Tests') ]
+		spec for: #( #'pharo6.x' #'pharo7.x' #'pharo8.x' ) do: [ spec package: 'Fame-GT' with: [ spec requires: #( 'Fame-ImportExport' ) ] ].
+		spec for: (self pharoVersionsFrom: 9) do: [ spec package: 'Fame-Spec2' with: [ spec requires: #( 'Fame-Core' ) ] ].
+
+		"Groups"
+		spec
+			group: 'Core' with: #( 'Fame-Core' 'Fame-ImportExport' 'Fame-Rules' );
+			group: 'Deprecated' with: #( 'Core' 'Fame-Deprecated' );
+			group: 'Tests' with: #( 'Fame-Tests' ) ]
 ]
 
 { #category : #dependencies }
@@ -67,6 +67,12 @@ BaselineOfFame >> mocketry: spec [
 { #category : #dependencies }
 BaselineOfFame >> pharoBackwardCompatibility: spec [
 	spec baseline: 'PharoBackwardCompatibility' with: [ spec repository: 'github://jecisc/PharoBackwardCompatibility:v1.x.x/src' ]
+]
+
+{ #category : #accessing }
+BaselineOfFame >> pharoVersionsFrom: aVersion [
+
+	^ (aVersion to: SystemVersion current major) collect: [ :v | ('pharo' , v asString , '.x') asSymbol ]
 ]
 
 { #category : #accessing }

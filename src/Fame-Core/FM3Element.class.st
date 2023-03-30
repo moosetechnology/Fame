@@ -25,7 +25,9 @@ Class {
 	#name : #FM3Element,
 	#superclass : #Object,
 	#instVars : [
-		'name'
+		'name',
+		'metamodel',
+		'comment'
 	],
 	#category : #'Fame-Core-Model'
 }
@@ -56,6 +58,18 @@ FM3Element >> accept: arg1 [
 ]
 
 { #category : #accessing }
+FM3Element >> comment [
+
+	^ comment
+]
+
+{ #category : #accessing }
+FM3Element >> comment: anObject [
+
+	comment := anObject
+]
+
+{ #category : #accessing }
 FM3Element >> fullName [
 	<FMProperty: #fullName type: #String>
 	<derived>
@@ -68,8 +82,26 @@ FM3Element >> fullName [
 ]
 
 { #category : #testing }
+FM3Element >> hasComment [
+
+	^ self comment isNotNil
+]
+
+{ #category : #testing }
 FM3Element >> hasOwner [
 	^ self owner isNotNil
+]
+
+{ #category : #accessing }
+FM3Element >> metamodel [
+
+	^ metamodel
+]
+
+{ #category : #accessing }
+FM3Element >> metamodel: anObject [
+
+	metamodel := anObject
 ]
 
 { #category : #accessing }

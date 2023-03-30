@@ -16,7 +16,7 @@ FMMetaModel >> gtInspectorClassesIn: composite [
 
 { #category : #'*Fame-GT' }
 FMMetaModel >> gtInspectorHierarchiesIn: composite [
-	<gtInspectorPresentationOrder: 2>
+	<gtInspectorPresentationOrder: 3>
 	^ composite tree
 		title: 'Hierarchies';
 		display: [ (self classes select: [ :each | each superclass = FM3Object instance ]) sorted: [ :x :y | x fullName < y fullName ] ];
@@ -37,7 +37,7 @@ FMMetaModel >> gtInspectorHierarchiesIn: composite [
 
 { #category : #'*Fame-GT' }
 FMMetaModel >> gtInspectorPackagesIn: composite [
-	<gtInspectorPresentationOrder: 1>
+	<gtInspectorPresentationOrder: 2>
 	^ composite fastList
 		title: 'Packages';
 		display: [ self packages sorted: [:x :y | x fullName < y fullName] ];
@@ -59,6 +59,20 @@ FMMetaModel >> gtInspectorPropertiesIn: composite [
 		column: 'Type' evaluated: [ :each | each gtTypeString ];
 		column: 'derived?' evaluated: [ :each | each isDerived ] width: 50;
 		column: 'Comment' evaluated: #comment;
+		morphicSelectionAct: [ :list | list selection implementingClass browse ]
+			icon: GLMUIThemeExtraIcons glamorousBrowse
+			on: $b
+			entitled: 'Browse implementation'
+]
+
+{ #category : #'*Fame-GT' }
+FMMetaModel >> gtInspectorTraitsIn: composite [
+	<gtInspectorPresentationOrder: 1>
+	^ composite fastList
+		title: 'Traits';
+		display: [ self traits sorted: [ :x :y | x fullName < y fullName ] ];
+		format: [ :each | each isAbstract ifTrue: [ Text string: each fullName attribute: TextEmphasis italic ] ifFalse: [ Text fromString: each fullName ] ];
+		tags: [ :each | each package ifNil: [ #() ] ifNotNil: [ each package name ] ];
 		morphicSelectionAct: [ :list | list selection implementingClass browse ]
 			icon: GLMUIThemeExtraIcons glamorousBrowse
 			on: $b

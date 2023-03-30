@@ -1,6 +1,14 @@
 Extension { #name : #FMModel }
 
 { #category : #'*Fame-ImportExport' }
+FMModel >> exportJsonString [
+	| printer |
+	printer := FMJSONPrinter onString.
+	self exportWithPrinter: printer.
+	^ printer stream contents
+]
+
+{ #category : #'*Fame-ImportExport' }
 FMModel >> exportOn: aStream [
 	self exportOn: aStream usingPrinter: FMMSEPrinter
 ]

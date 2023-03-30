@@ -63,12 +63,13 @@ FMModelExporter >> export: aCollectionOfElements [
 FMModelExporter >> exportEntity: each [
 	| meta |
 	meta := model metaDescriptionOf: each.
-	printer inEntity: meta fullName do: [ 
-		printer serial: (self indexOf: each).
-		((self sortedPropertiesOf: meta)
-			select: [ :property | 
-			self shouldExportProperty: property for: each ])
-			do:  [ :property | self exportProperty: property for: each ] separatedBy: [ printer printPropertySeparator ] ].
+	printer
+		inEntity: meta fullName
+		do: [ printer serial: (self indexOf: each).
+			((self sortedPropertiesOf: meta)
+				select: [ :property | self shouldExportProperty: property for: each ])
+				do: [ :property | self exportProperty: property for: each ]
+				separatedBy: [ printer printPropertySeparator ] ].
 	self incrementProgressBar
 ]
 
@@ -81,9 +82,10 @@ FMModelExporter >> exportProperty: property for: each [
 
 { #category : #exporting }
 FMModelExporter >> exportProperty: property withAll: values [
+
 	printer inProperty: property name do: [ 
 		property isMultivalued ifTrue: [ printer beginMultivalue: property ].
-		values
+		(values reject: [ :value | value = MooseUnavailableMetric ])
 			do: [ :each | 
 				property type isPrimitive
 					ifTrue: [ printer primitive: each ]

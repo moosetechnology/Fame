@@ -61,7 +61,7 @@ Class {
 		'implementingSelector',
 		'isTarget',
 		'isSource',
-		'comment'
+		'defaultValue'
 	],
 	#category : #'Fame-Core-Model'
 }
@@ -74,18 +74,20 @@ FM3Property class >> annotation [
 ]
 
 { #category : #accessing }
-FM3Property >> comment [
-	^ comment
-]
-
-{ #category : #accessing }
-FM3Property >> comment: anObject [
-	comment := anObject
-]
-
-{ #category : #accessing }
 FM3Property >> compiledMethod [
 	^ self mmClass ifNotNil: [ :aClass | aClass implementingClass >> self implementingSelector ]
+]
+
+{ #category : #private }
+FM3Property >> defaultValue [
+	<FMProperty: #defaultValue type: #Object>
+	"The type of this property should be FM3Primitive or something else, but it's currently impossible to reference abstract classes"
+	^ defaultValue 
+]
+
+{ #category : #private }
+FM3Property >> defaultValue: aValue [
+	defaultValue := aValue
 ]
 
 { #category : #private }
@@ -105,6 +107,12 @@ FM3Property >> getRawFrom: element [
 	By default call the implementing selector."
 
 	^ element perform: self implementingSelector
+]
+
+{ #category : #private }
+FM3Property >> hasDefaultValue [
+	^ defaultValue isNotNil 
+	
 ]
 
 { #category : #testing }
@@ -160,7 +168,7 @@ FM3Property >> isChildrenProperty [
 
 { #category : #accessing }
 FM3Property >> isContainer [
-	<FMProperty: #container type: #Boolean>
+	<FMProperty: #container type: #Boolean defaultValue: false>
 	^isContainer
 ]
 
@@ -171,7 +179,7 @@ FM3Property >> isContainer: anObject [
 
 { #category : #accessing }
 FM3Property >> isDerived [
-	<FMProperty: #derived type: #Boolean>
+	<FMProperty: #derived type: #Boolean defaultValue: false>
 	^isDerived
 ]
 
@@ -192,13 +200,24 @@ FM3Property >> isFM3Property [
 
 { #category : #accessing }
 FM3Property >> isMultivalued [
-	<FMProperty: #multivalued type: #Boolean>
+	<FMProperty: #multivalued type: #Boolean defaultValue: false>
 	^isMultivalued
 ]
 
 { #category : #accessing }
 FM3Property >> isMultivalued: anObject [
 	isMultivalued := anObject
+]
+
+{ #category : #accessing }
+FM3Property >> isRelation [
+
+	^ self hasOpposite and: [ 
+		  isContainer not and: [ 
+			  opposite isContainer not and: [ 
+				  isSource not and: [ 
+					  isTarget not and: [ 
+						  opposite isSource not and: [ opposite isTarget not ] ] ] ] ] ]
 ]
 
 { #category : #accessing }
@@ -223,7 +242,7 @@ FM3Property >> isTarget: anObject [
 
 { #category : #accessing }
 FM3Property >> mmClass [
-	<FMProperty: #class type: #FM3Class opposite: #properties>
+	<FMProperty: #class type: #FM3Type opposite: #properties>
 	<container>
 	
 	^class 

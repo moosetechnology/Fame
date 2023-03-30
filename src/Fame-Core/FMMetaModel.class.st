@@ -34,7 +34,7 @@ Class {
 	#name : #FMMetaModel,
 	#superclass : #FMModel,
 	#instVars : [
-		'classDict',
+		'typeDict',
 		'nameDict'
 	],
 	#category : #'Fame-Core-Models'
@@ -64,27 +64,38 @@ FMMetaModel >> defaultMetamodel [
 
 { #category : #accessing }
 FMMetaModel >> descriptionOf: smalltalkClass [
+	self deprecated: 'Use #fmTypeOf: instead' transformWith: '``@object descriptionOf: ``@arg1' -> '``@object fmTypeOf: ``@arg1 '.
 	^ self descriptionOf: smalltalkClass ifAbsent: [ NotFound signalFor: smalltalkClass in: self ]
 ]
 
 { #category : #accessing }
 FMMetaModel >> descriptionOf: smalltalkClass ifAbsent: elseBlock [
-	^ classDict at: smalltalkClass ifAbsent: elseBlock
+	^ typeDict at: smalltalkClass ifAbsent: elseBlock
 ]
 
 { #category : #accessing }
 FMMetaModel >> descriptionOf: smalltalkClass ifPresent: aBlock ifAbsent: elseBlock [
-	^ classDict at: smalltalkClass ifPresent: aBlock ifAbsent: elseBlock
+	^ typeDict at: smalltalkClass ifPresent: aBlock ifAbsent: elseBlock
 ]
 
 { #category : #accessing }
 FMMetaModel >> elementNamed: aString [
-	^ self elementNamed: aString ifAbsent: [ self error: 'Element ''' , aString , ''' not found.' ]
+
+	^ self elementNamed: aString ifAbsent: [ 
+		  FMElementNotFound new
+			  element: aString;
+			  signal ]
 ]
 
 { #category : #accessing }
 FMMetaModel >> elementNamed: aString ifAbsent: exceptionBlock [
 	^ nameDict at: aString ifAbsent: exceptionBlock
+]
+
+{ #category : #accessing }
+FMMetaModel >> fmTypeOf: smalltalkClass [
+	
+	^ self descriptionOf: smalltalkClass ifAbsent: [ NotFound signalFor: smalltalkClass in: self ]
 ]
 
 { #category : #testing }
@@ -122,6 +133,7 @@ FMMetaModel >> packages [
 
 { #category : #private }
 FMMetaModel >> postAdd: element [
+	element metamodel: self.
 	self updateCacheWith: element
 ]
 
@@ -130,15 +142,24 @@ FMMetaModel >> properties [
 	^ self elements select: [ :each | each isFM3Property ]
 ]
 
+{ #category : #accessing }
+FMMetaModel >> traits [
+	^ self elements select: [ :each | each isFM3Trait ]
+]
+
 { #category : #private }
 FMMetaModel >> updateCache [
 	nameDict := (FM3Constant constants collect: [ :const | const name asString -> const ]) asDictionary.
-	classDict := (FM3Constant constants collect: [ :const | const class -> const ]) asDictionary.
+	typeDict := (FM3Constant constants collect: [ :const | const class -> const ]) asDictionary.
 	self elements do: [ :each | self updateCacheWith: each ]
 ]
 
 { #category : #private }
 FMMetaModel >> updateCacheWith: element [
-	element fullName ifNotNil: [ :fullName | nameDict at: fullName put: element ].
-	element isFM3Class ifTrue: [ element implementingClass ifNotNil: [ :class | classDict at: class put: element ] ]
+
+	element fullName ifNotNil: [ :fullName | 
+		nameDict at: fullName put: element ].
+	(element isFM3Class or: [ element isFM3Trait ]) ifTrue: [ 
+		element implementingClass ifNotNil: [ :class | 
+			typeDict at: class put: element ] ]
 ]

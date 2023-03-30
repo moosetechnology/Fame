@@ -1,6 +1,8 @@
 Class {
 	#name : #LIBBook,
 	#superclass : #LIBRoot,
+	#traits : 'LIBTNamed',
+	#classTraits : 'LIBTNamed classTrait',
 	#instVars : [
 		'title',
 		'authors'

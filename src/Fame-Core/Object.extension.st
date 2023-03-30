@@ -16,15 +16,21 @@ Object >> isFM3Property [
 ]
 
 { #category : #'*Fame-Core' }
+Object >> isFM3Trait [
+	^false
+]
+
+{ #category : #'*Fame-Core' }
 Object >> isMetamodelEntity [
 	^ self class isMetamodelEntity
 ]
 
 { #category : #'*Fame-Core' }
 Object >> metaDescriptionIn: aMetamodel [
+
 	"I return the metadescription corresponding to myself from the metamodel given as parameter."
 
-	^ aMetamodel descriptionOf: self class
+	^ aMetamodel fmTypeOf: self class
 ]
 
 { #category : #'*Fame-Core' }

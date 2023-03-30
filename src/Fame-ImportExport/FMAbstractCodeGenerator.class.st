@@ -228,8 +228,9 @@ FMAbstractCodeGenerator >> previewChanges [
 
 { #category : #accessing }
 FMAbstractCodeGenerator >> previewChangesIfShiftPressed [
-	InputEventSensor default shiftPressed
-		ifTrue: [ (ChangesBrowser changes: self model changes changes) openWithSpec ].
+
+	World currentHand shiftPressed ifTrue: [ 
+		(ChangesBrowser changes: self model changes changes) openWithSpec ]
 ]
 
 { #category : #accessing }
