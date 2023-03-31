@@ -252,6 +252,9 @@ FMMetaModelBuilder >> processCompiledMethod: aMethod [
 			typeDict at: prop put: (pragma argumentAt: 2).
 			mmClassDict at: prop put: method methodClass.
 			pragma selector = #FMProperty:type:defaultValue: ifTrue: [ prop defaultValue: (pragma argumentAt: 3) ].
+			(pragma selector = #FMProperty:type: 
+				and: [ method pragmas anySatisfy: [ :p | p selector = #withDefaultValueFromType ] ]) 
+					ifTrue: [ prop hasDefaultValueFromType: true ].
 			(pragma selector = #MSEProperty:type:opposite: or: [ pragma selector = #FMProperty:type:opposite: ]) ifTrue: [ 
 				oppositeDict at: prop put: (pragma argumentAt: 3) ].
 			self processInfosFrom: method for: prop.
