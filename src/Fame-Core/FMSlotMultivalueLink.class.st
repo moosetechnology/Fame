@@ -101,12 +101,6 @@ FMSlotMultivalueLink >> hash [
 ]
 
 { #category : #private }
-FMSlotMultivalueLink >> inverseAdd: anObject [
-
-	^values add: anObject
-]
-
-{ #category : #private }
 FMSlotMultivalueLink >> inverseRemove: anObject [
 
 	^values remove: anObject
