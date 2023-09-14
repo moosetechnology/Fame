@@ -49,10 +49,11 @@ BaselineOfFame >> hashtable: spec [
 
 { #category : #dependencies }
 BaselineOfFame >> iterators: spec [
-	spec baseline: 'Iterators' with: [ 
+
+	spec baseline: 'Iterators' with: [
 		spec
 			repository: 'github://juliendelplanque/Iterators:v1.x.x/src';
-			loads: #('core' 'collections' 'shell-dsl' 'inspector-extensions') ]
+			loads: #( 'core' 'collections' 'shell-dsl' ) ]
 ]
 
 { #category : #dependencies }
