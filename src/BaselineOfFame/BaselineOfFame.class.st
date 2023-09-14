@@ -7,7 +7,7 @@ Class {
 	#category : #BaselineOfFame
 }
 
-{ #category : #baseline }
+{ #category : #baselines }
 BaselineOfFame >> baseline: spec [
 
 	<baseline>
@@ -21,19 +21,32 @@ BaselineOfFame >> baseline: spec [
 
 		"Packages"
 		spec
-			package: 'Fame-Core' with: [ spec requires: #( 'Hashtable' 'TreeQuery' 'Iterators' 'PharoBackwardCompatibility' ) ];
+			package: 'Fame-Core' with: [
+				spec requires:
+						#( 'TreeQuery' 'Iterators' 'PharoBackwardCompatibility' ) ];
 			package: 'Fame-Rules';
-			package: 'Fame-ImportExport' with: [ spec requires: #( 'Fame-Core' ) ];
+			package: 'Fame-ImportExport'
+			with: [ spec requires: #( 'Fame-Core' 'Hashtable' ) ];
 			package: 'Fame-Example';
-			package: 'Fame-Tests' with: [ spec requires: #( 'Fame-Core' 'Fame-ImportExport' 'Fame-Example' 'Mocketry' ) ];
-			package: 'Fame-Deprecated' with: [ spec requires: #( 'Fame-ImportExport' ) ].
+			package: 'Fame-Tests' with: [
+				spec requires:
+						#( 'Fame-Core' 'Fame-ImportExport' 'Fame-Example' 'Mocketry' ) ];
+			package: 'Fame-Deprecated'
+			with: [ spec requires: #( 'Fame-ImportExport' ) ].
 
-		spec for: #( #'pharo6.x' #'pharo7.x' #'pharo8.x' ) do: [ spec package: 'Fame-GT' with: [ spec requires: #( 'Fame-ImportExport' ) ] ].
-		spec for: (self pharoVersionsFrom: 9) do: [ spec package: 'Fame-Spec2' with: [ spec requires: #( 'Fame-Core' ) ] ].
+		spec for: #( #'pharo6.x' #'pharo7.x' #'pharo8.x' ) do: [
+			spec
+				package: 'Fame-GT'
+				with: [ spec requires: #( 'Fame-ImportExport' ) ] ].
+		spec for: (self pharoVersionsFrom: 9) do: [
+			spec
+				package: 'Fame-Spec2'
+				with: [ spec requires: #( 'Fame-Core' ) ] ].
 
 		"Groups"
 		spec
-			group: 'Core' with: #( 'Fame-Core' 'Fame-ImportExport' 'Fame-Rules' );
+			group: 'Core'
+			with: #( 'Fame-Core' 'Fame-ImportExport' 'Fame-Rules' );
 			group: 'Deprecated' with: #( 'Core' 'Fame-Deprecated' );
 			group: 'Tests' with: #( 'Fame-Tests' ) ]
 ]
