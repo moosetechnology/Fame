@@ -120,8 +120,23 @@ FMMultivalueLink >> do: aBlock [
 ]
 
 { #category : #'accessing-computed' }
+FMMultivalueLink >> eighth [
+	^ self at: 8
+]
+
+{ #category : #'accessing-computed' }
+FMMultivalueLink >> fifth [
+	^ self at: 5
+]
+
+{ #category : #'accessing-computed' }
 FMMultivalueLink >> first [
 	^ self at: 1
+]
+
+{ #category : #'accessing-computed' }
+FMMultivalueLink >> fourth [
+	^ self at: 4
 ]
 
 { #category : #comparing }
@@ -141,6 +156,11 @@ FMMultivalueLink >> iterator [
 { #category : #'accessing-computed' }
 FMMultivalueLink >> last [
 	^ values last
+]
+
+{ #category : #'accessing-computed' }
+FMMultivalueLink >> ninth [
+	^ self at: 9
 ]
 
 { #category : #copying }
@@ -173,6 +193,16 @@ FMMultivalueLink >> removeAll [
 { #category : #'accessing-computed' }
 FMMultivalueLink >> second [
 	^ self at: 2
+]
+
+{ #category : #'accessing-computed' }
+FMMultivalueLink >> seventh [
+	^ self at: 7
+]
+
+{ #category : #'accessing-computed' }
+FMMultivalueLink >> sixth [
+	^ self at: 6
 ]
 
 { #category : #accessing }
