@@ -87,8 +87,23 @@ FMSlotMultivalueLink >> do: aBlock [
 ]
 
 { #category : #'accessing-computed' }
+FMSlotMultivalueLink >> eighth [
+	^ self at: 8
+]
+
+{ #category : #'accessing-computed' }
+FMSlotMultivalueLink >> fifth [
+	^ self at: 5
+]
+
+{ #category : #'accessing-computed' }
 FMSlotMultivalueLink >> first [
 	^ self at: 1
+]
+
+{ #category : #'accessing-computed' }
+FMSlotMultivalueLink >> fourth [
+	^ self at: 4
 ]
 
 { #category : #comparing }
@@ -114,6 +129,11 @@ FMSlotMultivalueLink >> iterator [
 { #category : #'accessing-computed' }
 FMSlotMultivalueLink >> last [
 	^ values last
+]
+
+{ #category : #'accessing-computed' }
+FMSlotMultivalueLink >> ninth [
+	^ self at: 9
 ]
 
 { #category : #private }
@@ -143,6 +163,16 @@ FMSlotMultivalueLink >> remove: anElement ifAbsent: exceptionBlock [
 { #category : #'accessing-computed' }
 FMSlotMultivalueLink >> second [
 	^ self at: 2
+]
+
+{ #category : #'accessing-computed' }
+FMSlotMultivalueLink >> seventh [
+	^ self at: 7
+]
+
+{ #category : #'accessing-computed' }
+FMSlotMultivalueLink >> sixth [
+	^ self at: 6
 ]
 
 { #category : #accessing }
