@@ -32,7 +32,7 @@ that refers to it are updated accordingly.
 "
 Class {
 	#name : #FMMultivalueLink,
-	#superclass : #Collection,
+	#superclass : #SequenceableCollection,
 	#instVars : [
 		'values',
 		'owner',
@@ -40,6 +40,12 @@ Class {
 	],
 	#category : #'Fame-Core-Utilities'
 }
+
+{ #category : #'instance creation' }
+FMMultivalueLink class >> new: size [
+
+	^ self new setCollection: (OrderedCollection new: size)
+]
 
 { #category : #'instance creation' }
 FMMultivalueLink class >> on: element opposite: oppositeSelector [
@@ -119,48 +125,14 @@ FMMultivalueLink >> do: aBlock [
 	values do: aBlock
 ]
 
-{ #category : #'accessing-computed' }
-FMMultivalueLink >> eighth [
-	^ self at: 8
-]
-
-{ #category : #'accessing-computed' }
-FMMultivalueLink >> fifth [
-	^ self at: 5
-]
-
-{ #category : #'accessing-computed' }
-FMMultivalueLink >> first [
-	^ self at: 1
-]
-
-{ #category : #'accessing-computed' }
-FMMultivalueLink >> fourth [
-	^ self at: 4
-]
-
-{ #category : #comparing }
-FMMultivalueLink >> hash [
-	"From sequenceable collection"
-	| hash |
-	hash := self species hash.
-	1 to: self size do: [ :i | hash := (hash + (self at: i) hash) hashMultiply ].
-	^ hash
-]
-
 { #category : #iterators }
 FMMultivalueLink >> iterator [
 	^ values iterator
 ]
 
-{ #category : #'accessing-computed' }
+{ #category : #accessing }
 FMMultivalueLink >> last [
 	^ values last
-]
-
-{ #category : #'accessing-computed' }
-FMMultivalueLink >> ninth [
-	^ self at: 9
 ]
 
 { #category : #copying }
@@ -190,19 +162,10 @@ FMMultivalueLink >> removeAll [
 		do: [ :anElement | anElement perform: opposite with: nil ]
 ]
 
-{ #category : #'accessing-computed' }
-FMMultivalueLink >> second [
-	^ self at: 2
-]
+{ #category : #initialization }
+FMMultivalueLink >> setCollection: aCollection [
 
-{ #category : #'accessing-computed' }
-FMMultivalueLink >> seventh [
-	^ self at: 7
-]
-
-{ #category : #'accessing-computed' }
-FMMultivalueLink >> sixth [
-	^ self at: 6
+	values := aCollection
 ]
 
 { #category : #accessing }
@@ -215,11 +178,6 @@ FMMultivalueLink >> size [
 FMMultivalueLink >> species [
 
 	^OrderedCollection
-]
-
-{ #category : #'accessing-computed' }
-FMMultivalueLink >> third [
-	^ self at: 3
 ]
 
 { #category : #private }
