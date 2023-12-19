@@ -26,21 +26,21 @@ FMCodeGenerationTest >> testComplexGeneration [
 ]
 
 { #category : #tests }
-FMCodeGenerationTest >> testDefaultCategory [
-	| gen |
-	gen := FMDefaultCodeGenerator new.
-	self assert: gen defaultCategory isNil.
-	gen defaultCategory: 'Fame-Example'.
-	self assert: gen defaultCategory equals: 'Fame-Example'
-]
-
-{ #category : #tests }
 FMCodeGenerationTest >> testDefaultClass [
 	| gen |
 	gen := FMDefaultCodeGenerator new.
 	self assert: gen defaultSuperclass name equals: #Object.
 	gen defaultSuperclass: LIBRoot.
 	self assert: gen defaultSuperclass name equals: #LIBRoot
+]
+
+{ #category : #tests }
+FMCodeGenerationTest >> testDefaultPackage [
+	| gen |
+	gen := FMDefaultCodeGenerator new.
+	self assert: gen defaultPackage isNil.
+	gen defaultPackage: 'Fame-Example'.
+	self assert: gen defaultPackage equals: 'Fame-Example'
 ]
 
 { #category : #tests }
@@ -65,7 +65,7 @@ FMCodeGenerationTest >> testLIBGeneration [
 FMCodeGenerationTest >> testRPGGeneration [
 	| generator |
 	generator := FMDefaultCodeGenerator new.
-	generator defaultCategory: 'Fame-Example'.
+	generator defaultPackage: 'Fame-Example'.
 	generator visit: (FMMetaModel fromString: FMDungeonExample metamodelString).
 	generator previewChangesIfShiftPressed
 ]
