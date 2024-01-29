@@ -187,7 +187,7 @@ FMRelationSlot >> removeAssociationFrom: ownerObject to: otherObject [
 
 	realInverseSlot isToOne
 		ifTrue: [ realInverseSlot writeInverse: nil to: otherObject ]
-		ifFalse: [ (realInverseSlot read: otherObject) inverseRemove: ownerObject ]
+		ifFalse: [ (realInverseSlot read: otherObject) unsafeRemove: ownerObject ]
 ]
 
 { #category : #accessing }
