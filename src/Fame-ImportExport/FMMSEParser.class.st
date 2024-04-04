@@ -27,7 +27,8 @@ Class {
 		'characterSet',
 		'chararacter',
 		'buffer',
-		'importer'
+		'importer',
+		'numberParser'
 	],
 	#category : #'Fame-ImportExport-Importers'
 }
@@ -89,7 +90,7 @@ FMMSEParser >> Identifier [
 	buffer nextPut: chararacter.
 	[ self characterSet isDigit: self next ] whileTrue: [ buffer nextPut: chararacter ].
 	self tWHITESPACE.
-	^ Integer readFrom: buffer contents readStream
+	^ (numberParser on: buffer contents readStream) nextInteger
 ]
 
 { #category : #expressions }
@@ -137,7 +138,7 @@ FMMSEParser >> Number [
 					self characterSet isDigit: self next ] whileTrue
 					")?)?" ] ].
 	self tWHITESPACE.
-	^ Number readFrom: buffer contents readStream
+	^ (numberParser on: buffer contents readStream) nextNumber
 ]
 
 { #category : #expressions }
@@ -290,6 +291,13 @@ FMMSEParser >> incrementProgressBar [
 	(progBar isNotNil and: [ (Time millisecondsSince: lastUpdate) >= 500 ]) ifFalse: [ ^ self ].
 	progBar value: self position.
 	lastUpdate := Time millisecondClockValue
+]
+
+{ #category : #initialization }
+FMMSEParser >> initialize [
+
+	super initialize.
+	numberParser := NumberParser new
 ]
 
 { #category : #tokens }
