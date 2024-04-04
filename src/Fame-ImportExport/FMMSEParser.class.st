@@ -90,7 +90,7 @@ FMMSEParser >> Identifier [
 	buffer nextPut: chararacter.
 	[ self characterSet isDigit: self next ] whileTrue: [ buffer nextPut: chararacter ].
 	self tWHITESPACE.
-	^ Integer readFrom: buffer contents readStream
+	^ (numberParser on: buffer contents readStream) nextInteger
 ]
 
 { #category : #expressions }
