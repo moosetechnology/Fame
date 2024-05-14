@@ -55,9 +55,10 @@ Class {
 
 { #category : #'instance creation' }
 FMModel class >> withMetamodel: aMetamodel [
+
 	^ self new
-		metamodel: aMetamodel;
-		yourself
+		  metamodel: aMetamodel;
+		  yourself
 ]
 
 { #category : #visiting }
