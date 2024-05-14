@@ -502,9 +502,10 @@ FMMSEParserTest >> testEmptyDocument [
 
 { #category : #tests }
 FMMSEParserTest >> testEmptyExportString [
+
 	p fromString: ''.
 	p Document.
-	self assert: r exportString equals: '()'
+	self assert: r exportMSEString equals: '()'
 ]
 
 { #category : #tests }
