@@ -116,6 +116,26 @@ FMXMLPrinter >> primitive: value [
 ]
 
 { #category : #parsing }
+FMXMLPrinter >> printEntityCloser [
+
+	stream nextPut: $>.
+	self crTabs
+]
+
+{ #category : #printing }
+FMXMLPrinter >> printEntityLineBreak [ 
+^ self crTabs 
+]
+
+{ #category : #parsing }
+FMXMLPrinter >> printEntityOpener [
+
+	stream nextPut: $>.
+	indent := indent + 1.
+	self crTabs
+]
+
+{ #category : #parsing }
 FMXMLPrinter >> referenceName: name [
 
 	stream nextPut: $>.

@@ -80,6 +80,27 @@ FMJSONPrinter >> primitive: value [
 ]
 
 { #category : #parsing }
+FMJSONPrinter >> printEntityCloser [
+indent := indent - 1.
+	self crTabs.
+	stream nextPut: $}.
+	
+]
+
+{ #category : #printing }
+FMJSONPrinter >> printEntityLineBreak [ 
+^ self crTabs 
+]
+
+{ #category : #parsing }
+FMJSONPrinter >> printEntityOpener [
+
+	indent := indent + 1.
+	stream nextPutAll: '{'.
+	self crTabs
+]
+
+{ #category : #parsing }
 FMJSONPrinter >> printEntitySeparator [
 	stream nextPut: $,
 ]

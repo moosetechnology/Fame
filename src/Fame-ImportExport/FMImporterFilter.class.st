@@ -41,8 +41,10 @@ FMImporterFilter >> beginDocument [
 
 { #category : #parsing }
 FMImporterFilter >> beginEntity: name [
+
 	(filter includes: name)
-		ifTrue: [ shouldSkip := false.
+		ifTrue: [
+			shouldSkip := false.
 			importer beginEntity: name ]
 		ifFalse: [ shouldSkip := true ]
 ]

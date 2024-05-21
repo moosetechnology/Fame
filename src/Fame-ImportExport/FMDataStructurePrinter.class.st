@@ -52,6 +52,21 @@ FMDataStructurePrinter >> crTabs [
 		tab: indent
 ]
 
+{ #category : #printing }
+FMDataStructurePrinter >> printEntityCloser [
+^ self subclassResponsibility 
+]
+
+{ #category : #printing }
+FMDataStructurePrinter >> printEntityLineBreak [
+^ self subclassResponsibility 
+]
+
+{ #category : #printing }
+FMDataStructurePrinter >> printEntityOpener [
+^ self subclassResponsibility 
+]
+
 { #category : #accessing }
 FMDataStructurePrinter >> stream [
 	^ stream

@@ -68,6 +68,27 @@ FMMSEPrinter >> primitive: value [
 	value msePrintOn: stream
 ]
 
+{ #category : #printing }
+FMMSEPrinter >> printEntityCloser [
+
+	indent := indent - 1.
+	self crTabs.
+	stream nextPut: $)
+]
+
+{ #category : #printing }
+FMMSEPrinter >> printEntityLineBreak [ 
+^self crTabs 
+]
+
+{ #category : #printing }
+FMMSEPrinter >> printEntityOpener [
+
+	indent := indent + 1.
+stream nextPut: $(.
+	self crTabs.
+]
+
 { #category : #parsing }
 FMMSEPrinter >> referenceName: name [
 	stream
