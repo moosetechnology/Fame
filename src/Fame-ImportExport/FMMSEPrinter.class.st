@@ -27,11 +27,8 @@ FMMSEPrinter >> beginDocument [
 { #category : #parsing }
 FMMSEPrinter >> beginEntity: name [
 
-	indent := indent + 1.
-	self crTabs.
-	stream 
-		nextPut: $(;
-		nextPutAll: name
+	self printEntityOpener.
+	stream nextPutAll: name
 ]
 
 { #category : #parsing }
@@ -51,8 +48,7 @@ FMMSEPrinter >> endDocument [
 { #category : #parsing }
 FMMSEPrinter >> endEntity: name [
 
-	stream nextPut: $).
-	indent := indent - 1
+	self printEntityCloser 
 ]
 
 { #category : #parsing }

@@ -12,9 +12,8 @@ FMJSONPrinter >> beginDocument [
 
 { #category : #parsing }
 FMJSONPrinter >> beginEntity: name [
-	indent := indent + 1.
-	stream nextPutAll: '{'.
-	self crTabs.
+
+self printEntityOpener.
 	stream
 		nextPutAll: '"FM3":"';
 		nextPutAll: name;
@@ -45,9 +44,8 @@ FMJSONPrinter >> endDocument [
 
 { #category : #parsing }
 FMJSONPrinter >> endEntity: name [
-	self crTabs.
-	stream nextPut: $}.
-	indent := indent - 1
+
+	self printEntityCloser.
 ]
 
 { #category : #parsing }

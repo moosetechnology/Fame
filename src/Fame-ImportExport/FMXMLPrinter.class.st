@@ -29,10 +29,8 @@ FMXMLPrinter >> beginDocument [
 { #category : #parsing }
 FMXMLPrinter >> beginEntity: name [
 
-	stream nextPut: $>.
-	indent := indent + 1.
-	self crTabs.
-	stream 
+	self printEntityOpener.
+	stream
 		nextPutAll: '<Element name="';
 		nextPutAll: name;
 		nextPutAll: '"'
@@ -61,11 +59,9 @@ FMXMLPrinter >> endDocument [
 { #category : #parsing }
 FMXMLPrinter >> endEntity: name [
 
-	stream nextPut: $>.
-	self crTabs.
-	stream 
-		nextPutAll: '</Element'.
-	indent := indent - 1.
+	self printEntityCloser.
+	stream nextPutAll: '</Element'.
+	indent := indent - 1
 ]
 
 { #category : #parsing }
