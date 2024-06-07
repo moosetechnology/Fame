@@ -49,7 +49,8 @@ Class {
 		'ensureNoDandlingReferences',
 		'numberOfDanglingReferences',
 		'entities',
-		'parser'
+		'parser',
+		'instance'
 	],
 	#category : #'Fame-ImportExport-Importers'
 }
@@ -96,6 +97,12 @@ FMImporter >> beginEntity: name [
 	stack push: (FMFutureEntity in: self named: translatedName)
 ]
 
+{ #category : #'as yet unclassified' }
+FMImporter >> beginMetadata [
+
+	stack push: FMFutureMetadata new
+]
+
 { #category : #parsing }
 FMImporter >> beginProperty: name [
 	self currentEntity beginProperty: name
@@ -130,6 +137,12 @@ FMImporter >> endEntity: name [
 	stack ifNotEmpty: [ self currentEntity addToPropertyValues: entity ]
 ]
 
+{ #category : #'as yet unclassified' }
+FMImporter >> endMetadata [
+
+	stack pop
+]
+
 { #category : #parsing }
 FMImporter >> endProperty: name [
 	self currentEntity endProperty
@@ -145,8 +158,9 @@ FMImporter >> fromString: aString [
 	self stream: aString readStream
 ]
 
-{ #category : #initialization }
+{ #category : #accessing }
 FMImporter >> initialize [
+
 	super initialize.
 	translationUnit := FMNullTranslationUnit new.
 	ensureNoDandlingReferences := true
