@@ -32,13 +32,23 @@ FMJSONParser >> Document [
 	"Document := EOF { openDocument; closeDocument }
 		| OPEN { openDocument } Entity* CLOSE { closeDocument }"
 
+| pos hasMetadata |
+
 	self tWHITESPACE.
 	self atEnd
 		ifTrue: [ importer beginDocument ]
 		ifFalse: [" self tMultiOPEN
 				ifFalse: [ ^ self syntaxError ]."
 			importer beginDocument.
+			pos := self position.
+			hasMetadata := self tOPEN.
+			hasMetadata ifTrue:[
+				self Metadata.
+				self tEntitiesaName.
+				self tPropertyNameSeparator ].
 			self MultiEntity.
+			hasMetadata ifTrue: [
+				self tCLOSE] 
 			"[ self Entity ] whileTrue.
 			self tMultiCLOSE
 				ifFalse: [ ^ self syntaxError ]" ].
@@ -69,6 +79,23 @@ FMJSONParser >> Entity [
 
 	self incrementProgressBar.	"UI stuff"
 	^ true
+]
+
+{ #category : #'as yet unclassified' }
+FMJSONParser >> Metadata [
+
+	| pos |
+	pos := self position.
+	self tMetadataName ifFalse: [ ^ self backtrack: pos ].
+	self tPropertyNameSeparator.
+	self tOPEN ifFalse: [ ^ self backtrack: pos ].
+	importer beginMetadata.
+	[
+	self Property.
+	self tPropertySeparator ] whileTrue.
+	importer endMetadata.
+	self tCLOSE.
+	self tPropertySeparator
 ]
 
 { #category : #tokens }
@@ -187,6 +214,12 @@ FMJSONParser >> tCLOSE [
 	^ self matchesWord: '}'
 ]
 
+{ #category : #'as yet unclassified' }
+FMJSONParser >> tEntitiesaName [
+
+	^ self matchesWord: '"entities"'
+]
+
 { #category : #tokens }
 FMJSONParser >> tFULLNAME [
 	self tFULLNAMEPropertyOpen ifFalse: [ ^ nil ].
@@ -221,6 +254,12 @@ FMJSONParser >> tID [
 	"Match id keyword (returns boolean)."
 
 	^ self matchesWord: '"id"'
+]
+
+{ #category : #'as yet unclassified' }
+FMJSONParser >> tMetadataName [
+
+	^ self matchesWord: '"metadata"'
 ]
 
 { #category : #tokens }
