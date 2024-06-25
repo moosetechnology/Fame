@@ -35,6 +35,11 @@ FMFutureMetadata >> endProperty [
 ]
 
 { #category : #accessing }
+FMFutureMetadata >> importer [
+	^ importer
+]
+
+{ #category : #accessing }
 FMFutureMetadata >> in: anImporter named: aString [
 
 	importer := anImporter.

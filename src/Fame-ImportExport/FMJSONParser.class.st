@@ -91,8 +91,8 @@ FMJSONParser >> Metadata [
 	self tOPEN ifFalse: [ ^ self backtrack: pos ].
 	importer beginMetadata.
 	[
-	self Property.
-	self tPropertySeparator ] whileTrue.
+	self Property
+	] whileTrue.
 	importer endMetadata.
 	self tCLOSE.
 	self tPropertySeparator

@@ -49,6 +49,12 @@ FMImporterFilter >> beginEntity: name [
 		ifFalse: [ shouldSkip := true ]
 ]
 
+{ #category : #'as yet unclassified' }
+FMImporterFilter >> beginMetadata [
+
+	importer beginMetadata 
+]
+
 { #category : #parsing }
 FMImporterFilter >> beginProperty: name [
 	shouldSkip ifFalse: [ importer beginProperty: name ]
@@ -62,6 +68,11 @@ FMImporterFilter >> endDocument [
 { #category : #parsing }
 FMImporterFilter >> endEntity: name [
 	shouldSkip ifFalse: [ importer endEntity: name ]
+]
+
+{ #category : #'as yet unclassified' }
+FMImporterFilter >> endMetadata [ 
+importer endMetadata 
 ]
 
 { #category : #parsing }
