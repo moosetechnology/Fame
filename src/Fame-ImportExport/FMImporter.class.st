@@ -100,7 +100,7 @@ FMImporter >> beginEntity: name [
 { #category : #'as yet unclassified' }
 FMImporter >> beginMetadata [
 
-	stack push: FMFutureMetadata new
+	stack push: FMFutureMetadata new.
 ]
 
 { #category : #parsing }

@@ -32,26 +32,24 @@ FMJSONParser >> Document [
 	"Document := EOF { openDocument; closeDocument }
 		| OPEN { openDocument } Entity* CLOSE { closeDocument }"
 
-| pos hasMetadata |
-
+	| pos hasMetadata |
 	self tWHITESPACE.
 	self atEnd
 		ifTrue: [ importer beginDocument ]
-		ifFalse: [" self tMultiOPEN
+		ifFalse: [ " self tMultiOPEN
 				ifFalse: [ ^ self syntaxError ]."
 			importer beginDocument.
 			pos := self position.
 			hasMetadata := self tOPEN.
-			hasMetadata ifTrue:[
+			hasMetadata ifTrue: [
 				self Metadata.
 				self tEntitiesaName.
 				self tPropertyNameSeparator ].
 			self MultiEntity.
-			hasMetadata ifTrue: [
-				self tCLOSE] 
-			"[ self Entity ] whileTrue.
+			hasMetadata ifTrue: [ "[ self Entity ] whileTrue.
 			self tMultiCLOSE
-				ifFalse: [ ^ self syntaxError ]" ].
+				ifFalse: [ ^ self syntaxError ]"
+				self tCLOSE ] ].
 	importer endDocument.
 	self tWHITESPACE.
 	^ true

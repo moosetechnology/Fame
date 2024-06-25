@@ -262,8 +262,8 @@ FMMSEParser >> backtrack: integer [
 
 { #category : #running }
 FMMSEParser >> basicRun [
-	self Document.
-	self atEnd ifFalse: [ ^ self syntaxError ]
+
+	self Document. self atEnd ifFalse: [ ^ self syntaxError ]
 ]
 
 { #category : #accessing }
@@ -363,8 +363,8 @@ FMMSEParser >> syntaxError [
 { #category : #private }
 FMMSEParser >> syntaxError: aString [
 	(FMSyntaxError new
-		parser: self;
-		messageText: aString) signal.
+		 parser: self;
+		 messageText: aString) signal.
 
 	" Evaluate the following line to get text around the error:
 		(stream contents copyFrom: self pos -10 to: self pos + 10) inspect.
