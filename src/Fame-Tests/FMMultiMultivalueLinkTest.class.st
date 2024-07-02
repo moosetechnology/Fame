@@ -8,6 +8,37 @@ Class {
 }
 
 { #category : #tests }
+FMMultiMultivalueLinkTest >> testCollect [
+
+	| dragon1 hero1 |
+	dragon1 := RPGDragon new.
+	hero1 := RPGHero new.
+	hero1 kills: { dragon1 }.
+	self
+		assert: (hero1 kills collect: [ :dragon | dragon ])
+		equals: { dragon1 } asOrderedCollection
+]
+
+{ #category : #tests }
+FMMultiMultivalueLinkTest >> testCollectThenSelect [
+
+	| dragon1 dragon2 hero1 treasure1 |
+	dragon1 := RPGDragon new.
+	dragon2 := RPGDragon new.
+	hero1 := RPGHero new.
+	treasure1 := RPGTreasure new.
+	dragon1 hoard: { treasure1 }.
+	hero1 kills: {
+			dragon1.
+			dragon2 }.
+	self
+		assertCollection: (hero1 kills
+				 collect: [ :dragon | dragon hoard asArray ]
+				 thenSelect: [ :hoard | hoard isNotEmpty ])
+		hasSameElements: { { treasure1 } }
+]
+
+{ #category : #tests }
 FMMultiMultivalueLinkTest >> testOneDragonIsKilledByOneHero [
 
 	| dragon1 hero1 |
@@ -123,6 +154,84 @@ FMMultiMultivalueLinkTest >> testOneHeroKilledLotOfDragon [
 	hero1 := RPGHero new.
 	hero1 kills: dragons.
 	self assert: hero1 kills size equals: 50000.
+]
+
+{ #category : #tests }
+FMMultiMultivalueLinkTest >> testReject [
+
+	| dragon1 dragon2 hero1 treasure1 |
+	dragon1 := RPGDragon new.
+	dragon2 := RPGDragon new.
+	hero1 := RPGHero new.
+	treasure1 := RPGTreasure new.
+	dragon1 hoard: { treasure1 }.
+	hero1 kills: {
+			dragon1.
+			dragon2 }.
+	self
+		assert: (hero1 kills reject: [ :dragon | dragon hoard isNotEmpty ])
+		equals: { dragon2 } asOrderedCollection.
+	self
+		assert: (hero1 kills reject: [ :dragon | dragon hoard isEmpty ])
+		equals: { dragon1 } asOrderedCollection
+]
+
+{ #category : #tests }
+FMMultiMultivalueLinkTest >> testRejectThenCollect [
+
+	| dragon1 dragon2 hero1 treasure1 |
+	dragon1 := RPGDragon new.
+	dragon2 := RPGDragon new.
+	hero1 := RPGHero new.
+	treasure1 := RPGTreasure new.
+	dragon1 hoard: { treasure1 }.
+	hero1 kills: {
+			dragon1.
+			dragon2 }.
+	self
+		assert: (hero1 kills
+				 reject: [ :dragon | dragon hoard isEmpty ]
+				 thenCollect: [ :dragon | dragon hoard anyOne ])
+		equals: { treasure1 } asOrderedCollection
+]
+
+{ #category : #tests }
+FMMultiMultivalueLinkTest >> testSelect [
+
+	| dragon1 dragon2 hero1 treasure1 |
+	dragon1 := RPGDragon new.
+	dragon2 := RPGDragon new.
+	hero1 := RPGHero new.
+	treasure1 := RPGTreasure new.
+	dragon1 hoard: { treasure1 }.
+	hero1 kills: {
+			dragon1.
+			dragon2 }.
+	self
+		assert: (hero1 kills select: [ :dragon | dragon hoard isNotEmpty ])
+		equals: { dragon1 } asOrderedCollection.
+	self
+		assert: (hero1 kills select: [ :dragon | dragon hoard isEmpty ])
+		equals: { dragon2 } asOrderedCollection
+]
+
+{ #category : #tests }
+FMMultiMultivalueLinkTest >> testSelectThenCollect [
+
+	| dragon1 dragon2 hero1 treasure1 |
+	dragon1 := RPGDragon new.
+	dragon2 := RPGDragon new.
+	hero1 := RPGHero new.
+	treasure1 := RPGTreasure new.
+	dragon1 hoard: { treasure1 }.
+	hero1 kills: {
+			dragon1.
+			dragon2 }.
+	self
+		assert: (hero1 kills
+				 select: [ :dragon | dragon hoard isNotEmpty ]
+				 thenCollect: [ :dragon | dragon hoard anyOne ])
+		equals: { treasure1 } asOrderedCollection
 ]
 
 { #category : #tests }

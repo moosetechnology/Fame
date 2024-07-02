@@ -7,7 +7,7 @@ Class {
 	#category : #BaselineOfFame
 }
 
-{ #category : #baseline }
+{ #category : #baselines }
 BaselineOfFame >> baseline: spec [
 
 	<baseline>
@@ -21,19 +21,32 @@ BaselineOfFame >> baseline: spec [
 
 		"Packages"
 		spec
-			package: 'Fame-Core' with: [ spec requires: #( 'Hashtable' 'TreeQuery' 'Iterators' 'PharoBackwardCompatibility' ) ];
+			package: 'Fame-Core' with: [
+				spec requires:
+						#( 'TreeQuery' 'Iterators' 'PharoBackwardCompatibility' ) ];
 			package: 'Fame-Rules';
-			package: 'Fame-ImportExport' with: [ spec requires: #( 'Fame-Core' ) ];
+			package: 'Fame-ImportExport'
+			with: [ spec requires: #( 'Fame-Core' 'Hashtable' ) ];
 			package: 'Fame-Example';
-			package: 'Fame-Tests' with: [ spec requires: #( 'Fame-Core' 'Fame-ImportExport' 'Fame-Example' 'Mocketry' ) ];
-			package: 'Fame-Deprecated' with: [ spec requires: #( 'Fame-ImportExport' ) ].
+			package: 'Fame-Tests' with: [
+				spec requires:
+						#( 'Fame-Core' 'Fame-ImportExport' 'Fame-Example' 'Mocketry' ) ];
+			package: 'Fame-Deprecated'
+			with: [ spec requires: #( 'Fame-ImportExport' ) ].
 
-		spec for: #( #'pharo6.x' #'pharo7.x' #'pharo8.x' ) do: [ spec package: 'Fame-GT' with: [ spec requires: #( 'Fame-ImportExport' ) ] ].
-		spec for: (self pharoVersionsFrom: 9) do: [ spec package: 'Fame-Spec2' with: [ spec requires: #( 'Fame-Core' ) ] ].
+		spec for: #( #'pharo6.x' #'pharo7.x' #'pharo8.x' ) do: [
+			spec
+				package: 'Fame-GT'
+				with: [ spec requires: #( 'Fame-ImportExport' ) ] ].
+		spec for: (self pharoVersionsFrom: 9) do: [
+			spec
+				package: 'Fame-Spec2'
+				with: [ spec requires: #( 'Fame-Core' ) ] ].
 
 		"Groups"
 		spec
-			group: 'Core' with: #( 'Fame-Core' 'Fame-ImportExport' 'Fame-Rules' );
+			group: 'Core'
+			with: #( 'Fame-Core' 'Fame-ImportExport' 'Fame-Rules' );
 			group: 'Deprecated' with: #( 'Core' 'Fame-Deprecated' );
 			group: 'Tests' with: #( 'Fame-Tests' ) ]
 ]
@@ -49,19 +62,20 @@ BaselineOfFame >> hashtable: spec [
 
 { #category : #dependencies }
 BaselineOfFame >> iterators: spec [
-	spec baseline: 'Iterators' with: [ 
+
+	spec baseline: 'Iterators' with: [
 		spec
 			repository: 'github://juliendelplanque/Iterators:v1.x.x/src';
-			loads: #('core' 'collections' 'shell-dsl' 'inspector-extensions') ]
+			loads: #( 'core' 'collections' 'shell-dsl' ) ]
 ]
 
 { #category : #dependencies }
 BaselineOfFame >> mocketry: spec [
-	spec
-		baseline: 'Mocketry'
-		with: [ spec
-				loads: #('Core');
-				repository: 'github://dionisiydk/Mocketry:v6.0.x' ]
+
+	spec baseline: 'Mocketry' with: [
+		spec
+			loads: #( 'Core' );
+			repository: 'github://dionisiydk/Mocketry:v7.0.2' ]
 ]
 
 { #category : #dependencies }

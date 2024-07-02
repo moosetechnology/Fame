@@ -25,58 +25,50 @@ Class {
 }
 
 { #category : #adding }
-FMMultiMultivalueLink >> add: anElement [
-	(anElement perform: opposite) unsafeAdd: owner.
-	(values includes: anElement) ifFalse: [ values add: anElement ].
-	^ anElement
+FMMultiMultivalueLink >> addOpposite: anElement [
+
+	(anElement perform: opposite) unsafeAdd: owner
 ]
 
 { #category : #removing }
-FMMultiMultivalueLink >> remove: anElement ifAbsent: exceptionBlock [ 
-	
-	values remove: anElement ifAbsent: [ ^exceptionBlock value ].
-	(anElement perform: opposite) unsafeRemove: owner.
-	^anElement
-]
+FMMultiMultivalueLink >> removeOpposite: anElement [
 
-{ #category : #removing }
-FMMultiMultivalueLink >> removeAll [
-	values reversed
-		do: [ :anElement | (anElement perform: opposite) remove: owner ]
+	(anElement perform: opposite) unsafeRemove: owner
 ]
 
 { #category : #'private - adding' }
-FMMultiMultivalueLink >> uncheckAdd: anElement [ 
+FMMultiMultivalueLink >> uncheckAdd: anElement [
+
 	(anElement perform: opposite) uncheckUnsafeAdd: owner.
-	values add: anElement.
+	self uncheckUnsafeAdd: anElement.
 	^ anElement
 ]
 
 { #category : #'private - adding' }
-FMMultiMultivalueLink >> uncheckAddAll: aCollection [ 
+FMMultiMultivalueLink >> uncheckAddAll: aCollection [
 	"Include all the elements of aCollection as the receiver's elements. Answer 
 	aCollection. Actually, any object responding to #do: can be used as argument."
+
 	aCollection do: [ :each | self uncheckAdd: each ].
 	^ aCollection
-]
-
-{ #category : #'private - adding' }
-FMMultiMultivalueLink >> uncheckUnsafeAdd: element [ 
-	values add: element
 ]
 
 { #category : #adding }
 FMMultiMultivalueLink >> value: aCollection [
 
 	^ self
-		  removeAll: values copy;
-		  uncheckAddAll: aCollection asOrderedCollection removeDuplicates
+		  removeAll;
+		  "We want unique elements and to keep the order, but `removeDuplicates` is really slow."
+		  uncheckAddAll: (aCollection
+				   collect: [ :element | element -> nil ]
+				   as: OrderedDictionary) keys
 ]
 
 { #category : #private }
 FMMultiMultivalueLink >> with: element opposite: oppositeSelector [
+
 	self assert: oppositeSelector numArgs = 0.
-	values := OrderedCollection new.
+	self setContents: #(  ).
 	owner := element.
 	opposite := oppositeSelector
 ]

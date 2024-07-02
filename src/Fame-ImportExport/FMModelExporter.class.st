@@ -61,15 +61,19 @@ FMModelExporter >> export: aCollectionOfElements [
 
 { #category : #exporting }
 FMModelExporter >> exportEntity: each [
+
 	| meta |
 	meta := model metaDescriptionOf: each.
-	printer
-		inEntity: meta fullName
-		do: [ printer serial: (self indexOf: each).
-			((self sortedPropertiesOf: meta)
-				select: [ :property | self shouldExportProperty: property for: each ])
-				do: [ :property | self exportProperty: property for: each ]
-				separatedBy: [ printer printPropertySeparator ] ].
+	printer inEntity: meta fullName do: [
+		| sortedProperties |
+		printer serial: (self indexOf: each).
+		sortedProperties := (self sortedPropertiesOf: meta) select: [
+			                    :property |
+			                    self shouldExportProperty: property for: each ].
+		sortedProperties ifNotEmpty: [ printer printPropertySeparator ].
+		sortedProperties
+			do: [ :property | self exportProperty: property for: each ]
+			separatedBy: [ printer printPropertySeparator ] ].
 	self incrementProgressBar
 ]
 
@@ -83,16 +87,16 @@ FMModelExporter >> exportProperty: property for: each [
 { #category : #exporting }
 FMModelExporter >> exportProperty: property withAll: values [
 
-	printer inProperty: property name do: [ 
+	printer inProperty: property name do: [
 		property isMultivalued ifTrue: [ printer beginMultivalue: property ].
-		(values reject: [ :value | value = MooseUnavailableMetric ])
-			do: [ :each | 
+		(values reject: [ :value | value asString = 'unavailable' "value = MooseUnavailableMetric" ])
+			do: [ :each |
 				property type isPrimitive
 					ifTrue: [ printer primitive: each ]
-					ifFalse: [ 
+					ifFalse: [
 						property isChildrenProperty
 							ifTrue: [ self exportEntity: each ]
-							ifFalse: [ 
+							ifFalse: [
 								(FM3Constant constants includes: each)
 									ifTrue: [ printer referenceName: each name ]
 									ifFalse: [ printer referenceNumber: (self indexOf: each) ] ] ] ]

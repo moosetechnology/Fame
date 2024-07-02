@@ -55,7 +55,7 @@ FMRelationSlot >> addAssociationFrom: ownerObject to: otherObject [
 	realInverseSlot isToOne
 		ifTrue: [ (realInverseSlot read: otherObject) ifNotNil: [ :oldObject | realInverseSlot removeAssociationFrom: otherObject to: oldObject ].
 			realInverseSlot writeInverse: ownerObject to: otherObject ]
-		ifFalse: [ (realInverseSlot read: otherObject) inverseAdd: ownerObject ]
+		ifFalse: [ (realInverseSlot read: otherObject) unsafeAdd: ownerObject ]
 ]
 
 { #category : #'code generation' }
@@ -187,7 +187,7 @@ FMRelationSlot >> removeAssociationFrom: ownerObject to: otherObject [
 
 	realInverseSlot isToOne
 		ifTrue: [ realInverseSlot writeInverse: nil to: otherObject ]
-		ifFalse: [ (realInverseSlot read: otherObject) inverseRemove: ownerObject ]
+		ifFalse: [ (realInverseSlot read: otherObject) unsafeRemove: ownerObject ]
 ]
 
 { #category : #accessing }

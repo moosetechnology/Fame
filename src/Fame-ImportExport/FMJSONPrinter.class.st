@@ -115,9 +115,8 @@ FMJSONPrinter >> referenceNumber: index [
 
 { #category : #parsing }
 FMJSONPrinter >> serial: index [
-	
-	stream 
+
+	stream
 		nextPutAll: '"id":';
-		print: index;
-		nextPut: $,
+		print: index
 ]

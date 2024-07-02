@@ -8,9 +8,8 @@ I'll be wrapped by the slot and manage the content of the many slot.
 "
 Class {
 	#name : #FMSlotMultivalueLink,
-	#superclass : #Collection,
+	#superclass : #OrderedCollection,
 	#instVars : [
-		'values',
 		'owner',
 		'slot'
 	],
@@ -24,25 +23,8 @@ FMSlotMultivalueLink class >> on: anObject slot: aFMRelationSlot [
 
 ]
 
-{ #category : #copying }
-FMSlotMultivalueLink >> , aCollection [
-	^ self asOrderedCollection , aCollection
-]
-
-{ #category : #comparing }
-FMSlotMultivalueLink >> = otherCollection [ 
-	"Answer true if the receiver is equivalent to the otherCollection.
-	First test for identity, then rule out different species and sizes of
-	collections. As a last resort, examine each element of the receiver
-	and the otherCollection."
-
-	self == otherCollection ifTrue: [^ true].
-	self species == otherCollection species ifFalse: [^ false].
-	^ values hasEqualElements: otherCollection asOrderedCollection
-]
-
-{ #category : #accessing }
-FMSlotMultivalueLink >> add: anElement [
+{ #category : #adding }
+FMSlotMultivalueLink >> addLast: anElement [
 
 	slot add: anElement to: owner.
 	self unsafeAdd: anElement.
@@ -50,143 +32,73 @@ FMSlotMultivalueLink >> add: anElement [
 ]
 
 { #category : #accessing }
-FMSlotMultivalueLink >> at: index [
-
-	^values at: index
-]
-
-{ #category : #iterators }
-FMSlotMultivalueLink >> basicIterator [
-	^ values basicIterator
-]
-
-{ #category : #accessing }
 FMSlotMultivalueLink >> byName: name [
+
 	^ self byName: name ifAbsent: [ self errorNotFound: name ]
 ]
 
 { #category : #accessing }
 FMSlotMultivalueLink >> byName: name ifAbsent: exceptionBlock [
-	^ values
-		detect: [ :each | each name asString = name asString ]
-		ifNone: exceptionBlock
+
+	^ self
+		  detect: [ :each | each name asString = name asString ]
+		  ifNone: exceptionBlock
 ]
 
 { #category : #accessing }
 FMSlotMultivalueLink >> byName: name ifPresent: aBlock ifAbsent: exceptionBlock [
-	^ values
-		detect: [ :each | each name asString = name asString ]
-		ifFound: aBlock
-		ifNone: exceptionBlock
-]
 
-{ #category : #enumerating }
-FMSlotMultivalueLink >> do: aBlock [ 
-	
-	values do: aBlock
-]
-
-{ #category : #'accessing-computed' }
-FMSlotMultivalueLink >> first [
-	^ self at: 1
-]
-
-{ #category : #comparing }
-FMSlotMultivalueLink >> hash [
-	"From sequenceable collection"
-	| hash |
-	hash := self species hash.
-	1 to: self size do: [ :i | hash := (hash + (self at: i) hash) hashMultiply ].
-	^ hash
-]
-
-{ #category : #private }
-FMSlotMultivalueLink >> inverseAdd: anObject [
-
-	^values add: anObject
-]
-
-{ #category : #private }
-FMSlotMultivalueLink >> inverseRemove: anObject [
-
-	^values remove: anObject
-]
-
-{ #category : #iterators }
-FMSlotMultivalueLink >> iterator [
-	^ values iterator
-]
-
-{ #category : #'accessing-computed' }
-FMSlotMultivalueLink >> last [
-	^ values last
+	^ self
+		  detect: [ :each | each name asString = name asString ]
+		  ifFound: aBlock
+		  ifNone: exceptionBlock
 ]
 
 { #category : #private }
 FMSlotMultivalueLink >> owner: anObject slot: aFMRelationSlot [
 
 	owner := anObject.
-	slot := aFMRelationSlot.
-	values := OrderedCollection new.
-
-]
-
-{ #category : #copying }
-FMSlotMultivalueLink >> postCopy [
-
-	super postCopy.
-	values := values copy.
+	slot := aFMRelationSlot
 ]
 
 { #category : #removing }
-FMSlotMultivalueLink >> remove: anElement ifAbsent: exceptionBlock [ 
-	
-	values remove: anElement ifAbsent: [ ^exceptionBlock value ].
+FMSlotMultivalueLink >> remove: anElement ifAbsent: exceptionBlock [
+
+	super remove: anElement ifAbsent: [ ^ exceptionBlock value ].
 	slot remove: anElement from: owner.
-	^anElement
+	^ anElement
 ]
 
-{ #category : #'accessing-computed' }
-FMSlotMultivalueLink >> second [
-	^ self at: 2
-]
+{ #category : #removing }
+FMSlotMultivalueLink >> removeAll [
+	"The collection is reversed to make a copy, to avoid trying to remove while iterating,
+	and to remove items from last to first, which is faster."
 
-{ #category : #accessing }
-FMSlotMultivalueLink >> size [
-
-	^values size
+	self reversed do: [ :anElement | self remove: anElement ]
 ]
 
 { #category : #private }
 FMSlotMultivalueLink >> species [
 
-	^OrderedCollection
-]
-
-{ #category : #'accessing-computed' }
-FMSlotMultivalueLink >> third [
-	^ self at: 3
+	^ OrderedCollection
 ]
 
 { #category : #private }
 FMSlotMultivalueLink >> unsafeAdd: element [
-	(values includes: element) ifFalse: [ values add: element ]
+
+	(self includes: element) ifFalse: [ super addLast: element ]
 ]
 
 { #category : #private }
 FMSlotMultivalueLink >> unsafeRemove: element [
 
-	values remove: element ifAbsent: nil
+	super remove: element ifAbsent: nil
 ]
 
 { #category : #accessing }
 FMSlotMultivalueLink >> value: aCollection [
 
-	^self removeAll: values copy; addAll: aCollection
-]
-
-{ #category : #enumerating }
-FMSlotMultivalueLink >> withIndexDo: aBlock [ 
-	
-	values withIndexDo: aBlock
+	^ self
+		  removeAll;
+		  addAll: aCollection
 ]

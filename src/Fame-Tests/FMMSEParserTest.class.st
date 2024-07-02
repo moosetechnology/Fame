@@ -2,9 +2,9 @@ Class {
 	#name : #FMMSEParserTest,
 	#superclass : #TestCase,
 	#instVars : [
-		'p',
-		'r',
-		'a'
+		'parser',
+		'importer',
+		'tokens'
 	],
 	#category : #'Fame-Tests'
 }
@@ -13,7 +13,7 @@ Class {
 FMMSEParserTest class >> famix30mse [
 	^ '((FM3.Package
 		(id: 8)
-		(name ''FAMIX'')
+		(name ''Famix'')
 		(classes 
 			(FM3.Class 
 				(id: 1)
@@ -466,176 +466,213 @@ FMMSEParserTest class >> sampleMse [
        (name ''Kent Beck'')))'
 ]
 
+{ #category : #tests }
+FMMSEParserTest >> famix30mseNames [
+
+	^ { 'Famix.Invocation.sender'. 'Famix.Parameter.parentBehaviouralEntity'.
+	  'Famix.ContainerEntity.incomingReferences'.
+	  'Famix.Class'. 'Famix.ScopingEntity.parentNamespace'.
+	  'Famix.Inheritance.superclass'. 'Famix.Type.methods'.
+	  'Famix.StructuralEntity.incomingAccesses'.
+	  'Famix.Invocation.receiverSourceCode'.
+	  'Famix.Association.below'. 'Famix.Reference'. 'Famix.Type.container'.
+	  'Famix.ScopingEntity.globalVariables'.
+	  'Famix.StructuralEntity'. 'Famix.Invocation.candidates'.
+	  'Famix.LocalVariable.parentBehaviouralEntity'.
+	  'Famix.LocalVariable'. 'Famix.ContainerEntity'.
+	  'Famix.Type.superInheritances'. 'Famix.Association.above'.
+	  'Famix.ContainerEntity.outgoingReferences'.
+	  'Famix.Reference.from'. 'Famix.Type.attributes'.
+	  'Famix.Class.isAbstract'. 'Famix'. 'Famix.Entity'. 'Famix.Inheritance.subclass'.
+	  'Famix.BehaviouralEntity.outgoingAccesses'.
+	  'Famix.LeafEntity'. 'Famix.StructuralEntity.declaredType'.
+	  'Famix.Reference.to'. 'Famix.Type'. 'Famix.ScopingEntity'.
+	  'Famix.BehaviouralEntity.parameters'.
+	  'Famix.Association'. 'Famix.Namespace'. 'Famix.BehaviouralEntity.localVariables'.
+	  'Famix.BehaviouralEntity'. 'Famix.Access.accessor'.
+	  'Famix.Attribute.parentClass'. 'Famix.Method'. 'Famix.ScopingEntity.childNamespaces'.
+	  'Famix.NamedEntity.name'. 'Famix.NamedEntity.isStub'.
+	  'Famix.NamedEntity.modifiers'. 'Famix.NamedEntity'.
+	  'Famix.Inheritance'. 'Famix.NamedEntity.packagedIn'.
+	  'Famix.Invocation.signature'. 'Famix.Invocation'. 'Famix.Access'.
+	  'Famix.GlobalVariable.parentNamespace'.
+	  'Famix.Access.isWrite'. 'Famix.Entity.sourceAnchor'.
+	  'Famix.Type.subInheritances'. 'Famix.Parameter'. 'Famix.BehaviouralEntity.incomingInvocations'.
+	  'Famix.NamedEntity.receivingInvocations'.
+	  'Famix.Invocation.receiver'. 'Famix.ContainerEntity.types'.
+	  'Famix.Package.childNamedEntities'.
+	  'Famix.Method.parentClass'. 'Famix.Access.isRead'.
+	  'Famix.Access.variable'. 'Famix.NamedEntity.belongsTo'.
+	  'Famix.Package'. 'Famix.Attribute'. 'Famix.BehaviouralEntity.signature'.
+	  'Famix.BehaviouralEntity.outgoingInvocations'.
+	  'Famix.GlobalVariable' }
+]
+
+{ #category : #tests }
+FMMSEParserTest >> numbersToParseAndRealValues [
+
+	^ Dictionary
+		  newFromKeys:
+			  { '14'. '1'. '-1'. '12.91'. '-47.11'. '1.1'. '-1.1'. '12.91e33'.
+			  '-47.11e22'. '-23.11e-15'. '1.1e2'. '-1.1e2' }
+		  andValues:
+			  { 14. 1. -1. 12.91. -47.11. 1.1. -1.1. 1.291e34. -4.711e23.
+			  -2.311e-14. 110.0. -110.0 }
+]
+
 { #category : #running }
 FMMSEParserTest >> setUp [
+
 	super setUp.
-	p := FMMSEParser new.
-	r := FMDebugImporter new.
-	p importer: r
+
+	parser := FMMSEParser new.
+	importer := FMDebugImporter new.
+	parser importer: importer
 ]
 
 { #category : #tests }
 FMMSEParserTest >> testBacktrack [
+
 	| pos |
-	p fromString: 'abcdefg'.
-	self assert: p peek equals: $a.
-	self assert: p next equals: $b.
-	pos := p position.
-	self assert: p peek equals: $b.
-	self assert: p next equals: $c.
-	self assert: p next equals: $d.
-	self assert: p next equals: $e.
-	p backtrack: pos.
-	self assert: p peek equals: $b.
-	self assert: p next equals: $c.
-	self assert: p next equals: $d.
-	self assert: p next equals: $e
+
+	parser fromString: 'abcdefg'.
+	self assert: parser peek equals: $a.
+	self assert: parser next equals: $b.
+
+	pos := parser position.
+	self assert: parser peek equals: $b.
+	self assert: parser next equals: $c.
+	self assert: parser next equals: $d.
+	self assert: parser next equals: $e.
+
+	parser backtrack: pos.
+	self assert: parser peek equals: $b.
+	self assert: parser next equals: $c.
+	self assert: parser next equals: $d.
+	self assert: parser next equals: $e
 ]
 
 { #category : #tests }
 FMMSEParserTest >> testEmptyDocument [
-	p fromString: ''.
-	p Document.
-	self assert: r contents equals: #(#(#beginDocument) #(#endDocument)).
-	self assert: p atEnd
+
+	parser fromString: ''.
+	parser Document.
+
+	self
+		assert: importer contents
+		equals: #( #( #beginDocument ) #( #endDocument ) ).
+	self assert: parser atEnd
 ]
 
 { #category : #tests }
 FMMSEParserTest >> testEmptyExportString [
-	p fromString: ''.
-	p Document.
-	self assert: r exportString equals: '()'
+
+	parser fromString: ''.
+	parser Document.
+	self assert: importer exportMSEString equals: '()'
 ]
 
 { #category : #tests }
 FMMSEParserTest >> testEntity [
-	a := #(#(#beginEntity: 'Foo') #(#endEntity: 'Foo')).
-	r reset.
-	p fromString: '(Foo)'.
-	p Entity.
-	self assert: r contents equals: a.
-	self assert: p atEnd.
-	r reset.
-	p fromString: '(  Foo  )  '.
-	p Entity.
-	self assert: r contents equals: a.
-	self assert: p atEnd
+
+	tokens := #( #( #beginEntity: 'Foo' ) #( #endEntity: 'Foo' ) ).
+
+	parser fromString: '(Foo)'.
+	parser Entity.
+	self assert: importer contents equals: tokens.
+	self assert: parser atEnd.
+	importer reset.
+
+	parser fromString: '(  Foo  )  '.
+	parser Entity.
+	self assert: importer contents equals: tokens.
+	self assert: parser atEnd
 ]
 
 { #category : #tests }
 FMMSEParserTest >> testEntityWithID [
-	a := #(#(#beginEntity: 'Foo') #(#serial: 42) #(#endEntity: 'Foo')).
-	r reset.
-	p fromString: '(Foo(id:42))'.
-	p Entity.
-	self assert: r contents equals: a.
-	self assert: p atEnd.
-	r reset.
-	p fromString: '(  Foo  (  id:  42  )  )  '.
-	p Entity.
-	self assert: r contents equals: a.
-	self assert: p atEnd
+
+	tokens := #( #( #beginEntity: 'Foo' ) #( #serial: 42 ) #( #endEntity:
+	           'Foo' ) ).
+
+	parser fromString: '(Foo(id:42))'.
+	parser Entity.
+	self assert: importer contents equals: tokens.
+	self assert: parser atEnd.
+	importer reset.
+
+	parser fromString: '(  Foo  (  id:  42  )  )  '.
+	parser Entity.
+	self assert: importer contents equals: tokens.
+	self assert: parser atEnd
 ]
 
 { #category : #tests }
 FMMSEParserTest >> testEntityWithPropertys [
-	a := #(#(#beginEntity: 'Foo') #(#beginProperty: 'name') #(#endProperty: 'name') #(#beginProperty: 'count') #(#endProperty: 'count') #(#endEntity: 'Foo')).
-	r reset.
-	p fromString: '(Foo(name)(count))'.
-	p Entity.
-	self assert: r contents equals: a.
-	self assert: p atEnd.
-	r reset.
-	p fromString: '(  Foo  (  name  )  (  count  )  )  '.
-	p Entity.
-	self assert: r contents equals: a.
-	self assert: p atEnd
+
+	tokens := #( #( #beginEntity: 'Foo' ) #( #beginProperty: 'name' )
+	        #( #endProperty: 'name' ) #( #beginProperty: 'count' )
+	        #( #endProperty: 'count' ) #( #endEntity: 'Foo' ) ).
+
+	parser fromString: '(Foo(name)(count))'.
+	parser Entity.
+	self assert: importer contents equals: tokens.
+	self assert: parser atEnd.
+
+	importer reset.
+	parser fromString: '(  Foo  (  name  )  (  count  )  )  '.
+	parser Entity.
+	self assert: importer contents equals: tokens.
+	self assert: parser atEnd
 ]
 
 { #category : #tests }
 FMMSEParserTest >> testEntityWithPropertysAndID [
-	a := #(#(#beginEntity: 'Foo') #(#serial: 42) #(#beginProperty: 'name') #(#endProperty: 'name') #(#beginProperty: 'count') #(#endProperty: 'count') #(#endEntity: 'Foo')).
-	r reset.
-	p fromString: '(Foo(id:42)(name)(count))'.
-	p Entity.
-	self assert: r contents equals: a.
-	self assert: p atEnd.
-	r reset.
-	p fromString: '(  Foo  (  id:  42  )  (  name  )  (  count  )  )  '.
-	p Entity.
-	self assert: r contents equals: a.
-	self assert: p atEnd
+
+	tokens := #( #( #beginEntity: 'Foo' ) #( #serial: 42 )
+	             #( #beginProperty: 'name' ) #( #endProperty:
+	                'name' ) #( #beginProperty: 'count' )
+	             #( #endProperty: 'count' ) #( #endEntity: 'Foo' ) ).
+
+	parser fromString: '(Foo(id:42)(name)(count))'.
+	parser Entity.
+	self assert: importer contents equals: tokens.
+	self assert: parser atEnd.
+	importer reset.
+
+	parser fromString:
+		'(  Foo  (  id:  42  )  (  name  )  (  count  )  )  '.
+	parser Entity.
+	self assert: importer contents equals: tokens.
+	self assert: parser atEnd
 ]
 
 { #category : #tests }
 FMMSEParserTest >> testFamixModel [
-	| metamodel names famixPackage accessClass accessorProperty behaviouralEntity outgoingAccesses |
+
+	| metamodel famixPackage accessClass accessorProperty behaviouralEntity outgoingAccesses |
+
 	metamodel := FMMetaModel fromString: self class famix30mse.
-	names := metamodel elements collect: [ :each | each fullName ].
-	self assert: names size equals: 70.
-	self assert: (names includes: 'FAMIX.Access').
-	self assert: (names includes: 'FAMIX.Method').
-	self assert: (names includes: 'FAMIX.NamedEntity.belongsTo').
-	self assert: (names includes: 'FAMIX.Class').
-	self assert: (names includes: 'FAMIX').
-	self assert: (names includes: 'FAMIX.Entity.sourceAnchor').
-	self assert: (names includes: 'FAMIX.Access.accessor').
-	self assert: (names includes: 'FAMIX.Type.methods').
-	self assert: (names includes: 'FAMIX.Package.childNamedEntities').
-	self assert: (names includes: 'FAMIX.Type.attributes').
-	self assert: (names includes: 'FAMIX.Attribute.parentClass').
-	self assert: (names includes: 'FAMIX.GlobalVariable').
-	self assert: (names includes: 'FAMIX.ScopingEntity.parentNamespace').
-	self assert: (names includes: 'FAMIX.Type').
-	self assert: (names includes: 'FAMIX.Parameter').
-	self assert: (names includes: 'FAMIX.Access.isRead').
-	self assert: (names includes: 'FAMIX.Attribute').
-	self assert: (names includes: 'FAMIX.ContainerEntity.incomingReferences').
-	self assert: (names includes: 'FAMIX.Method.parentClass').
-	self assert: (names includes: 'FAMIX.BehaviouralEntity').
-	self assert: (names includes: 'FAMIX.BehaviouralEntity.incomingInvocations').
-	self assert: (names includes: 'FAMIX.StructuralEntity').
-	self assert: (names includes: 'FAMIX.Access.isWrite').
-	self assert: (names includes: 'FAMIX.Invocation.sender').
-	self assert: (names includes: 'FAMIX.ScopingEntity.globalVariables').
-	self assert: (names includes: 'FAMIX.ContainerEntity').
-	self assert: (names includes: 'FAMIX.ScopingEntity').	"self assert: (names includes: 'FAMIX.Invocation.above')."
-	self assert: (names includes: 'FAMIX.Association').
-	self assert: (names includes: 'FAMIX.StructuralEntity.declaredType').
-	self assert: (names includes: 'FAMIX.Invocation.receiver').
-	self assert: (names includes: 'FAMIX.Package').
-	self assert: (names includes: 'FAMIX.ScopingEntity.childNamespaces').
-	self assert: (names includes: 'FAMIX.Entity').
-	self assert: (names includes: 'FAMIX.Reference.from').
-	self assert: (names includes: 'FAMIX.ContainerEntity.outgoingReferences').
-	self assert: (names includes: 'FAMIX.BehaviouralEntity.localVariables').
-	self assert: (names includes: 'FAMIX.Invocation.candidates').
-	self assert: (names includes: 'FAMIX.Invocation.receiverSourceCode').
-	self assert: (names includes: 'FAMIX.NamedEntity.name').
-	self assert: (names includes: 'FAMIX.NamedEntity.receivingInvocations').
-	self assert: (names includes: 'FAMIX.StructuralEntity.incomingAccesses').
-	self assert: (names includes: 'FAMIX.LeafEntity').
-	self assert: (names includes: 'FAMIX.Class.isAbstract').
-	self assert: (names includes: 'FAMIX.BehaviouralEntity.signature').
-	self assert: (names includes: 'FAMIX.Inheritance.subclass').
-	self assert: (names includes: 'FAMIX.Reference').
-	self assert: (names includes: 'FAMIX.BehaviouralEntity.outgoingInvocations').
-	self assert: (names includes: 'FAMIX.Access.variable').
-	self assert: (names includes: 'FAMIX.LocalVariable.parentBehaviouralEntity').
-	self assert: (names includes: 'FAMIX.LocalVariable').
-	self assert: (names includes: 'FAMIX.BehaviouralEntity.outgoingAccesses').
-	self assert: (names includes: 'FAMIX.Inheritance').
-	self assert: (names includes: 'FAMIX.Parameter.parentBehaviouralEntity').	"... and tons more ... "
-	famixPackage := metamodel packageNamed: 'FAMIX'.
+
+	self
+		assertCollection:
+		(metamodel elements collect: [ :each | each fullName ])
+		hasSameElements: self famix30mseNames.
+
+	famixPackage := metamodel packageNamed: 'Famix'.
 	self assert: famixPackage isFM3Package.
+
 	accessClass := famixPackage classNamed: 'Access'.
 	self assert: accessClass isFM3Class.
+
 	accessorProperty := accessClass propertyNamed: 'accessor'.
 	self assert: accessorProperty isFM3Property.
 	self assert: accessorProperty name equals: #accessor.
 	self assert: accessorProperty opposite isNotNil.
+
 	behaviouralEntity := famixPackage classNamed: 'BehaviouralEntity'.
 	self assert: behaviouralEntity isFM3Class.
+
 	outgoingAccesses := behaviouralEntity propertyNamed: 'outgoingAccesses'.
 	self assert: outgoingAccesses isFM3Property.
 	self assert: accessorProperty opposite equals: outgoingAccesses
@@ -643,405 +680,431 @@ FMMSEParserTest >> testFamixModel [
 
 { #category : #tests }
 FMMSEParserTest >> testFullDocument [
-	r reset.
-	p fromString: self class famix30mse.
-	p Document.
-	self assert: r contents first equals: #(#beginDocument).
-	self assert: r contents size > 200.	" = many"
-	self assert: r contents last equals: #(#endDocument).
-	self assert: p atEnd
+
+	parser fromString: self class famix30mse.
+	parser Document.
+	self assert: importer contents first equals: #( #beginDocument ).
+	self assert: importer contents size > 200. " = many"
+	self assert: importer contents last equals: #( #endDocument ).
+	self assert: parser atEnd
 ]
 
 { #category : #tests }
 FMMSEParserTest >> testFullName [
-	p fromString: 'Foo'.
-	r := p tFULLNAME.
-	self assert: r equals: 'Foo'.
-	self assert: p atEnd.
-	p fromString: 'A'.
-	r := p tFULLNAME.
-	self assert: r equals: 'A'.
-	self assert: p atEnd
+
+	| parsedName |
+
+	parser fromString: 'Foo'.
+	parsedName := parser tFULLNAME.
+	self assert: parsedName equals: 'Foo'.
+	self assert: parser atEnd.
+
+	parser fromString: 'A'.
+	parsedName := parser tFULLNAME.
+	self assert: parsedName equals: 'A'.
+	self assert: parser atEnd
 ]
 
 { #category : #tests }
 FMMSEParserTest >> testFullName2 [
-	p fromString: 'Foo.Bar'.
-	r := p tFULLNAME.
-	self assert: r equals: 'Foo.Bar'.
-	self assert: p atEnd.
-	p fromString: 'A.b'.
-	r := p tFULLNAME.
-	self assert: r equals: 'A.b'.
-	self assert: p atEnd
+
+	| parsedName |
+
+	parser fromString: 'Foo.Bar'.
+	parsedName := parser tFULLNAME.
+	self assert: parsedName equals: 'Foo.Bar'.
+	self assert: parser atEnd.
+
+	parser fromString: 'A.b'.
+	parsedName := parser tFULLNAME.
+	self assert: parsedName equals: 'A.b'.
+	self assert: parser atEnd
 ]
 
 { #category : #tests }
 FMMSEParserTest >> testFullName3 [
-	p fromString: 'Foo.Bar.Qux'.
-	r := p tFULLNAME.
-	self assert: r equals: 'Foo.Bar.Qux'.
-	self assert: p atEnd.
-	p fromString: 'A.b.q'.
-	r := p tFULLNAME.
-	self assert: r equals: 'A.b.q'.
-	self assert: p atEnd
+
+	| parsedName |
+
+	parser fromString: 'Foo.Bar.Qux'.
+	parsedName := parser tFULLNAME.
+	self assert: parsedName equals: 'Foo.Bar.Qux'.
+	self assert: parser atEnd.
+
+	parser fromString: 'A.b.q'.
+	parsedName := parser tFULLNAME.
+	self assert: parsedName equals: 'A.b.q'.
+	self assert: parser atEnd
 ]
 
 { #category : #tests }
 FMMSEParserTest >> testFullNameDotDotFails [
-	p fromString: 'Foo..Bar'.
-	self should: [ p tFULLNAME ] raise: Error
+
+	parser fromString: 'Foo..Bar'.
+	self should: [ parser tFULLNAME ] raise: FMSyntaxError
 ]
 
 { #category : #tests }
 FMMSEParserTest >> testFullNameTrailingDotFails [
-	p fromString: 'Foo.'.
-	self should: [ p tFULLNAME ] raise: Error
+
+	parser fromString: 'Foo.'.
+	self should: [ parser tFULLNAME ] raise: FMSyntaxError
 ]
 
 { #category : #tests }
 FMMSEParserTest >> testImporter [
-	self assert: p importer equals: r
+
+	self assert: parser importer equals: importer
 ]
 
 { #category : #tests }
 FMMSEParserTest >> testMatchString [
-	p fromString: '''Lorem'''.
-	r := p String.
-	self assert: r equals: 'Lorem'.
-	self assert: p atEnd.
-	p fromString: '''Eo''ipso'''.
-	r := p String.
-	self assert: r equals: 'Eo'.
-	self assert: p peek equals: $i.
-	p fromString: '''Eo''''ipso'''.
-	r := p String.
-	self assert: r equals: 'Eo''ipso'.
-	self assert: p atEnd
+
+	| parsedString |
+
+	parser fromString: '''Lorem'''.
+	parsedString := parser String.
+	self assert: parsedString equals: 'Lorem'.
+	self assert: parser atEnd.
+
+	parser fromString: '''Eo''ipso'''.
+	parsedString := parser String.
+	self assert: parsedString equals: 'Eo'.
+	self assert: parser peek equals: $i.
+
+	parser fromString: '''Eo''''ipso'''.
+	parsedString := parser String.
+	self assert: parsedString equals: 'Eo''ipso'.
+	self assert: parser atEnd
 ]
 
 { #category : #tests }
 FMMSEParserTest >> testNumber [
-	p fromString: '14'.
-	r := p Number.
-	self assert: r equals: 14.
-	self assert: p atEnd.
-	p fromString: '-23x'.
-	r := p Number.
-	self assert: r equals: -23.
-	self assert: p peek equals: $x.
-	p fromString: '1'.
-	r := p Number.
-	self assert: r equals: 1.
-	self assert: p atEnd.
-	p fromString: '-1'.
-	r := p Number.
-	self assert: r equals: -1.
-	self assert: p atEnd
-]
 
-{ #category : #tests }
-FMMSEParserTest >> testNumber2 [
-	p fromString: '12.91'.
-	r := p Number.
-	self assert: p atEnd.
-	self assert: r equals: 12.91.
-	p fromString: '-47.11'.
-	r := p Number.
-	self assert: r equals: -47.11.
-	self assert: p atEnd.
-	p fromString: '1.1'.
-	r := p Number.
-	self assert: r equals: 1.1.
-	self assert: p atEnd.
-	p fromString: '-1.1'.
-	r := p Number.
-	self assert: r equals: -1.1.
-	self assert: p atEnd
-]
+	self numbersToParseAndRealValues keysAndValuesDo: [ :string :value |
+		| parsedNumber |
 
-{ #category : #tests }
-FMMSEParserTest >> testNumber3 [
-	p fromString: '12.91e33'.
-	r := p Number.
-	self assert: p atEnd.
-	self assert: r equals: 1.291e34.
-	p fromString: '-47.11e22'.
-	r := p Number.
-	self assert: r equals: -4.711e23.
-	self assert: p atEnd.
-	p fromString: '-23.11e-15'.
-	r := p Number.
-	self assert: r equals: -2.311e-14.
-	self assert: p atEnd.
-	p fromString: '1.1e2'.
-	r := p Number.
-	self assert: r equals: 110.0.
-	self assert: p atEnd.
-	p fromString: '-1.1e2'.
-	r := p Number.
-	self assert: r equals: -110.0.
-	self assert: p atEnd
+		parser fromString: string.
+		parsedNumber := parser Number.
+		self assert: parsedNumber equals: value.
+		self assert: parser atEnd ]
 ]
 
 { #category : #tests }
 FMMSEParserTest >> testNumberTrailingDotFails [
-	p fromString: '12.'.
-	self should: [ p Number ] raise: Error
+
+	parser fromString: '12.'.
+	self should: [ parser Number ] raise: FMSyntaxError
 ]
 
 { #category : #tests }
 FMMSEParserTest >> testNumberTrailingLetterFails [
-	p fromString: '12.11e'.
-	self should: [ p Number ] raise: Error
+
+	parser fromString: '12.11e'.
+	self should: [ parser Number ] raise: FMSyntaxError
+]
+
+{ #category : #tests }
+FMMSEParserTest >> testNumberWithTrailingX [
+
+	| parsedNumber |
+
+	parser fromString: '-23x'.
+	parsedNumber := parser Number.
+
+	self assert: parsedNumber equals: -23.
+	self assert: parser peek equals: $x
 ]
 
 { #category : #tests }
 FMMSEParserTest >> testProperty [
-	a := #(#(#beginProperty: 'name') #(#endProperty: 'name')).
-	r reset.
-	p fromString: '(name)'.
-	p Property.
-	self assert: r contents equals: a.
-	self assert: p atEnd.
-	r reset.
-	p fromString: '(  name  )  '.
-	p Property.
-	self assert: r contents equals: a.
-	self assert: p atEnd
+
+	tokens := #( #( #beginProperty: 'name' ) #( #endProperty:
+	                'name' ) ).
+
+	parser fromString: '(name)'.
+	parser Property.
+	self assert: importer contents equals: tokens.
+	self assert: parser atEnd.
+
+	importer reset.
+	parser fromString: '(  name  )  '.
+	parser Property.
+	self assert: importer contents equals: tokens.
+	self assert: parser atEnd
 ]
 
 { #category : #tests }
 FMMSEParserTest >> testPropertyNameWithUnderscore [
-	a := #(#(#beginProperty: 'name_with_underscore') #(#endProperty: 'name_with_underscore')).
-	r reset.
-	p fromString: '(name_with_underscore)'.
-	p Property.
-	self assert: r contents equals: a.
-	self assert: p atEnd.
-	r reset.
-	p fromString: '(  name_with_underscore  )  '.
-	p Property.
-	self assert: r contents equals: a.
-	self assert: p atEnd
+
+	tokens := #( #( #beginProperty: 'name_with_underscore' )
+	             #( #endProperty: 'name_with_underscore' ) ).
+
+	parser fromString: '(name_with_underscore)'.
+	parser Property.
+	self assert: importer contents equals: tokens.
+	self assert: parser atEnd.
+
+	importer reset.
+	parser fromString: '(  name_with_underscore  )  '.
+	parser Property.
+	self assert: importer contents equals: tokens.
+	self assert: parser atEnd
 ]
 
 { #category : #tests }
 FMMSEParserTest >> testPropertyWithBoolean [
-	a := #(#(#beginProperty: 'name') #(#primitive: true) #(#primitive: false) #(#endProperty: 'name')).
-	r reset.
-	p fromString: '(name true false)'.
-	p Property.
-	self assert: r contents equals: a.
-	self assert: p atEnd.
-	r reset.
-	p fromString: '(  name   true   false  )  '.
-	p Property.
-	self assert: r contents equals: a.
-	self assert: p atEnd
+
+	tokens := #( #( #beginProperty: 'name' ) #( #primitive: true )
+	             #( #primitive: false ) #( #endProperty: 'name' ) ).
+
+	parser fromString: '(name true false)'.
+	parser Property.
+	self assert: importer contents equals: tokens.
+	self assert: parser atEnd.
+
+	importer reset.
+	parser fromString: '(  name   true   false  )  '.
+	parser Property.
+	self assert: importer contents equals: tokens.
+	self assert: parser atEnd
 ]
 
 { #category : #tests }
 FMMSEParserTest >> testPropertyWithEntitys [
-	a := #(#(#beginProperty: 'name') #(#beginEntity: 'Foo') #(#endEntity: 'Foo') #(#beginEntity: 'Bar') #(#endEntity: 'Bar') #(#endProperty: 'name')).
-	r reset.
-	p fromString: '(name(Foo)(Bar))'.
-	p Property.
-	self assert: r contents equals: a.
-	self assert: p atEnd.
-	r reset.
-	p fromString: '(  name  (  Foo  )  (  Bar  )     )  '.
-	p Property.
-	self assert: r contents equals: a.
-	self assert: p atEnd
+
+	tokens := #( #( #beginProperty: 'name' ) #( #beginEntity:
+	                'Foo' ) #( #endEntity: 'Foo' ) #( #beginEntity:
+	                'Bar' ) #( #endEntity: 'Bar' ) #( #endProperty:
+	                'name' ) ).
+
+	parser fromString: '(name(Foo)(Bar))'.
+	parser Property.
+	self assert: importer contents equals: tokens.
+	self assert: parser atEnd.
+
+	importer reset.
+	parser fromString: '(  name  (  Foo  )  (  Bar  )     )  '.
+	parser Property.
+	self assert: importer contents equals: tokens.
+	self assert: parser atEnd
 ]
 
 { #category : #tests }
 FMMSEParserTest >> testPropertyWithNumbers [
-	a := #(#(#beginProperty: 'name') #(#primitive: 1) #(#primitive: 2) #(#primitive: 3) #(#endProperty: 'name')).
-	r reset.
-	p fromString: '(name 1 2 3)'.
-	p Property.
-	self assert: r contents equals: a.
-	self assert: p atEnd.
-	r reset.
-	p fromString: '(  name    1    2    3  )  '.
-	p Property.
-	self assert: r contents equals: a.
-	self assert: p atEnd
+
+	tokens := #( #( #beginProperty: 'name' ) #( #primitive: 1 )
+	             #( #primitive: 2 ) #( #primitive: 3 ) #( #endProperty:
+	                'name' ) ).
+
+	parser fromString: '(name 1 2 3)'.
+	parser Property.
+	self assert: importer contents equals: tokens.
+	self assert: parser atEnd.
+
+	importer reset.
+	parser fromString: '(  name    1    2    3  )  '.
+	parser Property.
+	self assert: importer contents equals: tokens.
+	self assert: parser atEnd
 ]
 
 { #category : #tests }
 FMMSEParserTest >> testPropertyWithReferences [
-	a := #(#(#beginProperty: 'name') #(#referenceNumber: 2) #(#referenceNumber: 3) #(#endProperty: 'name')).
-	r reset.
-	p fromString: '(name(ref:2)(ref:3))'.
-	p Property.
-	self assert: r contents equals: a.
-	self assert: p atEnd.
-	r reset.
-	p fromString: '(  name  (  ref:  2  )  (  ref:  3  )     )  '.
-	p Property.
-	self assert: r contents equals: a.
-	self assert: p atEnd
+
+	tokens := #( #( #beginProperty: 'name' ) #( #referenceNumber:
+	                2 ) #( #referenceNumber: 3 ) #( #endProperty:
+	                'name' ) ).
+
+	parser fromString: '(name(ref:2)(ref:3))'.
+	parser Property.
+	self assert: importer contents equals: tokens.
+	self assert: parser atEnd.
+
+	importer reset.
+	parser fromString: '(  name  (  ref:  2  )  (  ref:  3  )     )  '.
+	parser Property.
+	self assert: importer contents equals: tokens.
+	self assert: parser atEnd
 ]
 
 { #category : #tests }
 FMMSEParserTest >> testPropertyWithStrings [
-	a := #(#(#beginProperty: 'name') #(#primitive: 'bar') #(#primitive: 'ba') #(#primitive: 'rossa') #(#endProperty: 'name')).
-	r reset.
-	p fromString: '(name ''bar'' ''ba'' ''rossa'')'.
-	p Property.
-	self assert: r contents equals: a.
-	self assert: p atEnd.
-	r reset.
-	p fromString: '(  name  ''bar''      ''ba''      ''rossa'')  '.
-	p Property.
-	self assert: r contents equals: a.
-	self assert: p atEnd
+
+	tokens := #( #( #beginProperty: 'name' ) #( #primitive: 'bar' )
+	             #( #primitive: 'ba' ) #( #primitive: 'rossa' )
+	             #( #endProperty: 'name' ) ).
+
+	parser fromString: '(name ''bar'' ''ba'' ''rossa'')'.
+	parser Property.
+	self assert: importer contents equals: tokens.
+	self assert: parser atEnd.
+
+	importer reset.
+	parser fromString: '(  name  ''bar''      ''ba''      ''rossa'')  '.
+	parser Property.
+	self assert: importer contents equals: tokens.
+	self assert: parser atEnd
 ]
 
 { #category : #tests }
 FMMSEParserTest >> testPropertyWithStrings2 [
-	a := #(#(#beginProperty: 'name') #(#primitive: 'bar''ba''rossa') #(#endProperty: 'name')).
-	r reset.
-	p fromString: '(name ''bar''''ba''''rossa'')'.
-	p Property.
-	self assert: r contents equals: a.
-	self assert: p atEnd.
-	r reset.
-	p fromString: '(  name  ''bar''''ba''''rossa''     )  '.
-	p Property.
-	self assert: r contents equals: a.
-	self assert: p atEnd
+
+	tokens := #( #( #beginProperty: 'name' ) #( #primitive: 'bar''ba''rossa' )
+	             #( #endProperty: 'name' ) ).
+
+	parser fromString: '(name ''bar''''ba''''rossa'')'.
+	parser Property.
+	self assert: importer contents equals: tokens.
+	self assert: parser atEnd.
+
+	importer reset.
+	parser fromString: '(  name  ''bar''''ba''''rossa''     )  '.
+	parser Property.
+	self assert: importer contents equals: tokens.
+	self assert: parser atEnd
 ]
 
 { #category : #tests }
 FMMSEParserTest >> testSerial [
-	p fromString: '(id:42)'.
-	p Serial.
-	self assert: r contents equals: #(#(#serial: 42)).
-	self assert: p atEnd.
-	self setUp.
-	p fromString: '(  id:  42  )'.
-	p Serial.
-	self assert: r contents equals: #(#(#serial: 42)).
-	self assert: p atEnd.
-	self setUp
+
+	parser fromString: '(id:42)'.
+
+	parser Serial.
+	self assert: importer contents equals: #( #( #serial: 42 ) ).
+	self assert: parser atEnd.
+
+	importer reset.
+	parser fromString: '(  id:  42  )'.
+	parser Serial.
+	self assert: importer contents equals: #( #( #serial: 42 ) ).
+	self assert: parser atEnd
 ]
 
 { #category : #tests }
 FMMSEParserTest >> testSimpleDocument [
-	p fromString: '()'.
-	p Document.
-	self assert: r contents equals: #(#(#beginDocument) #(#endDocument)).
-	self assert: p atEnd.
-	r reset.
-	p fromString: '  (  )  '.
-	p Document.
-	self assert: r contents equals: #(#(#beginDocument) #(#endDocument)).
-	self assert: p atEnd
+
+	parser fromString: '()'.
+	parser Document.
+	self
+		assert: importer contents
+		equals: #( #( #beginDocument ) #( #endDocument ) ).
+	self assert: parser atEnd.
+
+	importer reset.
+	parser fromString: '  (  )  '.
+	parser Document.
+	self
+		assert: importer contents
+		equals: #( #( #beginDocument ) #( #endDocument ) ).
+	self assert: parser atEnd
 ]
 
 { #category : #tests }
 FMMSEParserTest >> testValueFloat [
-	r reset.
-	p fromString: '3.14'.
-	p Value.
-	self assert: r contents equals: #(#(#primitive: 3.14)).
-	self assert: p atEnd
+
+	parser fromString: '3.14'.
+	parser Value.
+	self assert: importer contents equals: #( #( #primitive: 3.14 ) ).
+	self assert: parser atEnd
 ]
 
 { #category : #tests }
 FMMSEParserTest >> testValueFloatError [
-	r reset.
-	p fromString: '3.14e$'.
-	self should: [ p Value ] raise: FMSyntaxError
+
+	parser fromString: '3.14e$'.
+	self should: [ parser Value ] raise: FMSyntaxError
 ]
 
 { #category : #tests }
 FMMSEParserTest >> testValueFloatError2 [
-	r reset.
-	p fromString: '1..2'.
-	self should: [ p Value ] raise: FMSyntaxError
+
+	parser fromString: '1..2'.
+	self should: [ parser Value ] raise: FMSyntaxError
 ]
 
 { #category : #tests }
 FMMSEParserTest >> testValueFloatWithExponent [
-	r reset.
-	p fromString: '1.291e3'.
-	p Value.
-	self assert: r contents equals: #(#(#primitive: 1291)).
-	self assert: p atEnd
+
+	parser fromString: '1.291e3'.
+	parser Value.
+	self assert: importer contents equals: #( #( #primitive: 1291 ) ).
+	self assert: parser atEnd
 ]
 
 { #category : #tests }
 FMMSEParserTest >> testValueNegativeNumber [
-	r reset.
-	p fromString: '-42'.
-	p Value.
-	self assert: r contents equals: #(#(#primitive: -42)).
-	self assert: p atEnd
+
+	parser fromString: '-42'.
+	parser Value.
+	self assert: importer contents equals: #( #( #primitive: -42 ) ).
+	self assert: parser atEnd
 ]
 
 { #category : #tests }
 FMMSEParserTest >> testValueNegativeNumberError [
-	r reset.
-	p fromString: '--42'.
-	p Value.
-	self assertEmpty: r contents.
-	self assert: p position equals: 1
+
+	parser fromString: '--42'.
+	parser Value.
+	self assertEmpty: importer contents.
+	self assert: parser position equals: 1
 ]
 
 { #category : #tests }
 FMMSEParserTest >> testValueNumber [
-	r reset.
-	p fromString: '13'.
-	p Value.
-	self assert: r contents equals: #(#(#primitive: 13)).
-	self assert: p atEnd
+
+	parser fromString: '13'.
+	parser Value.
+	self assert: importer contents equals: #( #( #primitive: 13 ) ).
+	self assert: parser atEnd
 ]
 
 { #category : #tests }
 FMMSEParserTest >> testValueReference [
-	r reset.
-	p fromString: '(ref: 24)'.
-	p Value.
-	self assert: r contents equals: #(#(#referenceNumber: 24)).
-	self assert: p atEnd
+
+	parser fromString: '(ref: 24)'.
+	parser Value.
+	self assert: importer contents equals: #( #( #referenceNumber:
+	      24 ) ).
+	self assert: parser atEnd
 ]
 
 { #category : #tests }
 FMMSEParserTest >> testValueReferenceBigInteger [
-	r reset.
-	p fromString: '(ref: 112233445566778899)'.
-	p Value.
-	self assert: r contents equals: #(#(#referenceNumber: 112233445566778899)).
-	self assert: p atEnd
+
+	parser fromString: '(ref: 112233445566778899)'.
+	parser Value.
+	self
+		assert: importer contents
+		equals: #( #( #referenceNumber: 112233445566778899 ) ).
+	self assert: parser atEnd
 ]
 
 { #category : #tests }
 FMMSEParserTest >> testValueReferenceFullName [
-	r reset.
-	p fromString: '(ref: EG.Foo)'.
-	p Value.
-	self assert: r contents equals: #(#(#referenceName: 'EG.Foo')).
-	self assert: p atEnd
+
+	parser fromString: '(ref: EG.Foo)'.
+	parser Value.
+	self
+		assert: importer contents
+		equals: #( #( #referenceName: 'EG.Foo' ) ).
+	self assert: parser atEnd
 ]
 
 { #category : #tests }
 FMMSEParserTest >> testValueReferenceName [
-	r reset.
-	p fromString: '(ref: Foo)'.
-	p Value.
-	self assert: r contents equals: #(#(#referenceName: 'Foo')).
-	self assert: p atEnd
+
+	parser fromString: '(ref: Foo)'.
+	parser Value.
+	self
+		assert: importer contents
+		equals: #( #( #referenceName: 'Foo' ) ).
+	self assert: parser atEnd
 ]
 
 { #category : #tests }
 FMMSEParserTest >> testValueReferenceStringError [
-	r reset.
-	p fromString: '(ref: ''String'')'.
-	self should: [ p Value ] raise: FMSyntaxError
+
+	parser fromString: '(ref: ''String'')'.
+	self should: [ parser Value ] raise: FMSyntaxError
 ]

@@ -8,8 +8,8 @@ Class {
 		'classNamePrefix',
 		'instVarNames',
 		'initializeSource',
-		'defaultCategory',
-		'skipDerivedMethods'
+		'skipDerivedMethods',
+		'defaultPackage'
 	],
 	#category : #'Fame-ImportExport-CodeGeneration'
 }
@@ -63,11 +63,6 @@ FMAbstractCodeGenerator >> annotationStringForProperty: property [
 ]
 
 { #category : #'compiling-names' }
-FMAbstractCodeGenerator >> categoryNameFor: fameClass [
-	^ self defaultCategory ifNil: [ fameClass package name asString ]
-]
-
-{ #category : #'compiling-names' }
 FMAbstractCodeGenerator >> classNameFor: fameClass [ 
 	^fameClass isBuiltIn 
 		ifTrue: [ fameClass name ]
@@ -85,31 +80,37 @@ FMAbstractCodeGenerator >> classNamePrefix: aString [
 ]
 
 { #category : #compiling }
-FMAbstractCodeGenerator >> compileClass: fameClass superclass: rbSuperclass [ 
-	^ model defineClass: ('<1s> subclass: #<2s>
+FMAbstractCodeGenerator >> compileClass: fameClass superclass: rbSuperclass [
+
+	| definition |
+	self flag: #todo. "The next part changed a lot in P12. Before the user had to give a string representing a class definition but in P12 this changed to use the ShiftClassBuilder to build the classes. 
+	For now I'll use an ugly if on the version and when P12 will be the minimal version used by moose we can remove it."
+
+	definition := SystemVersion current major < 12
+		              ifTrue: [
+			              '<1s> subclass: #<2s>
 		instanceVariableNames: ''''
 		classVariableNames: ''''
 		poolDictionaries: ''''
-		category: #<3p>' 
-			expandMacrosWith: rbSuperclass name
-			with: (self classNameFor: fameClass)
-			with: (self categoryNameFor: fameClass))
+		category: #<3p>' expandMacrosWith: rbSuperclass name with: (self classNameFor: fameClass) with: (self packageNameFor: fameClass) ]
+		              ifFalse: [
+			              [ :builder |
+			              builder
+				              superclassName: rbSuperclass name;
+				              name: (self classNameFor: fameClass);
+				              package: (self packageNameFor: fameClass) ] ].
+
+	^ model defineClass: definition
 ]
 
 { #category : #compiling }
 FMAbstractCodeGenerator >> compileClassAnnotation: fameClass [
+
 	| annotationString |
-	annotationString := ('annotation<n>',
-		'<t>%<FMClass: <1p>',
-		' super: <2p>><n>',
-		'<t>%<package: <3p>><n><t>',
-		(fameClass isAbstract ifTrue: [ '%<abstract><n><t>' ] ifFalse: ['']))
-		expandMacrosWith: fameClass name
-						with: fameClass superclass fullName
-						with: fameClass package name.
-	rbClass theMetaClass
-		compile: annotationString, '^self'
-		classified: 'initialize-release'
+	annotationString := 'annotation<n>' , '<t>%<FMClass: <1p>' , ' super: <2p>><n>' , '<t>%<package: <3p>><n><t>' , (fameClass isAbstract
+		                     ifTrue: [ '%<abstract><n><t>' ]
+		                     ifFalse: [ '' ]) expandMacrosWith: fameClass name with: fameClass superclass fullName with: fameClass package name.
+	rbClass classSide compile: annotationString , '^self' classified: 'initialize-release'
 ]
 
 { #category : #compiling }
@@ -128,13 +129,13 @@ FMAbstractCodeGenerator >> createRBModel [
 ]
 
 { #category : #accessing }
-FMAbstractCodeGenerator >> defaultCategory [
-	^defaultCategory
+FMAbstractCodeGenerator >> defaultPackage [
+	^defaultPackage
 ]
 
 { #category : #accessing }
-FMAbstractCodeGenerator >> defaultCategory: aString [
-	defaultCategory := aString
+FMAbstractCodeGenerator >> defaultPackage: aString [
+	defaultPackage := aString
 ]
 
 { #category : #accessing }
@@ -207,6 +208,11 @@ FMAbstractCodeGenerator >> model [
 { #category : #'compiling-names' }
 FMAbstractCodeGenerator >> oppositeNameFor: fameProperty [
 	^fameProperty opposite name asSymbol
+]
+
+{ #category : #'compiling-names' }
+FMAbstractCodeGenerator >> packageNameFor: fameClass [
+	^ self defaultPackage ifNil: [ fameClass package name asString ]
 ]
 
 { #category : #'compiling-names' }
