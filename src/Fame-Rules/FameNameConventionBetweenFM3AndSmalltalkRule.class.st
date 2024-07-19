@@ -9,6 +9,12 @@ Class {
 	#category : #'Fame-Rules'
 }
 
+{ #category : #testing }
+FameNameConventionBetweenFM3AndSmalltalkRule class >> checksClass [
+
+	^ true
+]
+
 { #category : #accessing }
 FameNameConventionBetweenFM3AndSmalltalkRule class >> group [
 	^ 'Fame'
@@ -62,21 +68,19 @@ FameNameConventionBetweenFM3AndSmalltalkRule >> addClass: aClass toMetaBuilderCo
 ]
 
 { #category : #running }
-FameNameConventionBetweenFM3AndSmalltalkRule >> checkClass: aContext [
-	| class pragmas pragma metaName |
-	class := aContext.
-	pragmas := Pragma allNamed: #FMClass:super: in: class.
-	pragmas ifEmpty: [ ^ self ].
-	pragmas size > 1
-		ifTrue: [ result addClass: class.
-			^ self ].
+FameNameConventionBetweenFM3AndSmalltalkRule >> basicCheck: aClass [
 
-	pragma := pragmas first.
-	metaName := pragma argumentAt: 1.
-	(pragma method pragmaAt: #package:)
-		ifNotNil: [ :packagePragma | 
-			| packageName |
-			packageName := packagePragma argumentAt: 1.
-			(packageName , metaName) = class instanceSide name ifFalse: [ result addClass: class selector: pragma selector ] ]
-		ifNil: [ "this happens if the package: pragma is missing" result addClass: class selector: pragma selector ]
+	| class |
+	class := aClass isClassSide
+		         ifTrue: [ aClass ]
+		         ifFalse: [ aClass class ].
+	^ (Pragma allNamed: #FMClass:super: in: class) ifEmpty: [ ^ false ] ifNotEmpty: [ :pragmas |
+		  pragmas size > 1 ifTrue: [ ^ true ].
+
+		  (pragmas first method pragmaAt: #package:)
+			  ifNotNil: [ :packagePragma |
+				  | metaName |
+				  metaName := pragmas first argumentAt: 1.
+				  (packagePragma argumentAt: 1) , metaName ~= aClass instanceSide name ]
+			  ifNil: [ "this happens if the package: pragma is missing" true ] ]
 ]
