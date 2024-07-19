@@ -3,9 +3,15 @@ Check if an opposite attribute declared in a pragma #MSEProperty:type:opposite: 
 "
 Class {
 	#name : #FameOppositeAttributeShouldPointBackRule,
-	#superclass : #RBBlockLintRule,
+	#superclass : #ReAbstractRule,
 	#category : #'Fame-Rules'
 }
+
+{ #category : #testing }
+FameOppositeAttributeShouldPointBackRule class >> checksMethod [
+
+	^ true
+]
 
 { #category : #accessing }
 FameOppositeAttributeShouldPointBackRule class >> group [
@@ -24,26 +30,21 @@ FameOppositeAttributeShouldPointBackRule class >> uniqueIdentifierName [
 ]
 
 { #category : #running }
-FameOppositeAttributeShouldPointBackRule >> checkMethod: aContext [
+FameOppositeAttributeShouldPointBackRule >> basicCheck: aMethod [
+
 	| class |
-	class := aContext methodClass.
-	((class methodNamed: aContext selector) pragmaAt: #FMProperty:type:opposite:)
-		ifNotNil: [ :pragma | 
-			self class environment
-				at: (pragma argumentAt: 2)
-				ifPresent: [ :oppositeClass | 
-					oppositeClass
-						compiledMethodAt: (pragma argumentAt: 3)
-						ifPresent: [ :oppositeCompiledMethod | 
-							(oppositeCompiledMethod pragmaAt: #FMProperty:type:opposite:)
-								ifNotNil: [ :oppositePragma | 
-									(oppositePragma argumentAt: 2) = class name asSymbol
-										ifFalse: [ result addClass: class selector: aContext selector.
-											^ self ].
-									(oppositePragma argumentAt: 3) = aContext selector
-										ifFalse: [ result addClass: class selector: aContext selector.
-											^ self ] ]
-								ifNil: [ result addClass: class selector: aContext selector.
-									^ self ] ]
-						ifAbsent: [ result addClass: class selector: aContext selector ] ] ]
+	class := aMethod methodClass.
+	((class methodNamed: aMethod selector) pragmaAt: #FMProperty:type:opposite:) ifNotNil: [ :pragma |
+		self class environment at: (pragma argumentAt: 2) ifPresent: [ :oppositeClass |
+			oppositeClass
+				compiledMethodAt: (pragma argumentAt: 3)
+				ifPresent: [ :oppositeCompiledMethod |
+					(oppositeCompiledMethod pragmaAt: #FMProperty:type:opposite:)
+						ifNotNil: [ :oppositePragma |
+							(oppositePragma argumentAt: 2) = class name asSymbol ifFalse: [ ^ true ].
+							(oppositePragma argumentAt: 3) = aMethod selector ifFalse: [ ^ true ] ]
+						ifNil: [ ^ true ] ]
+				ifAbsent: [ ^ true ] ] ].
+
+	^ false
 ]

@@ -5,7 +5,7 @@ A FM3 class should be named PACKAGE.CLASSNAME whereas the smalltalk class associ
 "
 Class {
 	#name : #FameNameConventionBetweenFM3AndSmalltalkRule,
-	#superclass : #RBBlockLintRule,
+	#superclass : #ReAbstractRule,
 	#category : #'Fame-Rules'
 }
 
