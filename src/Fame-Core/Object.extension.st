@@ -34,14 +34,14 @@ Object >> metaDescriptionIn: aMetamodel [
 ]
 
 { #category : #'*Fame-Core' }
-Object >> metamodel [
-
-	^ self class metamodel
+Object class >> metamodel [ 
+	^ nil
 ]
 
 { #category : #'*Fame-Core' }
-Object class >> metamodel [ 
-	^ nil
+Object >> metamodel [
+
+	^ self class metamodel
 ]
 
 { #category : #'*Fame-Core' }
