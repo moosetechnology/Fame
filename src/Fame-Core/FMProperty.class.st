@@ -32,6 +32,13 @@ FMProperty >> defaultValue: aValue [
 	defaultValue := aValue
 ]
 
+{ #category : #comparing }
+FMProperty >> hasSameDefinitionAs: otherSlot [
+
+	^ (super hasSameDefinitionAs: otherSlot) and: [
+		  defaultValue = otherSlot defaultValue ]
+]
+
 { #category : #testing }
 FMProperty >> isFameSlot [
 	^ true
