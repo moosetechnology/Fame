@@ -3,9 +3,15 @@ Check if the opposite class declared in a pragma #MSEProperty:type:opposite: is 
 "
 Class {
 	#name : #FameOppositeClassNotExistRule,
-	#superclass : #RBBlockLintRule,
+	#superclass : #ReAbstractRule,
 	#category : #'Fame-Rules'
 }
+
+{ #category : #testing }
+FameOppositeClassNotExistRule class >> checksMethod [
+
+	^ true
+]
 
 { #category : #accessing }
 FameOppositeClassNotExistRule class >> group [
@@ -24,9 +30,9 @@ FameOppositeClassNotExistRule class >> uniqueIdentifierName [
 ]
 
 { #category : #running }
-FameOppositeClassNotExistRule >> checkMethod: aContext [
-	| class |
-	class := aContext methodClass.
-	((class methodNamed: aContext selector) pragmaAt: #FMProperty:type:opposite:)
-		ifNotNil: [ :pragma | self class environment at: (pragma argumentAt: 2) ifPresent: [ :oppositeClass | result addClass: class selector: aContext selector ] ]
+FameOppositeClassNotExistRule >> basicCheck: aMethod [
+
+	((aMethod methodClass methodNamed: aMethod selector) pragmaAt: #FMProperty:type:opposite:) ifNotNil: [ :pragma |
+		self class environment at: (pragma argumentAt: 2) ifPresent: [ :oppositeClass | ^ true ] ].
+	^ false
 ]
