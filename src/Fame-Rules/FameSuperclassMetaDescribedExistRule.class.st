@@ -8,6 +8,17 @@ Class {
 }
 
 { #category : #accessing }
+FameSuperclassMetaDescribedExistRule class >> group [
+	^ 'Fame'
+]
+
+{ #category : #accessing }
+FameSuperclassMetaDescribedExistRule class >> ruleName [
+
+	^ 'The superclass defined in a FM3MetaDescription does not exist or is not well defined'
+]
+
+{ #category : #accessing }
 FameSuperclassMetaDescribedExistRule class >> uniqueIdentifierName [
 	^ 'SuperclassMetaDescribedExist'
 ]
@@ -29,15 +40,4 @@ FameSuperclassMetaDescribedExistRule >> checkClass: aContext [
 	substrings size > 1
 		ifTrue: [ Smalltalk at: (substrings first , substrings second) asSymbol ifAbsent: [ result addClass: class classSide selector: #annotation ] ]
 		ifFalse: [ Smalltalk at: substrings first asSymbol ifAbsent: [ result addClass: class classSide selector: #annotation ] ]
-]
-
-{ #category : #accessing }
-FameSuperclassMetaDescribedExistRule >> group [
-	^ 'Fame'
-]
-
-{ #category : #accessing }
-FameSuperclassMetaDescribedExistRule >> name [
-
-	^ 'The superclass defined in a FM3MetaDescription does not exist or is not well defined'
 ]

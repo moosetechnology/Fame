@@ -10,6 +10,17 @@ Class {
 }
 
 { #category : #accessing }
+FameNameConventionBetweenFM3AndSmalltalkRule class >> group [
+	^ 'Fame'
+]
+
+{ #category : #accessing }
+FameNameConventionBetweenFM3AndSmalltalkRule class >> ruleName [
+
+	^ 'FM3 class doesnt respect the fame name convention between FM3 and Smalltalk '
+]
+
+{ #category : #accessing }
 FameNameConventionBetweenFM3AndSmalltalkRule class >> uniqueIdentifierName [
 	^ 'NameConventionBetweenFM3AndSmalltalk'
 ]
@@ -68,15 +79,4 @@ FameNameConventionBetweenFM3AndSmalltalkRule >> checkClass: aContext [
 			packageName := packagePragma argumentAt: 1.
 			(packageName , metaName) = class instanceSide name ifFalse: [ result addClass: class selector: pragma selector ] ]
 		ifNil: [ "this happens if the package: pragma is missing" result addClass: class selector: pragma selector ]
-]
-
-{ #category : #accessing }
-FameNameConventionBetweenFM3AndSmalltalkRule >> group [
-	^ 'Fame'
-]
-
-{ #category : #accessing }
-FameNameConventionBetweenFM3AndSmalltalkRule >> name [
-
-	^ 'FM3 class doesnt respect the fame name convention between FM3 and Smalltalk '
 ]
