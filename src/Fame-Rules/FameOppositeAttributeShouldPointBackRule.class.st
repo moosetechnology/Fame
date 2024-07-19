@@ -8,6 +8,17 @@ Class {
 }
 
 { #category : #accessing }
+FameOppositeAttributeShouldPointBackRule class >> group [
+	^ 'Fame'
+]
+
+{ #category : #accessing }
+FameOppositeAttributeShouldPointBackRule class >> ruleName [
+
+	^ 'An opposite attribute declared in pragma does not point back to the initial attribute'
+]
+
+{ #category : #accessing }
 FameOppositeAttributeShouldPointBackRule class >> uniqueIdentifierName [
 	^ 'OppositeAttributeShouldPointBack'
 ]
@@ -35,15 +46,4 @@ FameOppositeAttributeShouldPointBackRule >> checkMethod: aContext [
 								ifNil: [ result addClass: class selector: aContext selector.
 									^ self ] ]
 						ifAbsent: [ result addClass: class selector: aContext selector ] ] ]
-]
-
-{ #category : #accessing }
-FameOppositeAttributeShouldPointBackRule >> group [
-	^ 'Fame'
-]
-
-{ #category : #accessing }
-FameOppositeAttributeShouldPointBackRule >> name [
-
-	^ 'An opposite attribute declared in pragma does not point back to the initial attribute'
 ]

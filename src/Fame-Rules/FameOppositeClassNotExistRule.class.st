@@ -8,6 +8,17 @@ Class {
 }
 
 { #category : #accessing }
+FameOppositeClassNotExistRule class >> group [
+	^ 'Fame'
+]
+
+{ #category : #accessing }
+FameOppositeClassNotExistRule class >> ruleName [
+
+	^ 'An opposite class declared in pragma #FMProperty:type:opposite: does not exist'
+]
+
+{ #category : #accessing }
 FameOppositeClassNotExistRule class >> uniqueIdentifierName [
 	^ 'OppositeClassNotExist'
 ]
@@ -18,16 +29,4 @@ FameOppositeClassNotExistRule >> checkMethod: aContext [
 	class := aContext methodClass.
 	((class methodNamed: aContext selector) pragmaAt: #FMProperty:type:opposite:)
 		ifNotNil: [ :pragma | self class environment at: (pragma argumentAt: 2) ifPresent: [ :oppositeClass | result addClass: class selector: aContext selector ] ]
-]
-
-{ #category : #accessing }
-FameOppositeClassNotExistRule >> group [
-
-	^ 'Fame'
-]
-
-{ #category : #accessing }
-FameOppositeClassNotExistRule >> name [
-
-	^ 'An opposite class declared in pragma #MSEProperty:type:opposite: does not exist'
 ]
