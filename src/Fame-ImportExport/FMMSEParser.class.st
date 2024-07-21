@@ -40,15 +40,41 @@ FMMSEParser >> Document [
 	"Document := EOF { openDocument; closeDocument }
 		| OPEN { openDocument } Entity* CLOSE { closeDocument }"
 
+	"self tWHITESPACE.
+	self atEnd
+		ifTrue: [ importer beginDocument ]
+		ifFalse: [
+			self tOPEN ifFalse: [ ^ self syntaxError ].
+			importer beginDocument.
+			[ self Entity ] whileTrue.
+			self tCLOSE ifFalse: [ ^ self syntaxError ] ].
+	importer endDocument.
+	self tWHITESPACE.
+	^ true"
+
+	"Matches a document node (returns a boolean)."
+
+	"Document := EOF { openDocument; closeDocument }
+		| OPEN { openDocument } Entity* CLOSE { closeDocument }"
+
+	| pos hasMetadata |
 	self tWHITESPACE.
 	self atEnd
 		ifTrue: [ importer beginDocument ]
-		ifFalse: [ self tOPEN
-				ifFalse: [ ^ self syntaxError ].
+		ifFalse: [ " self tMultiOPEN
+				ifFalse: [ ^ self syntaxError ]."
 			importer beginDocument.
-			[ self Entity ] whileTrue.
-			self tCLOSE
-				ifFalse: [ ^ self syntaxError ] ].
+			pos := self position.
+			hasMetadata := self tOPEN.
+			hasMetadata ifTrue: [
+				self Metadata.
+				self tEntitiesaName.
+				self tOPEN ].
+			self MultiEntity.
+			hasMetadata ifTrue: [ "[ self Entity ] whileTrue.
+			self tMultiCLOSE
+				ifFalse: [ ^ self syntaxError ]"
+				self tCLOSE ] ].
 	importer endDocument.
 	self tWHITESPACE.
 	^ true
@@ -91,6 +117,35 @@ FMMSEParser >> Identifier [
 	[ self characterSet isDigit: self next ] whileTrue: [ buffer nextPut: chararacter ].
 	self tWHITESPACE.
 	^ (numberParser on: buffer contents readStream) nextInteger
+]
+
+{ #category : #'as yet unclassified' }
+FMMSEParser >> Metadata [
+
+	| pos |
+	pos := self position.
+	self tOPEN.
+	self tMetadataName ifFalse: [ ^ self backtrack: pos ].
+	self tOPEN.
+	self tOPEN ifFalse: [ ^ self backtrack: pos ].
+	importer beginMetadata.
+	[ self Property ] whileTrue.
+	importer endMetadata.
+	self tCLOSE.
+	self tCLOSE.
+	self tCLOSE.
+]
+
+{ #category : #tokens }
+FMMSEParser >> MultiEntity [
+
+	self tOPEN ifFalse: [ ^ self backtrack: self position ].
+	[
+	self Primitive or: [
+		self Reference or: [ self Reference2 or: [ self Entity ] ] ].
+	self incrementProgressBar. ] whileTrue.
+	self tCLOSE ifFalse: [ ^ self syntaxError ].
+	^ true
 ]
 
 { #category : #expressions }
@@ -380,6 +435,12 @@ FMMSEParser >> tCLOSE [
 	^ self matchesWord: ')'
 ]
 
+{ #category : #'as yet unclassified' }
+FMMSEParser >> tEntitiesaName [
+
+	^ self matchesWord: '"entities"'
+]
+
 { #category : #tokens }
 FMMSEParser >> tFALSE [
 	"Matches false keyword (returns boolean)."
@@ -409,6 +470,12 @@ FMMSEParser >> tID [
 	^ self matchesWord: 'id:'
 ]
 
+{ #category : #'as yet unclassified' }
+FMMSEParser >> tMetadataName [
+
+	^ self matchesWord: '"metadata"'
+]
+
 { #category : #tokens }
 FMMSEParser >> tNAME [
 	(self characterSet isLetter: chararacter) ifFalse: [ ^ nil ].
@@ -425,6 +492,18 @@ FMMSEParser >> tOPEN [
 	"Matches opening parenthesis (returns boolean)."
 
 	^ self matchesWord: '('
+]
+
+{ #category : #tokens }
+FMMSEParser >> tPropertyNameSeparator [
+
+	^ self matchesWord: ':'
+]
+
+{ #category : #tokens }
+FMMSEParser >> tPropertySeparator [
+
+	^ self matchesWord: ','
 ]
 
 { #category : #tokens }
