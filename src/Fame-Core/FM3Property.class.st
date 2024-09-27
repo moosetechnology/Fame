@@ -214,6 +214,16 @@ FM3Property >> isFM3Property [
 ]
 
 { #category : #accessing }
+FM3Property >> isGenerated [
+	"Note: we do not meta describe this 'property' because it is not fully implemented
+	 (no associated instance variable, no setter).
+	 Actually this method was introduced to be able to identify this kind of 'property' which are
+	 not 'real properties' "
+
+	^self compiledMethod pragmas anySatisfy: [ :p | p selector = #generated ]
+]
+
+{ #category : #accessing }
 FM3Property >> isMultivalued [
 	<FMProperty: #multivalued type: #Boolean defaultValue: false>
 	^isMultivalued
