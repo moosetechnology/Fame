@@ -10,6 +10,7 @@ FM3Class >> stFmInspectorProperties: aBuilder [
 		  addColumn: (SpStringTableColumn title: 'Derived?' evaluated: [ :each | StObjectPrinter asTruncatedTextFrom: each isDerived ]);
 		  addColumn: (SpStringTableColumn title: 'Comment' evaluated: [ :each | StObjectPrinter asTruncatedTextFrom: each comment ]);
 		  items: self allPrimitiveProperties;
+		  beResizable;
 		  yourself
 ]
 
@@ -26,5 +27,6 @@ FM3Class >> stFmInspectorRelations: aBuilder [
 		  addColumn: (SpStringTableColumn title: 'isSource?' evaluated: [ :each | StObjectPrinter asTruncatedTextFrom: each isSource ]);
 		  addColumn: (SpStringTableColumn title: 'Comment' evaluated: [ :each | StObjectPrinter asTruncatedTextFrom: each comment ]);
 		  items: self allComplexProperties;
+		  beResizable;
 		  yourself
 ]
