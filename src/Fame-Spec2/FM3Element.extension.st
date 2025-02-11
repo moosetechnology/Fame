@@ -4,7 +4,7 @@ Extension { #name : #FM3Element }
 FM3Element >> stFmInspectorComment: aBuilder [
 
 	<inspectorPresentationOrder: 5 title: 'Comment'>
-	^ SpTextPresenter new
+	^ aBuilder newText
 		  text: self comment;
 		  yourself
 ]
