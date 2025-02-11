@@ -2,5 +2,12 @@ Extension { #name : #Behavior }
 
 { #category : #'*Fame-Core' }
 Behavior >> allGeneratedTraits [
-	^ self traitComposition allTraits select: #isMetamodelEntity
+
+	^ self allTraits select: #isMetamodelEntity
+]
+
+{ #category : #'*Fame-Core' }
+Behavior >> localGeneratedTraits [
+
+	^ self traits select: #isMetamodelEntity
 ]

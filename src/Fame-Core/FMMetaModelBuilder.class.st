@@ -223,7 +223,7 @@ FMMetaModelBuilder >> processClass: aClass ifPragmaAbsent: anErrorBlock [
 					aClass localSlots
 						select: #isFMRelationSlot
 						thenDo: [ :each | self processSlot: each in: aClass ].
-					traitsDict at: fm3Class put: aClass allGeneratedTraits.
+					traitsDict at: fm3Class put: aClass localGeneratedTraits.
 					elements add: fm3Class ] ]
 ]
 
@@ -309,7 +309,7 @@ FMMetaModelBuilder >> processTrait: aTrait ifPragmaAbsent: anErrorBlock [
 					aTrait localSlots
 						select: #isFMRelationSlot
 						thenDo: [ :each | self processSlot: each in: aTrait ].
-					traitsDict at: fm3Trait put: aTrait allGeneratedTraits.
+					traitsDict at: fm3Trait put: aTrait localGeneratedTraits.
 					elements add: fm3Trait ]
 ]
 
