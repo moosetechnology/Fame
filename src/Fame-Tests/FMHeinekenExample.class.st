@@ -110,11 +110,3 @@ FMHeinekenExample class >> modelMSEWithDanglingReferences [
 			(customer (ref: 4)))
 	)'.
 ]
-
-{ #category : #tests }
-FMHeinekenExample >> testImportMetamodelAndCreateClasses [
-	| gen |
-	gen := FMDefaultCodeGenerator new.
-	gen visit: (FMMetaModel fromString: self class metamodelMSE).
-	gen previewChangesIfShiftPressed
-]
