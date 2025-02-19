@@ -31,6 +31,12 @@ FMSlotMultivalueLink >> addLast: anElement [
 	^ anElement
 ]
 
+{ #category : #converting }
+FMSlotMultivalueLink >> asOrderedCollection [
+
+	^ OrderedCollection newFrom: self
+]
+
 { #category : #accessing }
 FMSlotMultivalueLink >> byName: name [
 
