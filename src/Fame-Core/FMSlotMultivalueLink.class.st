@@ -17,6 +17,12 @@ Class {
 }
 
 { #category : #'instance creation' }
+FMSlotMultivalueLink class >> new [
+
+	^ self new: 0
+]
+
+{ #category : #'instance creation' }
 FMSlotMultivalueLink class >> on: anObject slot: aFMRelationSlot [
 
 	^ self new owner: anObject slot: aFMRelationSlot
