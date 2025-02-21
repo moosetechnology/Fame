@@ -19,7 +19,7 @@ Class {
 { #category : #'instance creation' }
 FMSlotMultivalueLink class >> new [
 
-	^ self new: 0
+	^ self new: 4
 ]
 
 { #category : #'instance creation' }
