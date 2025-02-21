@@ -68,7 +68,6 @@ FMMultiMultivalueLink >> value: aCollection [
 FMMultiMultivalueLink >> with: element opposite: oppositeSelector [
 
 	self assert: oppositeSelector numArgs = 0.
-	self setContents: #(  ).
 	owner := element.
 	opposite := oppositeSelector
 ]

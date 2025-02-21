@@ -41,6 +41,12 @@ Class {
 }
 
 { #category : #'instance creation' }
+FMMultivalueLink class >> new [
+
+	^ self new: 4
+]
+
+{ #category : #'instance creation' }
 FMMultivalueLink class >> on: element opposite: oppositeSelector [
 	^ self new
 		with: element opposite: oppositeSelector;
@@ -51,9 +57,9 @@ FMMultivalueLink class >> on: element opposite: oppositeSelector [
 FMMultivalueLink class >> on: element update: selector from: old to: new [
 	"refresh the other side of the relations to reflect change in value"
 
-	old ~= new
-		ifTrue: [ old ifNotNil: [ (old perform: selector) unsafeRemove: element ].
-			new ifNotNil: [ (new perform: selector) unsafeAdd: element ] ].
+	old ~= new ifTrue: [
+		old ifNotNil: [ (old perform: selector) unsafeRemove: element ].
+		new ifNotNil: [ (new perform: selector) unsafeAdd: element ] ].
 	^ new
 ]
 
@@ -165,7 +171,6 @@ FMMultivalueLink >> value: aCollection [
 FMMultivalueLink >> with: element opposite: oppositeSelector [
 
 	self assert: oppositeSelector numArgs = 1.
-	self setContents: #(  ).
 	owner := element.
 	opposite := oppositeSelector
 ]
