@@ -58,7 +58,7 @@ FMRelationSlot >> addAssociationFrom: ownerObject to: otherObject [
 		"The reverse slot was not found.
 		 To investigate the problem, inspect:
 		 - ownerObject -- The object which relation is set
-		 - otherObject == The object which is set in the relation
+		 - otherObject -- The object which is set in the relation
 		 - `self name` -- The name of the relation in ownerObject that is set to otherObject
 		 - `self targetClass` -- The expected type for otherObject"
 		self halt.
