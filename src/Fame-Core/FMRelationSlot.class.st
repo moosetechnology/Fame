@@ -50,22 +50,21 @@ FMRelationSlot >> addAssociationFrom: ownerObject to: otherObject [
 	association may have to be removed first."
 
 	| realInverseSlot |
-
-	[
-		realInverseSlot := self realInverseSlotFor: otherObject
-	] on: SlotNotFound
-	do: [ :err |
-		"The reverse slot was not found.
+	[ realInverseSlot := self realInverseSlotFor: otherObject ]
+		on: SlotNotFound
+		do: [ :err | "The reverse slot was not found.
 		 To investigate the problem, inspect:
 		 - ownerObject -- The object which relation is set
 		 - otherObject -- The object which is set in the relation
 		 - `self name` -- The name of the relation in ownerObject that is set to otherObject
 		 - `self targetClass` -- The expected type for otherObject"
-		self halt.
-	].
+			self error: (String streamContents: [ :s |
+					 s << 'SlotNotFound: Could not find slot named `' << inverseName << '` in `' << ownerObject displayString << '` (of type ' << ownerObject class name
+					 << ') to write the opposite from slot named `' << name << '` in `' << otherObject displayString << '` (of type ' << otherObject class name << ').' ]) ].
 
 	realInverseSlot isToOne
-		ifTrue: [ (realInverseSlot read: otherObject) ifNotNil: [ :oldObject | realInverseSlot removeAssociationFrom: otherObject to: oldObject ].
+		ifTrue: [
+			(realInverseSlot read: otherObject) ifNotNil: [ :oldObject | realInverseSlot removeAssociationFrom: otherObject to: oldObject ].
 			realInverseSlot writeInverse: ownerObject to: otherObject ]
 		ifFalse: [ (realInverseSlot read: otherObject) unsafeAdd: ownerObject ]
 ]
