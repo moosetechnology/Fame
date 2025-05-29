@@ -95,6 +95,13 @@ FMSlotMultivalueLink >> species [
 	^ OrderedCollection
 ]
 
+{ #category : #adding }
+FMSlotMultivalueLink >> uncheckUnsafeAdd: element [
+	"Calls the implementation in OrderedCollection."
+
+	super addLast: element
+]
+
 { #category : #private }
 FMSlotMultivalueLink >> unsafeAdd: element [
 
