@@ -1,7 +1,7 @@
 Extension { #name : #FM3Package }
 
-{ #category : #'*Fame-Spec2' }
-FM3Package >> stFmInspectorClasses: aBuilder [
+{ #category : #'*Fame-Inspection' }
+FM3Package >> inspectionClasses: aBuilder [
 
 	<inspectorPresentationOrder: 0 title: 'Classes'>
 	^ aBuilder newTable
@@ -15,8 +15,8 @@ FM3Package >> stFmInspectorClasses: aBuilder [
 		  yourself
 ]
 
-{ #category : #'*Fame-Spec2' }
-FM3Package >> stFmInspectorExtensions: aBuilder [
+{ #category : #'*Fame-Inspection' }
+FM3Package >> inspectionExtensions: aBuilder [
 
 	<inspectorPresentationOrder: 0 title: 'Extensions'>
 	^ aBuilder newTable

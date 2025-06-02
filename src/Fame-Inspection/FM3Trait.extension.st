@@ -1,7 +1,7 @@
-Extension { #name : #FM3Class }
+Extension { #name : #FM3Trait }
 
-{ #category : #'*Fame-Spec2' }
-FM3Class >> stFmInspectorProperties: aBuilder [
+{ #category : #'*Fame-Inspection' }
+FM3Trait >> inspectionProperties: aBuilder [
 
 	<inspectorPresentationOrder: 1 title: 'Properties'>
 	^ aBuilder newTable
@@ -13,7 +13,7 @@ FM3Class >> stFmInspectorProperties: aBuilder [
 		  addColumn: (SpStringTableColumn
 				   title: 'Type'
 				   evaluated: [ :each |
-					   StObjectPrinter asTruncatedTextFrom: each stFmTypeString ])
+					   StObjectPrinter asTruncatedTextFrom: each inspectionTypeString ])
 				  beSortable;
 		  addColumn: (SpStringTableColumn
 				   title: 'Derived?'
@@ -30,8 +30,8 @@ FM3Class >> stFmInspectorProperties: aBuilder [
 		  yourself
 ]
 
-{ #category : #'*Fame-Spec2' }
-FM3Class >> stFmInspectorRelations: aBuilder [
+{ #category : #'*Fame-Inspection' }
+FM3Trait >> inspectionRelations: aBuilder [
 
 	<inspectorPresentationOrder: 0 title: 'Relations'>
 	^ aBuilder newTable
@@ -43,7 +43,7 @@ FM3Class >> stFmInspectorRelations: aBuilder [
 		  addColumn: (SpStringTableColumn
 				   title: 'Type'
 				   evaluated: [ :each |
-					   StObjectPrinter asTruncatedTextFrom: each stFmTypeString ])
+					   StObjectPrinter asTruncatedTextFrom: each inspectionTypeString ])
 				  beSortable;
 		  addColumn: (SpStringTableColumn
 				   title: 'Derived?'

@@ -40,7 +40,7 @@ BaselineOfFame >> baseline: spec [
 				with: [ spec requires: #( 'Fame-ImportExport' ) ] ].
 		spec for: (self pharoVersionsFrom: 9) do: [
 			spec
-				package: 'Fame-Spec2'
+				package: 'Fame-Inspection'
 				with: [ spec requires: #( 'Fame-Core' ) ] ].
 
 		"Groups"
