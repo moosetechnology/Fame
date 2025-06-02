@@ -1,7 +1,7 @@
 Extension { #name : #FMMetaModel }
 
-{ #category : #'*Fame-Spec2' }
-FMMetaModel >> stFmInspectorClasses: aBuilder [
+{ #category : #'*Fame-Inspection' }
+FMMetaModel >> inspectionClasses: aBuilder [
 
 	<inspectorPresentationOrder: 0 title: 'Classes'>
 	^ aBuilder newTable
@@ -15,8 +15,8 @@ FMMetaModel >> stFmInspectorClasses: aBuilder [
 		  yourself
 ]
 
-{ #category : #'*Fame-Spec2' }
-FMMetaModel >> stFmInspectorHierarchies: aBuilder [
+{ #category : #'*Fame-Inspection' }
+FMMetaModel >> inspectionHierarchies: aBuilder [
 
 	<inspectorPresentationOrder: 3 title: 'Hierarchies'>
 	^ aBuilder newTree
@@ -32,8 +32,8 @@ FMMetaModel >> stFmInspectorHierarchies: aBuilder [
 		  yourself
 ]
 
-{ #category : #'*Fame-Spec2' }
-FMMetaModel >> stFmInspectorPackages: aBuilder [
+{ #category : #'*Fame-Inspection' }
+FMMetaModel >> inspectionPackages: aBuilder [
 
 	<inspectorPresentationOrder: 2 title: 'Packages'>
 	^ aBuilder newTable
@@ -47,8 +47,8 @@ FMMetaModel >> stFmInspectorPackages: aBuilder [
 		  yourself
 ]
 
-{ #category : #'*Fame-Spec2' }
-FMMetaModel >> stFmInspectorProperties: aBuilder [
+{ #category : #'*Fame-Inspection' }
+FMMetaModel >> inspectionProperties: aBuilder [
 
 	<inspectorPresentationOrder: 5 title: 'Properties'>
 	^ aBuilder newTable
@@ -60,7 +60,7 @@ FMMetaModel >> stFmInspectorProperties: aBuilder [
 		  addColumn: (SpStringTableColumn
 				   title: 'Type'
 				   evaluated: [ :each |
-					   StObjectPrinter asTruncatedTextFrom: each stFmTypeString ])
+					   StObjectPrinter asTruncatedTextFrom: each inspectionTypeString ])
 				  beSortable;
 		  addColumn: (SpStringTableColumn
 				   title: 'Derived?'
@@ -77,8 +77,8 @@ FMMetaModel >> stFmInspectorProperties: aBuilder [
 		  yourself
 ]
 
-{ #category : #'*Fame-Spec2' }
-FMMetaModel >> stFmInspectorTraits: aBuilder [
+{ #category : #'*Fame-Inspection' }
+FMMetaModel >> inspectionTraits: aBuilder [
 
 	<inspectorPresentationOrder: 1 title: 'Traits'>
 	^ aBuilder newTable
