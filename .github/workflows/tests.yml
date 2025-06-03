@@ -1,0 +1,12 @@
+name: Run tests
+
+on:
+  push:
+    branches: [development, master]
+  pull_request:
+    types: [assigned, opened, synchronize, reopened]
+
+jobs:
+  run:
+    uses: moosetechnology/.github/.github/workflows/run-tests.yml@main
+    secrets: inherit
