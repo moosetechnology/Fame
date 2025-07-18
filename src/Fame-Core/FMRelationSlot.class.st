@@ -59,8 +59,8 @@ FMRelationSlot >> addAssociationFrom: ownerObject to: otherObject [
 		 - `self name` -- The name of the relation in ownerObject that is set to otherObject
 		 - `self targetClass` -- The expected type for otherObject"
 			self error: (String streamContents: [ :s |
-					 s << 'SlotNotFound: Could not find slot named `' << inverseName << '` in `' << ownerObject displayString << '` (of type ' << ownerObject class name
-					 << ') to write the opposite from slot named `' << name << '` in `' << otherObject displayString << '` (of type ' << otherObject class name << ').' ]) ].
+					 s << 'SlotNotFound: Could not find slot named `' << inverseName << '` in `' << otherObject displayString << '` (of type ' << otherObject class name
+					 << ') to write the opposite from slot named `' << name << '` in `' << ownerObject displayString << '` (of type ' << ownerObject class name << ').' ]) ].
 
 	realInverseSlot isToOne
 		ifTrue: [
