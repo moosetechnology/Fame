@@ -13,32 +13,34 @@ Internal Representation and Key Implementation Points.
 	metaDescription:		<aFM3Element>		The meta-description of the entity represented by this future.
 "
 Class {
-	#name : #FMFuture,
-	#superclass : #Object,
+	#name : 'FMFuture',
+	#superclass : 'Object',
 	#instVars : [
 		'metaDescription'
 	],
-	#category : #'Fame-ImportExport-Importers'
+	#category : 'Fame-ImportExport-Importers',
+	#package : 'Fame-ImportExport',
+	#tag : 'Importers'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FMFuture class >> in: anImporter named: aString [
 	^ self new
 		in: anImporter named: aString;
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMFuture >> importer [
 	^ self subclassResponsibility
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FMFuture >> in: anOwner named: aString [
 	self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMFuture >> metaDescription [
 	^ metaDescription
 ]

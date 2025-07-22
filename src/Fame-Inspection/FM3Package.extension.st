@@ -1,6 +1,6 @@
-Extension { #name : #FM3Package }
+Extension { #name : 'FM3Package' }
 
-{ #category : #'*Fame-Inspection' }
+{ #category : '*Fame-Inspection' }
 FM3Package >> inspectionClasses: aBuilder [
 
 	<inspectorPresentationOrder: 0 title: 'Classes'>
@@ -15,7 +15,7 @@ FM3Package >> inspectionClasses: aBuilder [
 		  yourself
 ]
 
-{ #category : #'*Fame-Inspection' }
+{ #category : '*Fame-Inspection' }
 FM3Package >> inspectionExtensions: aBuilder [
 
 	<inspectorPresentationOrder: 0 title: 'Extensions'>

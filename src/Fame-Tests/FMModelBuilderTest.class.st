@@ -1,10 +1,11 @@
 Class {
-	#name : #FMModelBuilderTest,
-	#superclass : #TestCase,
-	#category : #'Fame-Tests'
+	#name : 'FMModelBuilderTest',
+	#superclass : 'TestCase',
+	#category : 'Fame-Tests',
+	#package : 'Fame-Tests'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMModelBuilderTest >> testDocument [
 	| client m s |
 	client := FMMSEPrinter onString.
@@ -14,7 +15,7 @@ FMModelBuilderTest >> testDocument [
 	self assert: s equals: '()'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMModelBuilderTest >> testPerson [
 	| client m s |
 	client := FMMSEPrinter onString.
@@ -29,7 +30,7 @@ FMModelBuilderTest >> testPerson [
 		(name ''John Doe'')))'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMModelBuilderTest >> testPersonWithDog [
 	| client m s |
 	client := FMMSEPrinter onString.
@@ -57,7 +58,7 @@ FMModelBuilderTest >> testPersonWithDog [
 				(age 5)))))'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMModelBuilderTest >> testPersonWithDogUsingIdReferences [
 	| client m s |
 	client := FMMSEPrinter onString.
@@ -85,7 +86,7 @@ FMModelBuilderTest >> testPersonWithDogUsingIdReferences [
 		(age 5)))'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMModelBuilderTest >> testPersonWithNicknames [
 	| client m s |
 	client := FMMSEPrinter onString.

@@ -4,34 +4,35 @@ Check (for a class metadescribed with FM3 pragmas) if the FM3 class generated re
 A FM3 class should be named PACKAGE.CLASSNAME whereas the smalltalk class associated should  be named PACKAGECLASSNAME. It is also an error to declare a FM3 meta-description without a package.
 "
 Class {
-	#name : #FameNameConventionBetweenFM3AndSmalltalkRule,
-	#superclass : #ReAbstractRule,
-	#category : #'Fame-Rules'
+	#name : 'FameNameConventionBetweenFM3AndSmalltalkRule',
+	#superclass : 'ReAbstractRule',
+	#category : 'Fame-Rules',
+	#package : 'Fame-Rules'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 FameNameConventionBetweenFM3AndSmalltalkRule class >> checksClass [
 
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FameNameConventionBetweenFM3AndSmalltalkRule class >> group [
 	^ 'Fame'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FameNameConventionBetweenFM3AndSmalltalkRule class >> ruleName [
 
 	^ 'FM3 class doesnt respect the fame name convention between FM3 and Smalltalk '
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FameNameConventionBetweenFM3AndSmalltalkRule class >> uniqueIdentifierName [
 	^ 'NameConventionBetweenFM3AndSmalltalk'
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FameNameConventionBetweenFM3AndSmalltalkRule >> basicCheck: aClass [
 
 	| class |

@@ -1,6 +1,6 @@
-Extension { #name : #MemoryFileWriteStream }
+Extension { #name : 'MemoryFileWriteStream' }
 
-{ #category : #'*Fame-ImportExport' }
+{ #category : '*Fame-ImportExport' }
 MemoryFileWriteStream >> localName [
 	^ 'Memory stream'
 ]

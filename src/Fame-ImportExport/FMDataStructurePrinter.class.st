@@ -17,47 +17,49 @@ Internal Representation and Key Implementation Points.
 
 "
 Class {
-	#name : #FMDataStructurePrinter,
-	#superclass : #Object,
+	#name : 'FMDataStructurePrinter',
+	#superclass : 'Object',
 	#traits : 'FMTImportExportStructure',
 	#classTraits : 'FMTImportExportStructure classTrait',
 	#instVars : [
 		'stream',
 		'indent'
 	],
-	#category : #'Fame-ImportExport-Exporters'
+	#category : 'Fame-ImportExport-Exporters',
+	#package : 'Fame-ImportExport',
+	#tag : 'Exporters'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 FMDataStructurePrinter class >> isAbstract [
 	^ self = FMDataStructurePrinter
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FMDataStructurePrinter class >> on: aStream [
 	^ self new
 		stream: aStream;
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMDataStructurePrinter class >> onString [
 	^ self on: '' writeStream
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FMDataStructurePrinter >> crTabs [
 	stream
 		cr;
 		tab: indent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMDataStructurePrinter >> stream [
 	^ stream
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMDataStructurePrinter >> stream: aStream [
 	stream := aStream.
 	indent := 0

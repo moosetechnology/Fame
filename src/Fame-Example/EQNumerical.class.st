@@ -1,31 +1,32 @@
 Class {
-	#name : #EQNumerical,
-	#superclass : #EQSimple,
+	#name : 'EQNumerical',
+	#superclass : 'EQSimple',
 	#instVars : [
 		'number'
 	],
-	#category : #'Fame-Example'
+	#category : 'Fame-Example',
+	#package : 'Fame-Example'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 EQNumerical class >> annotation [
 	<FMClass: #Numerical super: #EQSimple>
 	<package: #EQ>
 	<abstract>
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 EQNumerical >> number [
 	<FMProperty: #number type: #Number>
 	^number
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 EQNumerical >> number: anObject [
 	number := anObject
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 EQNumerical >> printOn: stream [
 
 	stream print: number

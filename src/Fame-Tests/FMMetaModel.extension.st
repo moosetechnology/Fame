@@ -1,11 +1,11 @@
-Extension { #name : #FMMetaModel }
+Extension { #name : 'FMMetaModel' }
 
-{ #category : #'*Fame-Tests' }
+{ #category : '*Fame-Tests' }
 FMMetaModel >> builderClass [
 	^ FMMetamodelScripter
 ]
 
-{ #category : #'*Fame-Tests' }
+{ #category : '*Fame-Tests' }
 FMMetaModel >> document: scriptBlock [
 	(self builderClass client: (FMImporter model: self)) document: scriptBlock
 ]

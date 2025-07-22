@@ -1,9 +1,10 @@
 Trait {
-	#name : #LIBTNamed,
-	#category : #'Fame-Example'
+	#name : 'LIBTNamed',
+	#category : 'Fame-Example',
+	#package : 'Fame-Example'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 LIBTNamed classSide >> annotation [
 	<FMClass: #TNamed super: #Object>
 	<package: #LIB>

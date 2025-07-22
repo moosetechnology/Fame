@@ -2,12 +2,13 @@
 Baseline for the Fame project.
 "
 Class {
-	#name : #BaselineOfFame,
-	#superclass : #BaselineOf,
-	#category : #BaselineOfFame
+	#name : 'BaselineOfFame',
+	#superclass : 'BaselineOf',
+	#category : 'BaselineOfFame',
+	#package : 'BaselineOfFame'
 }
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfFame >> baseline: spec [
 
 	<baseline>
@@ -51,7 +52,7 @@ BaselineOfFame >> baseline: spec [
 			group: 'Tests' with: #( 'Fame-Tests' ) ]
 ]
 
-{ #category : #dependencies }
+{ #category : 'dependencies' }
 BaselineOfFame >> hashtable: spec [
 	spec
 		baseline: 'Hashtable'
@@ -60,7 +61,7 @@ BaselineOfFame >> hashtable: spec [
 				repository: 'github://pharo-contributions/Hashtable:v1.x.x/src' ]
 ]
 
-{ #category : #dependencies }
+{ #category : 'dependencies' }
 BaselineOfFame >> iterators: spec [
 
 	spec baseline: 'Iterators' with: [
@@ -69,7 +70,7 @@ BaselineOfFame >> iterators: spec [
 			loads: #( 'core' 'collections' 'shell-dsl' ) ]
 ]
 
-{ #category : #dependencies }
+{ #category : 'dependencies' }
 BaselineOfFame >> mocketry: spec [
 
 	spec baseline: 'Mocketry' with: [
@@ -78,23 +79,23 @@ BaselineOfFame >> mocketry: spec [
 			repository: 'github://dionisiydk/Mocketry:v7.0.2' ]
 ]
 
-{ #category : #dependencies }
+{ #category : 'dependencies' }
 BaselineOfFame >> pharoBackwardCompatibility: spec [
 	spec baseline: 'PharoBackwardCompatibility' with: [ spec repository: 'github://jecisc/PharoBackwardCompatibility:v1.x.x/src' ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BaselineOfFame >> pharoVersionsFrom: aVersion [
 
 	^ (aVersion to: SystemVersion current major) collect: [ :v | ('pharo' , v asString , '.x') asSymbol ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 BaselineOfFame >> projectClass [
 	^ MetacelloCypressBaselineProject
 ]
 
-{ #category : #dependencies }
+{ #category : 'dependencies' }
 BaselineOfFame >> treeQuery: spec [
 	spec baseline: 'TreeQuery' with: [ 
 		spec

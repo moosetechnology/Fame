@@ -1,22 +1,24 @@
 Class {
-	#name : #FM3PackageTest,
-	#superclass : #FM3ElementTest,
-	#category : #'Fame-Tests-Core'
+	#name : 'FM3PackageTest',
+	#superclass : 'FM3ElementTest',
+	#category : 'Fame-Tests-Core',
+	#package : 'Fame-Tests',
+	#tag : 'Core'
 }
 
-{ #category : #helpers }
+{ #category : 'helpers' }
 FM3PackageTest >> actualClass [
 	^ FM3Package
 ]
 
-{ #category : #helpers }
+{ #category : 'helpers' }
 FM3PackageTest >> addUnamedOwnerTo: anElement [
 	"Package don't have parents."
 
 	
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FM3PackageTest >> testClassNamed [
 	| package class |
 	package := metaMetamodel packageNamed: 'FM3'.
@@ -26,7 +28,7 @@ FM3PackageTest >> testClassNamed [
 	self assert: class package name equals: 'FM3'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FM3PackageTest >> testClassNamedIfAbsent [
 	| package |
 	package := metaMetamodel packageNamed: 'FM3'.
@@ -34,14 +36,14 @@ FM3PackageTest >> testClassNamedIfAbsent [
 	self assert: (package classNamed: 'NonExisting' ifAbsent: [ 42 ]) equals: 42
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FM3PackageTest >> testHasOwner [
 	self deny: element hasOwner.
 	self addUnamedOwnerTo: element.
 	self deny: element hasOwner
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FM3PackageTest >> testMetamodel [
 
 	self assert: (metaMetamodel packageNamed: 'FM3') metamodel equals: metaMetamodel

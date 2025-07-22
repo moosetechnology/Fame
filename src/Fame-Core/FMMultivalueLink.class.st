@@ -31,29 +31,31 @@ that refers to it are updated accordingly.
 
 "
 Class {
-	#name : #FMMultivalueLink,
-	#superclass : #OrderedCollection,
+	#name : 'FMMultivalueLink',
+	#superclass : 'OrderedCollection',
 	#instVars : [
 		'owner',
 		'opposite'
 	],
-	#category : #'Fame-Core-Utilities'
+	#category : 'Fame-Core-Utilities',
+	#package : 'Fame-Core',
+	#tag : 'Utilities'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FMMultivalueLink class >> new [
 
 	^ self new: 4
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FMMultivalueLink class >> on: element opposite: oppositeSelector [
 	^ self new
 		with: element opposite: oppositeSelector;
 		yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FMMultivalueLink class >> on: element update: selector from: old to: new [
 	"refresh the other side of the relations to reflect change in value"
 
@@ -63,7 +65,7 @@ FMMultivalueLink class >> on: element update: selector from: old to: new [
 	^ new
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 FMMultivalueLink >> addLast: anElement [
 
 	self addOpposite: anElement.
@@ -71,25 +73,25 @@ FMMultivalueLink >> addLast: anElement [
 	^ anElement
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 FMMultivalueLink >> addOpposite: anElement [
 
 	anElement perform: opposite with: owner
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 FMMultivalueLink >> asOrderedCollection [
 
 	^ OrderedCollection newFrom: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMMultivalueLink >> byName: name [
 
 	^ self byName: name ifAbsent: [ self errorNotFound: name ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMMultivalueLink >> byName: name ifAbsent: exceptionBlock [
 
 	^ self
@@ -97,7 +99,7 @@ FMMultivalueLink >> byName: name ifAbsent: exceptionBlock [
 		  ifNone: exceptionBlock
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMMultivalueLink >> byName: name ifPresent: aBlock ifAbsent: exceptionBlock [
 
 	^ self
@@ -106,13 +108,13 @@ FMMultivalueLink >> byName: name ifPresent: aBlock ifAbsent: exceptionBlock [
 		  ifNone: exceptionBlock
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FMMultivalueLink >> printOn: aStream [
 
 	self asArray printOn: aStream
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 FMMultivalueLink >> remove: anElement ifAbsent: exceptionBlock [
 
 	super remove: anElement ifAbsent: [ ^ exceptionBlock value ].
@@ -120,7 +122,7 @@ FMMultivalueLink >> remove: anElement ifAbsent: exceptionBlock [
 	^ anElement
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 FMMultivalueLink >> removeAll [
 	"The collection is reversed to make a copy, to avoid trying to remove while iterating,
 	and to remove items from last to first, which is faster."
@@ -128,38 +130,38 @@ FMMultivalueLink >> removeAll [
 	self reversed do: [ :anElement | self remove: anElement ]
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 FMMultivalueLink >> removeOpposite: anElement [
 
 	anElement perform: opposite with: nil
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FMMultivalueLink >> species [
 
 	^ OrderedCollection
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FMMultivalueLink >> uncheckUnsafeAdd: element [
 	"Calls the implementation in OrderedCollection."
 
 	super addLast: element
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FMMultivalueLink >> unsafeAdd: element [
 
 	(self includes: element) ifFalse: [ super addLast: element ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FMMultivalueLink >> unsafeRemove: element [
 
 	super remove: element ifAbsent: nil
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 FMMultivalueLink >> value: aCollection [
 
 	^ self
@@ -167,7 +169,7 @@ FMMultivalueLink >> value: aCollection [
 		  addAll: aCollection
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FMMultivalueLink >> with: element opposite: oppositeSelector [
 
 	self assert: oppositeSelector numArgs = 1.

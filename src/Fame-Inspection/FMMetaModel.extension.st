@@ -1,6 +1,6 @@
-Extension { #name : #FMMetaModel }
+Extension { #name : 'FMMetaModel' }
 
-{ #category : #'*Fame-Inspection' }
+{ #category : '*Fame-Inspection' }
 FMMetaModel >> inspectionClasses: aBuilder [
 
 	<inspectorPresentationOrder: 0 title: 'Classes'>
@@ -15,7 +15,7 @@ FMMetaModel >> inspectionClasses: aBuilder [
 		  yourself
 ]
 
-{ #category : #'*Fame-Inspection' }
+{ #category : '*Fame-Inspection' }
 FMMetaModel >> inspectionHierarchies: aBuilder [
 
 	<inspectorPresentationOrder: 3 title: 'Hierarchies'>
@@ -32,7 +32,7 @@ FMMetaModel >> inspectionHierarchies: aBuilder [
 		  yourself
 ]
 
-{ #category : #'*Fame-Inspection' }
+{ #category : '*Fame-Inspection' }
 FMMetaModel >> inspectionPackages: aBuilder [
 
 	<inspectorPresentationOrder: 2 title: 'Packages'>
@@ -47,7 +47,7 @@ FMMetaModel >> inspectionPackages: aBuilder [
 		  yourself
 ]
 
-{ #category : #'*Fame-Inspection' }
+{ #category : '*Fame-Inspection' }
 FMMetaModel >> inspectionProperties: aBuilder [
 
 	<inspectorPresentationOrder: 5 title: 'Properties'>
@@ -77,7 +77,7 @@ FMMetaModel >> inspectionProperties: aBuilder [
 		  yourself
 ]
 
-{ #category : #'*Fame-Inspection' }
+{ #category : '*Fame-Inspection' }
 FMMetaModel >> inspectionTraits: aBuilder [
 
 	<inspectorPresentationOrder: 1 title: 'Traits'>

@@ -2,27 +2,29 @@
 An error thrown when Fame looks for a given element in a model and does not find it
 "
 Class {
-	#name : #FMElementNotFound,
-	#superclass : #Error,
+	#name : 'FMElementNotFound',
+	#superclass : 'Error',
 	#instVars : [
 		'element'
 	],
-	#category : #'Fame-Core-Utilities'
+	#category : 'Fame-Core-Utilities',
+	#package : 'Fame-Core',
+	#tag : 'Utilities'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMElementNotFound >> element [
 
 	^ element
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMElementNotFound >> element: anObject [
 
 	element := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMElementNotFound >> messageText [
 	^'Element ''' , element asString , ''' not found'
 ]

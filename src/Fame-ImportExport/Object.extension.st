@@ -1,6 +1,6 @@
-Extension { #name : #Object }
+Extension { #name : 'Object' }
 
-{ #category : #'*Fame-ImportExport' }
+{ #category : '*Fame-ImportExport' }
 Object >> handleFameProperty: aSymbol value: anObject [
 	"Override me if you want your object to deal with undefined properties loaded from a JSON.
 	
@@ -22,12 +22,12 @@ Object >> handleFameProperty: aSymbol value: anObject [
 		  ifFalse: [ false ]
 ]
 
-{ #category : #'*Fame-ImportExport' }
+{ #category : '*Fame-ImportExport' }
 Object >> isDanglingReference [
 	^ false
 ]
 
-{ #category : #'*Fame-ImportExport' }
+{ #category : '*Fame-ImportExport' }
 Object >> msePrintOn: aStream [
 	self error: 'This type of object cannot be exported in a mse: ' , self class printString
 ]

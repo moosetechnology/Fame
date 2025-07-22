@@ -13,18 +13,20 @@ Examples
 	printer stream contents
 "
 Class {
-	#name : #FMMSEPrinter,
-	#superclass : #FMDataStructurePrinter,
-	#category : #'Fame-ImportExport-Exporters'
+	#name : 'FMMSEPrinter',
+	#superclass : 'FMDataStructurePrinter',
+	#category : 'Fame-ImportExport-Exporters',
+	#package : 'Fame-ImportExport',
+	#tag : 'Exporters'
 }
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMMSEPrinter >> beginDocument [
 
 	stream nextPut: $(
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMMSEPrinter >> beginEntity: name [
 
 	indent := indent + 1.
@@ -34,7 +36,7 @@ FMMSEPrinter >> beginEntity: name [
 		nextPutAll: name
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMMSEPrinter >> beginProperty: name [
 	indent := indent + 1.
 	self crTabs.
@@ -43,32 +45,32 @@ FMMSEPrinter >> beginProperty: name [
 		nextPutAll: name
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMMSEPrinter >> endDocument [
 	stream nextPut: $)
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMMSEPrinter >> endEntity: name [
 
 	stream nextPut: $).
 	indent := indent - 1
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMMSEPrinter >> endProperty: name [
 
 	stream nextPut: $).
 	indent := indent - 1
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMMSEPrinter >> primitive: value [
 	stream space.
 	value msePrintOn: stream
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMMSEPrinter >> referenceName: name [
 	stream
 		space;
@@ -79,7 +81,7 @@ FMMSEPrinter >> referenceName: name [
 		nextPut: $)
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMMSEPrinter >> referenceNumber: index [
 	stream
 		space;
@@ -90,7 +92,7 @@ FMMSEPrinter >> referenceNumber: index [
 		nextPut: $)
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMMSEPrinter >> serial: index [
 	stream
 		space;

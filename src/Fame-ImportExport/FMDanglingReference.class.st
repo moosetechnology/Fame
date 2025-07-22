@@ -17,34 +17,36 @@ Internal Representation and Key Implementation Points.
 
 "
 Class {
-	#name : #FMDanglingReference,
-	#superclass : #Object,
+	#name : 'FMDanglingReference',
+	#superclass : 'Object',
 	#instVars : [
 		'position',
 		'parentProperty'
 	],
-	#category : #'Fame-ImportExport-Importers'
+	#category : 'Fame-ImportExport-Importers',
+	#package : 'Fame-ImportExport',
+	#tag : 'Importers'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FMDanglingReference class >> with: aFutureAttribute [
 	^ self new
 		parentProperty: aFutureAttribute;
 		yourself
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FMDanglingReference >> isDanglingReference [
 	^ true
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FMDanglingReference >> parentProperty: aFutureProperty [
 	parentProperty := aFutureProperty.
 	position := parentProperty values size + 1
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMDanglingReference >> resolve: element [
 	self assert: element isNotNil.
 	parentProperty replaceDanglingReferenceAt: position by: element

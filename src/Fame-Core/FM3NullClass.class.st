@@ -12,7 +12,9 @@ Examples
 	FM3NullClass new
 "
 Class {
-	#name : #FM3NullClass,
-	#superclass : #FM3Class,
-	#category : #'Fame-Core-Model'
+	#name : 'FM3NullClass',
+	#superclass : 'FM3Class',
+	#category : 'Fame-Core-Model',
+	#package : 'Fame-Core',
+	#tag : 'Model'
 }

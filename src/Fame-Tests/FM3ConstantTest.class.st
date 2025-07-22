@@ -1,66 +1,68 @@
 Class {
-	#name : #FM3ConstantTest,
-	#superclass : #TestCase,
+	#name : 'FM3ConstantTest',
+	#superclass : 'TestCase',
 	#instVars : [
 		'constant'
 	],
-	#category : #'Fame-Tests-Core'
+	#category : 'Fame-Tests-Core',
+	#package : 'Fame-Tests',
+	#tag : 'Core'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 FM3ConstantTest class >> isAbstract [
 	^ self = FM3ConstantTest
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FM3ConstantTest class >> shouldInheritSelectors [
 	^ true
 ]
 
-{ #category : #helpers }
+{ #category : 'helpers' }
 FM3ConstantTest >> actualClass [
 	^ self subclassResponsibility
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FM3ConstantTest >> numberOfSuperClasses [
 	^ 1
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FM3ConstantTest >> setUp [
 	super setUp.
 	constant := self actualClass instance
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FM3ConstantTest >> testAllSubperclasses [
 	self assert: constant allSuperclasses isNotNil.
 	self assert: constant allSuperclasses isCollection.
 	self assert: constant allSuperclasses size equals: self numberOfSuperClasses
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FM3ConstantTest >> testHasOwner [
 	self deny: constant hasOwner
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FM3ConstantTest >> testHasPackage [
 	self deny: constant hasPackage
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FM3ConstantTest >> testHasSuperclass [
 	self assert: constant hasSuperclass
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FM3ConstantTest >> testIsPrimitive [
 	self assert: constant isPrimitive
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FM3ConstantTest >> testIsRoot [
 	self assert: constant isRoot equals: self numberOfSuperClasses = 0
 ]

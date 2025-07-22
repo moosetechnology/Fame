@@ -5,12 +5,14 @@ Description
 I am a concrete validator that runs multiple checks on a FMMetaModelBuilder.
 "
 Class {
-	#name : #FMMetamodelValidator,
-	#superclass : #FMAbstractMetamodelValidator,
-	#category : #'Fame-Core-Utilities'
+	#name : 'FMMetamodelValidator',
+	#superclass : 'FMAbstractMetamodelValidator',
+	#category : 'Fame-Core-Utilities',
+	#package : 'Fame-Core',
+	#tag : 'Utilities'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMMetamodelValidator >> validate [
 	self
 		validateLinksAreBijectifs;
@@ -18,7 +20,7 @@ FMMetamodelValidator >> validate [
 		validateContainersAreNotMultivalued
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMMetamodelValidator >> validateContainersAreNotMultivalued [
 	"It is not possible to have <multivalue> and <container> on the same method. A container represents a aggregation UML link that is incompatible with the multivalue kind of the link."
 
@@ -32,7 +34,7 @@ FMMetamodelValidator >> validateContainersAreNotMultivalued [
 	self assert: iterator atEnd description: 'It is not possible to have <multivalue> and <container> on the same method. A container represents a aggregation UML link that is incompatible with the multivalue kind of the link.'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMMetamodelValidator >> validateLinksAreBijectifs [
 	"Check that opposite link is bijective, i.e. there are not 2 values that references the same opposite."
 
@@ -46,7 +48,7 @@ FMMetamodelValidator >> validateLinksAreBijectifs [
 		> NullAddableObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMMetamodelValidator >> validatePropertiesHaveOpposites [
 	"In a metamodel some properties should have opposites. Those properties are:
 	- containers

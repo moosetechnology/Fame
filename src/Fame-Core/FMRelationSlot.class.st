@@ -22,28 +22,30 @@ Internal Representation and Key Implementation Points.
 
 "
 Class {
-	#name : #FMRelationSlot,
-	#superclass : #InstanceVariableSlot,
+	#name : 'FMRelationSlot',
+	#superclass : 'InstanceVariableSlot',
 	#instVars : [
 		'targetClass',
 		'inverseName',
 		'inverseSlotDic'
 	],
-	#category : #'Fame-Core-Utilities'
+	#category : 'Fame-Core-Utilities',
+	#package : 'Fame-Core',
+	#tag : 'Utilities'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FMRelationSlot class >> named: aSymbol inverse: anInverseSymbol inClass: aTargetClassOrSymbol [ 
 
 	^(super named: aSymbol) inverse: anInverseSymbol inClass: aTargetClassOrSymbol 
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FMRelationSlot >> = anObject [
 	^ super = anObject and: [ self targetClassName = anObject targetClassName and: [ inverseName = anObject inverseName ] ]
 ]
 
-{ #category : #internal }
+{ #category : 'internal' }
 FMRelationSlot >> addAssociationFrom: ownerObject to: otherObject [
 	"A new reference from <ownerObject> to <otherObject> is created. Here we update the other 
 	side of the association. If the other side is a ToOne association this means that an other
@@ -69,7 +71,7 @@ FMRelationSlot >> addAssociationFrom: ownerObject to: otherObject [
 		ifFalse: [ (realInverseSlot read: otherObject) unsafeAdd: ownerObject ]
 ]
 
-{ #category : #'code generation' }
+{ #category : 'code generation' }
 FMRelationSlot >> emitStore: aMethodBuilder [
 	| tempName |
 	tempName := '0slotTempForStackManipulation'.
@@ -85,7 +87,7 @@ FMRelationSlot >> emitStore: aMethodBuilder [
 		storeInstVar: index
 ]
 
-{ #category : #'code generation' }
+{ #category : 'code generation' }
 FMRelationSlot >> emitValue: aMethodBuilder [
 	aMethodBuilder
 		pushLiteralVariable: (AdditionalBinding key: #slot value: self);
@@ -93,81 +95,81 @@ FMRelationSlot >> emitValue: aMethodBuilder [
 		send: #read:
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FMRelationSlot >> hasInverse [
 	^ inverseName isNotNil
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FMRelationSlot >> hasSameDefinitionAs: otherSlot [
 	^ (super hasSameDefinitionAs: otherSlot)
 		and: [ self targetClassName = otherSlot targetClassName
 			and: [ inverseName = otherSlot inverseName ] ]
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FMRelationSlot >> hash [
 	^ (super hash bitXor: self targetClassName hash) bitXor: inverseName hash
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FMRelationSlot >> inClass: aTargetClassOrSymbol [
 	targetClass := aTargetClassOrSymbol
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FMRelationSlot >> initialize [
 	super initialize.
 	inverseSlotDic := IdentityDictionary new
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FMRelationSlot >> inverse: anInverseSymbol inClass: aTargetClassOrSymbol [
 	self inClass: aTargetClassOrSymbol.
 	inverseName := anInverseSymbol
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMRelationSlot >> inverseName [
 	^ inverseName
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FMRelationSlot >> isAccessedIn: aMethod [
 	^ aMethod allLiterals includes: self
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FMRelationSlot >> isFMRelationSlot [
 	^ true
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FMRelationSlot >> isFameSlot [
 	^ true
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FMRelationSlot >> isReadIn: aMethod [
 	^ aMethod allLiterals includes: self
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FMRelationSlot >> isToMany [
 	^ self isToOne not
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FMRelationSlot >> isToOne [
 	^ false
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FMRelationSlot >> isWrittenIn: aMethod [
 	^ aMethod allLiterals includes: self
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FMRelationSlot >> printOn: aStream [
 	aStream
 		store: self name;
@@ -182,12 +184,12 @@ FMRelationSlot >> printOn: aStream [
 				store: inverseName ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMRelationSlot >> realInverseSlotFor: anObject [
 	^ inverseSlotDic at: anObject class ifAbsentPut: [ anObject class slotNamed: self inverseName ]
 ]
 
-{ #category : #internal }
+{ #category : 'internal' }
 FMRelationSlot >> removeAssociationFrom: ownerObject to: otherObject [
 	"A reference from <ownerObject> to <otherObject> is removed. Here we update the other 
 	side of the association. If the other side is a ToOne association set the value to nil,
@@ -201,7 +203,7 @@ FMRelationSlot >> removeAssociationFrom: ownerObject to: otherObject [
 		ifFalse: [ (realInverseSlot read: otherObject) unsafeRemove: ownerObject ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMRelationSlot >> targetClass [
 
 	targetClass isSymbol
@@ -212,12 +214,12 @@ FMRelationSlot >> targetClass [
 	^targetClass
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMRelationSlot >> targetClassName [
 	^ targetClass isSymbol ifTrue: [ targetClass ] ifFalse: [ targetClass name ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FMRelationSlot >> type: aTargetClassOrSymbol opposite: anInverseSymbol [
 	self inClass: aTargetClassOrSymbol.
 	inverseName := anInverseSymbol

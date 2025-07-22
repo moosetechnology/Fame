@@ -16,22 +16,24 @@ Public API and Key Messages
 - #isPrimitive 			Return true if the FM3Class is a primitive type.
 "
 Class {
-	#name : #FM3Primitive,
-	#superclass : #FM3Constant,
-	#category : #'Fame-Core-Model'
+	#name : 'FM3Primitive',
+	#superclass : 'FM3Constant',
+	#category : 'Fame-Core-Model',
+	#package : 'Fame-Core',
+	#tag : 'Model'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 FM3Primitive class >> isAbstract [
 	^ self = FM3Primitive
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FM3Primitive >> accept: aVisitor [
 	^ aVisitor visitPrimitive: self
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FM3Primitive >> isPrimitive [
 	^ true
 ]

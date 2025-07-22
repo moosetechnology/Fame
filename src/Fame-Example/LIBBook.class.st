@@ -1,23 +1,24 @@
 Class {
-	#name : #LIBBook,
-	#superclass : #LIBRoot,
+	#name : 'LIBBook',
+	#superclass : 'LIBRoot',
 	#traits : 'LIBTNamed',
 	#classTraits : 'LIBTNamed classTrait',
 	#instVars : [
 		'title',
 		'authors'
 	],
-	#category : #'Fame-Example'
+	#category : 'Fame-Example',
+	#package : 'Fame-Example'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 LIBBook class >> annotation [
 	<FMClass: #Book super: #Object>
 	<package: #LIB>
 	
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 LIBBook class >> title: aString authors: aCollection [
 	^ self new
 		title: aString;
@@ -25,35 +26,35 @@ LIBBook class >> title: aString authors: aCollection [
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 LIBBook >> authors [
 	<FMProperty: #authors type: #LIBPerson opposite: #books> <multivalued>
 	^authors
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 LIBBook >> authors: aPerson [
 	authors value: aPerson
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 LIBBook >> initialize [
 	super initialize.
 	authors := FMMultiMultivalueLink on: self opposite: #books
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 LIBBook >> prettyString [
 	^ self title
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 LIBBook >> title [
 	<FMProperty: #title type: #String>
 	^title
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 LIBBook >> title: aString [
 	title := aString
 ]
