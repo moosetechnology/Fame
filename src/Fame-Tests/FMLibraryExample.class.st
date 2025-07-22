@@ -1,10 +1,11 @@
 Class {
-	#name : #FMLibraryExample,
-	#superclass : #TestCase,
-	#category : #'Fame-Tests'
+	#name : 'FMLibraryExample',
+	#superclass : 'TestCase',
+	#category : 'Fame-Tests',
+	#package : 'Fame-Tests'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMLibraryExample >> testAddingM2ElementToM2RepositoryMustFail [
 	| metamodel lib |
 	metamodel := LIBRoot libraryMetaModel.
@@ -14,7 +15,7 @@ FMLibraryExample >> testAddingM2ElementToM2RepositoryMustFail [
 	self should: [ metamodel add: lib books anyOne ] raise: Error
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMLibraryExample >> testBookstore [
 	| metamodel names |
 	metamodel := FMMetaModel fromString: FMMSEParserTest sampleMetaMse.
@@ -34,7 +35,7 @@ FMLibraryExample >> testBookstore [
 	self assert: names size equals: 10
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMLibraryExample >> testBookstore2 [
 	| package class attribute objectMetaDescription metamodel |
 	metamodel := FMMetaModel fromString: FMMSEParserTest sampleMetaMse.
@@ -57,17 +58,17 @@ FMLibraryExample >> testBookstore2 [
 	self assert: attribute opposite isNotNil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMLibraryExample >> testLibrary [
 	self assert: LIBRoot library books size equals: 3
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMLibraryExample >> testLibraryModel [
 	self assert: LIBRoot libraryModel elements size equals: 10	 "1 + 1 + 3 + 5 library librarian books authors"
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMLibraryExample >> testMetaMetamodelIsaM3Repository [
 	| metamodel |
 	metamodel := LIBRoot libraryMetaModel.
@@ -75,7 +76,7 @@ FMLibraryExample >> testMetaMetamodelIsaM3Repository [
 	self assert: metamodel metaMetaModel equals: metamodel metamodel
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMLibraryExample >> testMetamodelSmalltalkBinding [
 	| metamodel b p lib |
 	metamodel := LIBRoot libraryMetaModel.
@@ -109,7 +110,7 @@ FMLibraryExample >> testMetamodelSmalltalkBinding [
 	^ metamodel
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMLibraryExample >> testPragmaProcessing [
 	| pragmaProcessor |
 	pragmaProcessor := FMMetaModelBuilder new
@@ -124,7 +125,7 @@ FMLibraryExample >> testPragmaProcessing [
 	self denyEmpty: pragmaProcessor properties
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMLibraryExample >> testPragmasAsMetamodel [
 	| metamodel |
 	metamodel := LIBRoot libraryMetaModel.
@@ -139,7 +140,7 @@ FMLibraryExample >> testPragmasAsMetamodel [
 	self assert: (metamodel elementNamed: 'LIB.Book.authors') opposite equals: (metamodel elementNamed: 'LIB.Person.books')
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMLibraryExample >> testPrintMetamodel [
 
 	self assert:
@@ -148,7 +149,7 @@ FMLibraryExample >> testPrintMetamodel [
 		(name ''LIB'')')
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMLibraryExample >> testPrintModel [
 
 	self assert: (LIBRoot libraryModel exportMSEString beginsWith: '(

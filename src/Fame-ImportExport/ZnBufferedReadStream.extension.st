@@ -1,6 +1,6 @@
-Extension { #name : #ZnBufferedReadStream }
+Extension { #name : 'ZnBufferedReadStream' }
 
-{ #category : #'*Fame-ImportExport' }
+{ #category : '*Fame-ImportExport' }
 ZnBufferedReadStream >> localName [
 	^ self wrappedStream localName
 ]

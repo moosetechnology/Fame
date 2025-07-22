@@ -1,26 +1,27 @@
 Class {
-	#name : #RPGTreasure,
-	#superclass : #Object,
+	#name : 'RPGTreasure',
+	#superclass : 'Object',
 	#instVars : [
 		'keeper',
 		'owner'
 	],
-	#category : #'Fame-Example'
+	#category : 'Fame-Example',
+	#package : 'Fame-Example'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 RPGTreasure class >> annotation [
 	<FMClass: #Treasure super: #Object>
 	<package: #RPG>
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RPGTreasure >> keeper [
 	<FMProperty: #keeper type: #RPGDragon opposite: #hoard>
 	^keeper
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RPGTreasure >> keeper: aDragon [
 	keeper := FMMultivalueLink on: self
 					update: #hoard
@@ -28,13 +29,13 @@ RPGTreasure >> keeper: aDragon [
 					to: aDragon
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RPGTreasure >> owner [
 	<FMProperty: #owner type: #RPGHero opposite: #talisman>
 	^owner
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RPGTreasure >> owner: aHero [
 	owner ~= aHero
 		ifTrue: [ | old |

@@ -1,16 +1,18 @@
 Class {
-	#name : #FMJSONPrinter,
-	#superclass : #FMDataStructurePrinter,
-	#category : #'Fame-ImportExport-Exporters'
+	#name : 'FMJSONPrinter',
+	#superclass : 'FMDataStructurePrinter',
+	#category : 'Fame-ImportExport-Exporters',
+	#package : 'Fame-ImportExport',
+	#tag : 'Exporters'
 }
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMJSONPrinter >> beginDocument [
 
 	stream nextPut: $[
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMJSONPrinter >> beginEntity: name [
 	indent := indent + 1.
 	stream nextPutAll: '{'.
@@ -22,12 +24,12 @@ FMJSONPrinter >> beginEntity: name [
 	self crTabs
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMJSONPrinter >> beginMultivalue: anEntity [
 	stream nextPut: $[
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMJSONPrinter >> beginProperty: name [
 	self crTabs.
 	stream 
@@ -37,29 +39,29 @@ FMJSONPrinter >> beginProperty: name [
 		nextPut: $:
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMJSONPrinter >> endDocument [
 	self crTabs.
 	stream nextPut: $]
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMJSONPrinter >> endEntity: name [
 	self crTabs.
 	stream nextPut: $}.
 	indent := indent - 1
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMJSONPrinter >> endMultivalue: anEntity [
 	stream nextPut: $]
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMJSONPrinter >> endProperty: name [
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMJSONPrinter >> primitive: value [
 	value isString
 		ifTrue: [ 
@@ -79,17 +81,17 @@ FMJSONPrinter >> primitive: value [
 		ifFalse: [ value msePrintOn: stream ]
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMJSONPrinter >> printEntitySeparator [
 	stream nextPut: $,
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMJSONPrinter >> printPropertySeparator [
 	stream nextPut: $,
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMJSONPrinter >> referenceName: name [
 	stream
 		space;
@@ -102,7 +104,7 @@ FMJSONPrinter >> referenceName: name [
 		nextPut: $}
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMJSONPrinter >> referenceNumber: index [
 	stream
 		space;
@@ -113,7 +115,7 @@ FMJSONPrinter >> referenceNumber: index [
 		nextPut: $}
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMJSONPrinter >> serial: index [
 
 	stream

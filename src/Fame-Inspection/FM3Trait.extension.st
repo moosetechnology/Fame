@@ -1,6 +1,6 @@
-Extension { #name : #FM3Trait }
+Extension { #name : 'FM3Trait' }
 
-{ #category : #'*Fame-Inspection' }
+{ #category : '*Fame-Inspection' }
 FM3Trait >> inspectionProperties: aBuilder [
 
 	<inspectorPresentationOrder: 1 title: 'Properties'>
@@ -30,7 +30,7 @@ FM3Trait >> inspectionProperties: aBuilder [
 		  yourself
 ]
 
-{ #category : #'*Fame-Inspection' }
+{ #category : '*Fame-Inspection' }
 FM3Trait >> inspectionRelations: aBuilder [
 
 	<inspectorPresentationOrder: 0 title: 'Relations'>

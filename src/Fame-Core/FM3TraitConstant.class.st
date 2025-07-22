@@ -1,20 +1,22 @@
 Class {
-	#name : #FM3TraitConstant,
-	#superclass : #FM3Constant,
-	#category : #'Fame-Core-Model'
+	#name : 'FM3TraitConstant',
+	#superclass : 'FM3Constant',
+	#category : 'Fame-Core-Model',
+	#package : 'Fame-Core',
+	#tag : 'Model'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3TraitConstant class >> constantName [
 	^ #Trait
 ]
 
-{ #category : #'accessing-query' }
+{ #category : 'accessing-query' }
 FM3TraitConstant class >> defaultSuperclass [
 	^ nil
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FM3TraitConstant >> isRoot [
 	^ true
 ]

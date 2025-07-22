@@ -1,1 +1,1 @@
-Package { #name : #'Fame-Tests' }
+Package { #name : 'Fame-Tests' }

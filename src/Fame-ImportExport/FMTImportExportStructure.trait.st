@@ -1,95 +1,97 @@
 Trait {
-	#name : #FMTImportExportStructure,
-	#category : #'Fame-ImportExport-Traits'
+	#name : 'FMTImportExportStructure',
+	#category : 'Fame-ImportExport-Traits',
+	#package : 'Fame-ImportExport',
+	#tag : 'Traits'
 }
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMTImportExportStructure >> beginDocument [
 	^ self explicitRequirement
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMTImportExportStructure >> beginEntity: name [
 	^ self explicitRequirement
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMTImportExportStructure >> beginMultivalue: anEntity [
 
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMTImportExportStructure >> beginProperty: name [
 	^ self explicitRequirement
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMTImportExportStructure >> endDocument [
 	^ self explicitRequirement
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMTImportExportStructure >> endEntity: name [
 	^ self explicitRequirement
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMTImportExportStructure >> endMultivalue: anEntity [
 
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMTImportExportStructure >> endProperty: name [
 	^ self explicitRequirement
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMTImportExportStructure >> inDocumentDo: aBlock [
 	self beginDocument.
 	aBlock value.
 	self endDocument
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMTImportExportStructure >> inEntity: aString do: aBlock [
 	self beginEntity: aString.
 	aBlock value.
 	self endEntity: aString
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMTImportExportStructure >> inProperty: aString do: aBlock [
 	self beginProperty: aString.
 	aBlock value.
 	self endProperty: aString
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMTImportExportStructure >> primitive: value [
 	^ self explicitRequirement
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMTImportExportStructure >> printEntitySeparator [
 	
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMTImportExportStructure >> printPropertySeparator [
 	
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMTImportExportStructure >> referenceName: name [
 	^ self explicitRequirement
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMTImportExportStructure >> referenceNumber: index [
 	^ self explicitRequirement
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMTImportExportStructure >> serial: index [
 	^ self explicitRequirement
 ]

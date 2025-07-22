@@ -1,38 +1,40 @@
 Class {
-	#name : #FMModelTest,
-	#superclass : #TestCase,
+	#name : 'FMModelTest',
+	#superclass : 'TestCase',
 	#instVars : [
 		'element',
 		'model'
 	],
-	#category : #'Fame-Tests-Core'
+	#category : 'Fame-Tests-Core',
+	#package : 'Fame-Tests',
+	#tag : 'Core'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 FMModelTest class >> shouldInheritSelectors [
 	^ true
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FMModelTest >> actualClass [
 	^ FMModel
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FMModelTest >> setUp [
 	super setUp.
 	model := self actualClass new.
 	element := FM3Object instance
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMModelTest >> testAdd [
 	self assertEmpty: model.
 	model add: element.
 	self assert: model size equals: 1
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMModelTest >> testRemove [
 	model add: element.
 	self denyEmpty: model.
@@ -40,7 +42,7 @@ FMModelTest >> testRemove [
 	self assertEmpty: model
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMModelTest >> testSilentRemove [
 	self shouldnt: [ model remove: nil ] raise: Exception.
 	self assertEmpty: model

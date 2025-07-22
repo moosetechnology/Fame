@@ -16,33 +16,35 @@ Internal Representation and Key Implementation Points.
 
 "
 Class {
-	#name : #FMFutureEntity,
-	#superclass : #FMFuture,
+	#name : 'FMFutureEntity',
+	#superclass : 'FMFuture',
 	#instVars : [
 		'instance',
 		'currentProperty',
 		'importer'
 	],
-	#category : #'Fame-ImportExport-Importers'
+	#category : 'Fame-ImportExport-Importers',
+	#package : 'Fame-ImportExport',
+	#tag : 'Importers'
 }
 
-{ #category : #adding }
+{ #category : 'adding' }
 FMFutureEntity >> addToPropertyValues: anObject [
 	self currentProperty addToValues: anObject
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMFutureEntity >> beginProperty: aString [
 	self assert: currentProperty isNil.
 	currentProperty := FMFutureProperty in: self named: aString
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMFutureEntity >> currentProperty [
 	^ currentProperty
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMFutureEntity >> endProperty [
 	"A well formated MSE file should end a property with 0 dangling references and we could assert it. But removing the assertiong makes the parser tolerant so some defects in MSE files."
 
@@ -50,19 +52,19 @@ FMFutureEntity >> endProperty [
 	currentProperty := nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMFutureEntity >> importer [
 	^ importer
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FMFutureEntity >> in: anImporter named: aString [
 	importer := anImporter.
 	metaDescription := importer metamodel elementNamed: aString.
 	instance := metaDescription createInstance
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMFutureEntity >> instance [
 	^ instance
 ]

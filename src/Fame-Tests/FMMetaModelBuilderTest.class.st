@@ -1,10 +1,12 @@
 Class {
-	#name : #FMMetaModelBuilderTest,
-	#superclass : #TestCase,
-	#category : #'Fame-Tests-Core'
+	#name : 'FMMetaModelBuilderTest',
+	#superclass : 'TestCase',
+	#category : 'Fame-Tests-Core',
+	#package : 'Fame-Tests',
+	#tag : 'Core'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMetaModelBuilderTest >> testAnnotationTypes [
 	| metaMetaModel package class property properties |
 	metaMetaModel := FMMetaMetaModel default.
@@ -49,7 +51,7 @@ FMMetaModelBuilderTest >> testAnnotationTypes [
 	self assert: (properties noneSatisfy: #isContainer)
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMetaModelBuilderTest >> testBuildFM3 [
 	| processor all |
 	processor := FMMetaModelBuilder new.
@@ -60,14 +62,14 @@ FMMetaModelBuilderTest >> testBuildFM3 [
 	self assert: all anyOne name equals: #FM3	"We do not test more here, please refer to FMMetaRepositoryTest for more FM3 tests..."
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMetaModelBuilderTest >> testEmptyProcessor [
 	"An empty processor knows all primitives, but does not contain them as elements!"
 
 	self assertEmpty: FMMetaModelBuilder new elements
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMetaModelBuilderTest >> testSimple [
 	| processor rep elements originalSize props mmClass |
 	processor := FMMetaModelBuilder new.

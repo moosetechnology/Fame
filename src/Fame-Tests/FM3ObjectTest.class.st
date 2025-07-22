@@ -1,25 +1,27 @@
 Class {
-	#name : #FM3ObjectTest,
-	#superclass : #FM3ConstantTest,
-	#category : #'Fame-Tests-Core'
+	#name : 'FM3ObjectTest',
+	#superclass : 'FM3ConstantTest',
+	#category : 'Fame-Tests-Core',
+	#package : 'Fame-Tests',
+	#tag : 'Core'
 }
 
-{ #category : #helpers }
+{ #category : 'helpers' }
 FM3ObjectTest >> actualClass [
 	^ FM3Object
 ]
 
-{ #category : #helpers }
+{ #category : 'helpers' }
 FM3ObjectTest >> numberOfSuperClasses [
 	^ 0
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FM3ObjectTest >> testHasSuperclass [
 	self deny: constant hasSuperclass
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FM3ObjectTest >> testIsPrimitive [
 	self deny: constant isPrimitive
 ]

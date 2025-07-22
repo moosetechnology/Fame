@@ -1,6 +1,6 @@
-Extension { #name : #FM3Class }
+Extension { #name : 'FM3Class' }
 
-{ #category : #'*Fame-Inspection' }
+{ #category : '*Fame-Inspection' }
 FM3Class >> inspectionProperties: aBuilder [
 
 	<inspectorPresentationOrder: 1 title: 'Properties'>
@@ -29,7 +29,7 @@ FM3Class >> inspectionProperties: aBuilder [
 		  yourself
 ]
 
-{ #category : #'*Fame-Inspection' }
+{ #category : '*Fame-Inspection' }
 FM3Class >> inspectionRelations: aBuilder [
 
 	<inspectorPresentationOrder: 0 title: 'Relations'>
