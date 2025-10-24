@@ -1055,6 +1055,39 @@ FMJSONParserTest >> testSimpleDocument [
 ]
 
 { #category : 'tests' }
+FMJSONParserTest >> testString [
+
+	| result |
+	importer reset.
+	parser fromString: '"test"'.
+	result := parser String.
+	self assert: result equals: 'test'.
+	self assert: parser atEnd
+]
+
+{ #category : 'tests' }
+FMJSONParserTest >> testStringWithEscapedBackslash [
+
+	| result |
+	importer reset.
+	parser fromString: '"test\\test"'.
+	result := parser String.
+	self assert: result equals: 'test\test'.
+	self assert: parser atEnd
+]
+
+{ #category : 'tests' }
+FMJSONParserTest >> testStringWithEscapedDoubleQuotes [
+
+	| result |
+	importer reset.
+	parser fromString: '"test\"test"'.
+	result := parser String.
+	self assert: result equals: 'test"test'.
+	self assert: parser atEnd
+]
+
+{ #category : 'tests' }
 FMJSONParserTest >> testValueFloat [
 	importer reset.
 	parser fromString: '3.14'.
