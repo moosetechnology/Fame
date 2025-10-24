@@ -155,7 +155,7 @@ FMJSONParser >> Serial [
 { #category : #tokens }
 FMJSONParser >> String [
 
-	| previousChar |
+	| previousChar isEscape |
 	"read a string"
 	$" == chararacter ifFalse: [ ^ nil ].
 
@@ -164,8 +164,9 @@ FMJSONParser >> String [
 	[ 
 	previousChar := chararacter.
 	self next.
+	isEscape := chararacter = $" and: [ previousChar = $\ ].
 	chararacter ifNil: [ self syntaxError ].
-	$" == chararacter and: [ $\ ~= previousChar ] ] whileFalse: [ ($\ ~= chararacter or: [ previousChar == $\ ]) ifTrue: [ buffer nextPut: chararacter ] ].
+	$" == chararacter and: [ isEscape not ] ] whileFalse: [ ($\ ~= chararacter or: [ previousChar == $\ ]) ifTrue: [ buffer nextPut: chararacter ] ].
 	"eat the last "" character"
 	self next.
 	self tWHITESPACE.
