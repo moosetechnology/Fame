@@ -10,12 +10,14 @@ Examples
 	FM3Number instance
 "
 Class {
-	#name : #FM3Number,
-	#superclass : #FM3Primitive,
-	#category : #'Fame-Core-Model'
+	#name : 'FM3Number',
+	#superclass : 'FM3Primitive',
+	#category : 'Fame-Core-Model',
+	#package : 'Fame-Core',
+	#tag : 'Model'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Number class >> constantName [
 	^ #Number
 ]

@@ -1,19 +1,19 @@
-Extension { #name : #FMModel }
+Extension { #name : 'FMModel' }
 
-{ #category : #'*Fame-ImportExport' }
+{ #category : '*Fame-ImportExport' }
 FMModel >> exportJsonString [
 
 	^ String streamContents: [ :stream |
 		  self exportWithPrinter: (FMJSONPrinter on: stream) ]
 ]
 
-{ #category : #'*Fame-ImportExport' }
+{ #category : '*Fame-ImportExport' }
 FMModel >> exportMSEString [
 
 	^ String streamContents: [ :stream | self exportToMSEStream: stream ]
 ]
 
-{ #category : #'*Fame-ImportExport' }
+{ #category : '*Fame-ImportExport' }
 FMModel >> exportOn: aStream [
 
 	self
@@ -25,7 +25,7 @@ FMModel >> exportOn: aStream [
 	self exportToMSEStream: aStream
 ]
 
-{ #category : #'*Fame-ImportExport' }
+{ #category : '*Fame-ImportExport' }
 FMModel >> exportString [
 
 	self
@@ -37,13 +37,13 @@ FMModel >> exportString [
 	^ self exportMSEString
 ]
 
-{ #category : #'*Fame-ImportExport' }
+{ #category : '*Fame-ImportExport' }
 FMModel >> exportToMSEStream: aStream [
 
 	self exportWithPrinter: (FMMSEPrinter on: aStream)
 ]
 
-{ #category : #'*Fame-ImportExport' }
+{ #category : '*Fame-ImportExport' }
 FMModel >> exportWithPrinter: aParseClient [
 
 	FMModelExporter new
@@ -52,7 +52,7 @@ FMModel >> exportWithPrinter: aParseClient [
 		run
 ]
 
-{ #category : #'*Fame-ImportExport' }
+{ #category : '*Fame-ImportExport' }
 FMModel class >> fromJSONString: aString [
 
 	^ self new
@@ -60,7 +60,7 @@ FMModel class >> fromJSONString: aString [
 		  yourself
 ]
 
-{ #category : #'*Fame-ImportExport' }
+{ #category : '*Fame-ImportExport' }
 FMModel class >> fromString: aString [
 
 	^ self new
@@ -68,7 +68,7 @@ FMModel class >> fromString: aString [
 		  yourself
 ]
 
-{ #category : #'*Fame-ImportExport' }
+{ #category : '*Fame-ImportExport' }
 FMModel >> importJSONStream: aReadStream [
 
 	(FMImporter model: self)
@@ -77,13 +77,13 @@ FMModel >> importJSONStream: aReadStream [
 		run
 ]
 
-{ #category : #'*Fame-ImportExport' }
+{ #category : '*Fame-ImportExport' }
 FMModel >> importJSONString: mseString [
 
 	self importJSONStream: mseString readStream
 ]
 
-{ #category : #'*Fame-ImportExport' }
+{ #category : '*Fame-ImportExport' }
 FMModel >> importStream: aReadStream [
 
 	(FMImporter model: self)
@@ -91,7 +91,7 @@ FMModel >> importStream: aReadStream [
 		run
 ]
 
-{ #category : #'*Fame-ImportExport' }
+{ #category : '*Fame-ImportExport' }
 FMModel >> importString: mseString [
 
 	self importStream: mseString readStream

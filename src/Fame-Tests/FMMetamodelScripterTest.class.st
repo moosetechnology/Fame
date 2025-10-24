@@ -1,20 +1,21 @@
 Class {
-	#name : #FMMetamodelScripterTest,
-	#superclass : #TestCase,
+	#name : 'FMMetamodelScripterTest',
+	#superclass : 'TestCase',
 	#instVars : [
 		'metamodel'
 	],
-	#category : #'Fame-Tests'
+	#category : 'Fame-Tests',
+	#package : 'Fame-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 FMMetamodelScripterTest >> setUp [
 	super setUp.
 	metamodel := FMMetaModel new.
 	metamodel document: FMDungeonExample dungeonScript
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMetamodelScripterTest >> testClasses [
 	self assert: metamodel classes size equals: 3.
 	self assert: (metamodel elementNamed: 'RPG.Dragon') isNotNil.
@@ -25,7 +26,7 @@ FMMetamodelScripterTest >> testClasses [
 	self assert: (metamodel elementNamed: 'RPG.Hero') isFM3Class
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMetamodelScripterTest >> testDragonHoardsTreasures [
 	| a b |
 	a := metamodel elementNamed: 'RPG.Dragon.hoard'.
@@ -38,7 +39,7 @@ FMMetamodelScripterTest >> testDragonHoardsTreasures [
 	self deny: b isMultivalued
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMetamodelScripterTest >> testDragonsKilledByHeros [
 	| a b |
 	a := metamodel elementNamed: 'RPG.Dragon.killedBy'.
@@ -51,7 +52,7 @@ FMMetamodelScripterTest >> testDragonsKilledByHeros [
 	self assert: b isMultivalued
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMetamodelScripterTest >> testHeroHasTwinHero [
 	| a |
 	a := metamodel elementNamed: 'RPG.Hero.twin'.
@@ -60,7 +61,7 @@ FMMetamodelScripterTest >> testHeroHasTwinHero [
 	self deny: a isMultivalued
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMetamodelScripterTest >> testHeroOwnsTalisman [
 	| a b |
 	a := metamodel elementNamed: 'RPG.Treasure.owner'.
@@ -73,14 +74,14 @@ FMMetamodelScripterTest >> testHeroOwnsTalisman [
 	self deny: b isMultivalued
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMetamodelScripterTest >> testPackages [
 	self assert: metamodel packages size equals: 1.
 	self assert: metamodel packages anyOne name isSymbol.
 	self assert: metamodel packages anyOne name equals: #RPG
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMetamodelScripterTest >> testProperties [
 	self assert: metamodel properties size equals: 7.
 	self assert: (metamodel elementNamed: 'RPG.Dragon.hoard') isNotNil.

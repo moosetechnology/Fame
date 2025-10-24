@@ -43,17 +43,19 @@ Internal Representation and Key Implementation Points.
 
 "
 Class {
-	#name : #FMModel,
-	#superclass : #Object,
+	#name : 'FMModel',
+	#superclass : 'Object',
 	#instVars : [
 		'elements',
 		'metamodel',
 		'additionalProperties'
 	],
-	#category : #'Fame-Core-Models'
+	#category : 'Fame-Core-Models',
+	#package : 'Fame-Core',
+	#tag : 'Models'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FMModel class >> withMetamodel: aMetamodel [
 
 	^ self new
@@ -61,165 +63,165 @@ FMModel class >> withMetamodel: aMetamodel [
 		  yourself
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FMModel >> accept: aVisitor [
 	aVisitor visitModel: self
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 FMModel >> add: element [
 	elements add: element.
 	self postAdd: element
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 FMModel >> addAll: elementCollection [
 	elementCollection do: [ :each | self add: each ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMModel >> additionalProperties [
 	^ additionalProperties
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMModel >> additionalPropertiesFor: entityClass [
 	^ self additionalProperties fmModelAt: entityClass
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMModel >> additionalProperty: aSymbol for: entityClass [
 	^ (self additionalPropertiesFor: entityClass) at: aSymbol
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMModel >> additionalProperty: aSymbol for: entityClass ifAbsentPut: aBlock [
 	^ (self additionalPropertiesFor: entityClass) at: aSymbol ifAbsentPut: aBlock
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMModel >> additionalProperty: aSymbol for: entityClass put: anObject [
 	^ (self additionalPropertiesFor: entityClass) at: aSymbol put: anObject
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FMModel >> classIsRoot: element [
 	^ (self containersOf: element) isEmpty
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMModel >> cleanAdditionalProperties [
 	additionalProperties := IdentityDictionary new
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FMModel >> coerceProperty: propertyOrName receiver: receiver [
 	propertyOrName isFM3Property ifTrue: [ ^ propertyOrName ].
 	propertyOrName isString ifTrue: [ ^ (self metaDescriptionOf: receiver) propertyNamed: propertyOrName ].
 	self error
 ]
 
-{ #category : #'accessing-meta' }
+{ #category : 'accessing-meta' }
 FMModel >> containersOf: element [
 	^ (self metaDescriptionOf: element)
 		ifNil: [ #() ]
 		ifNotNil: [ :meta | meta ownerProperties flatCollectAsSet: [ :property | self get: property element: element ] ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FMModel >> defaultMetamodel [
 	^ FMMetaModel new
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMModel >> elements [
 	^ elements asArray
 ]
 
-{ #category : #'accessing-meta' }
+{ #category : 'accessing-meta' }
 FMModel >> get: propertyOrName element: element [
 	^ (self coerceProperty: propertyOrName receiver: element) getFrom: element
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FMModel >> includes: element [
 	"Do not use the getter here to not cast the elements as array. Important for performances."
 
 	^ elements includes: element
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FMModel >> initialize [
 	super initialize.
 	elements := IdentitySet new.
 	additionalProperties := IdentityDictionary new
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FMModel >> isEmpty [
 	^ elements isEmpty
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FMModel >> isMetaMetamodel [
 	^ false
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FMModel >> isMetamodel [
 	^ false
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FMModel >> isNotEmpty [
 	^ self isEmpty not
 ]
 
-{ #category : #'accessing-meta' }
+{ #category : 'accessing-meta' }
 FMModel >> metaDescriptionOf: element [
 	^ element metaDescriptionIn: self metamodel
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMModel >> metaMetaModel [
 	^ self metamodel metamodel
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMModel >> metamodel [
 	^ metamodel ifNil: [ metamodel := self defaultMetamodel ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMModel >> metamodel: aMetamodel [
 	metamodel := aMetamodel
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FMModel >> postAdd: element [
 	"do nothing"
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 FMModel >> remove: element [
 	elements remove: element ifAbsent: [  ]
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 FMModel >> removeAll: elementCollection [
 	elementCollection do: [ :each | self remove: each ]
 ]
 
-{ #category : #'accessing-meta' }
+{ #category : 'accessing-meta' }
 FMModel >> set: propertyOrName element: element values: values [
 	^ (self coerceProperty: propertyOrName receiver: element) setOn: element values: values
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMModel >> size [
 	^ self elements size
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FMModel >> updateCache [
 ]

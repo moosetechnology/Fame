@@ -1,19 +1,20 @@
 Class {
-	#name : #FMEquationSystemExample,
-	#superclass : #TestCase,
+	#name : 'FMEquationSystemExample',
+	#superclass : 'TestCase',
 	#instVars : [
 		'metaModel'
 	],
-	#category : #'Fame-Tests'
+	#category : 'Fame-Tests',
+	#package : 'Fame-Tests'
 }
 
-{ #category : #'As yet unclassified' }
+{ #category : 'As yet unclassified' }
 FMEquationSystemExample class >> createMetamodel [
 	^ FMMetaModelBuilder
 		metamodelFrom: {EQCompound . EQEquation . EQEquationSystem . EQExpression . EQIdentifier . EQNumerical . EQOperator . EQSimple . EQVariable}
 ]
 
-{ #category : #'As yet unclassified' }
+{ #category : 'As yet unclassified' }
 FMEquationSystemExample class >> modelString [
 
 ^'(
@@ -60,19 +61,19 @@ FMEquationSystemExample class >> modelString [
 )'
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FMEquationSystemExample >> setUp [
 	super setUp.
 	metaModel := self class createMetamodel
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMEquationSystemExample >> testAllSubclasses [
 	self assert: (metaModel elementNamed: 'EQ.Expression') isNotNil.
 	self assert: (metaModel elementNamed: 'EQ.Expression') allSubclasses size equals: 4
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMEquationSystemExample >> testMetamodel [
 	self assert: metaModel elements size equals: 19.
 	self assert: metaModel packages size equals: 1.
@@ -80,12 +81,12 @@ FMEquationSystemExample >> testMetamodel [
 	self assert: metaModel properties size equals: 9
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMEquationSystemExample >> testMetamodelContainsCompound [
 	self assert: (metaModel elementNamed: 'EQ.Compound') isNotNil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMEquationSystemExample >> testPrintString [
 	| model systems |
 	model := (FMModel withMetamodel: metaModel)

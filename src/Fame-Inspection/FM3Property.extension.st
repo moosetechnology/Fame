@@ -1,6 +1,6 @@
-Extension { #name : #FM3Property }
+Extension { #name : 'FM3Property' }
 
-{ #category : #'*Fame-Inspection' }
+{ #category : '*Fame-Inspection' }
 FM3Property >> inspectionTypeString [
 
 	^ String streamContents: [ :s |

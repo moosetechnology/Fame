@@ -48,8 +48,8 @@ Internal Representation and Key Implementation Points.
 
 "
 Class {
-	#name : #FM3Property,
-	#superclass : #FM3Element,
+	#name : 'FM3Property',
+	#superclass : 'FM3Element',
 	#instVars : [
 		'isContainer',
 		'isDerived',
@@ -64,35 +64,37 @@ Class {
 		'defaultValue',
 		'hasDefaultValueFromType'
 	],
-	#category : #'Fame-Core-Model'
+	#category : 'Fame-Core-Model',
+	#package : 'Fame-Core',
+	#tag : 'Model'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FM3Property class >> annotation [
 	<FMClass: #Property super: #FM3Element>
 	<package: #FM3>
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Property >> compiledMethod [
 	^ self mmClass ifNotNil: [ :aClass | aClass implementingClass >> self implementingSelector ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FM3Property >> defaultValue [
 	<FMProperty: #defaultValue type: #Object>
 	"The type of this property should be FM3Primitive or something else, but it's currently impossible to reference abstract classes"
 	^ defaultValue 
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FM3Property >> defaultValue: aValue [
 
 	defaultValue := aValue
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FM3Property >> getFrom: element [
 	"This method is meant to be used by the repository"
 
@@ -103,7 +105,7 @@ FM3Property >> getFrom: element [
 		ifFalse: [ result ifNil: [ Array new ] ifNotNil: [ Array with: result ] ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FM3Property >> getRawFrom: element [
 	"This is internal logic for retrieving the actual value of a property from an element.
 	By default call the implementing selector."
@@ -111,60 +113,60 @@ FM3Property >> getRawFrom: element [
 	^ element perform: self implementingSelector
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FM3Property >> hasDefaultValue [
 	^ defaultValue isNotNil 
 	
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FM3Property >> hasDefaultValueFromType [
 
 	<FMProperty: #hasDefaultValueFromType type: #Boolean>
 	^ hasDefaultValueFromType
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FM3Property >> hasDefaultValueFromType: aBoolean [
 
 	hasDefaultValueFromType := aBoolean
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FM3Property >> hasImplementingSelector [
 	^ self implementingSelector isNotNil
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FM3Property >> hasOpposite [
 	^ opposite isNotNil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Property >> implementingClass [
 	"Return the real class implementing the selector of the property."
 
 	^ self mmClass implementingClass
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Property >> implementingSelector [
 	^ implementingSelector
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Property >> implementingSelector: compiledMethod [ 
 	implementingSelector := compiledMethod
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Property >> implementingType [
 	"Return the real type implementing the property."
 
 	^ self type implementingClass
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FM3Property >> initialize [
 	super initialize.
 	isContainer := false.
@@ -174,46 +176,46 @@ FM3Property >> initialize [
 	isTarget := false
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FM3Property >> isChildrenProperty [
 	<FMProperty: #composite type: #Boolean>
 	<derived>
 	^ self hasOpposite and: [ self opposite isContainer ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Property >> isContainer [
 	<FMProperty: #container type: #Boolean defaultValue: false>
 	^isContainer
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Property >> isContainer: anObject [
 	isContainer := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Property >> isDerived [
 	<FMProperty: #derived type: #Boolean defaultValue: false>
 	^isDerived
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Property >> isDerived: anObject [
 	isDerived := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Property >> isExtension [
 	^ self package isNotNil
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FM3Property >> isFM3Property [
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Property >> isGenerated [
 	"Note: we do not meta describe this 'property' because it is not fully implemented
 	 (no associated instance variable, no setter).
@@ -223,18 +225,18 @@ FM3Property >> isGenerated [
 	^self compiledMethod pragmas anySatisfy: [ :p | p selector = #generated ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Property >> isMultivalued [
 	<FMProperty: #multivalued type: #Boolean defaultValue: false>
 	^isMultivalued
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Property >> isMultivalued: anObject [
 	isMultivalued := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Property >> isRelation [
 
 	^ self hasOpposite and: [ 
@@ -245,27 +247,27 @@ FM3Property >> isRelation [
 						  opposite isSource not and: [ opposite isTarget not ] ] ] ] ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Property >> isSource [
 	^ isSource
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Property >> isSource: anObject [
 	isSource := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Property >> isTarget [
 	^ isTarget
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Property >> isTarget: anObject [
 	isTarget := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Property >> mmClass [
 	<FMProperty: #class type: #FM3Type opposite: #properties>
 	<container>
@@ -273,7 +275,7 @@ FM3Property >> mmClass [
 	^class 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Property >> mmClass: newClass [
 	class := FMMultivalueLink on: self
 					update: #properties
@@ -281,14 +283,14 @@ FM3Property >> mmClass: newClass [
 					to: newClass.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Property >> opposite [
 	<FMProperty: #opposite type: 'FM3.Property' opposite: #opposite>
 	
 	^opposite 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Property >> opposite: new [
 	| old |
 	opposite == new ifTrue: [ ^ self ].
@@ -299,19 +301,19 @@ FM3Property >> opposite: new [
 	new ifNotNil: [ new opposite: self ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Property >> owner [
 	^ self mmClass
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Property >> package [
 	<FMProperty: #package type: #FM3Package opposite: #extensions>
 	self flag: 'Must return null when not an extensions method.'.
 	^ package
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Property >> package: newPackage [
 	
 	package := FMMultivalueLink on: self
@@ -320,7 +322,7 @@ FM3Property >> package: newPackage [
 					to: newPackage
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FM3Property >> setOn: element rawValue: array [
 	"This is the internal logic to set the value inside the object.
 	By default build and call a mutator for the implementing selector"
@@ -328,7 +330,7 @@ FM3Property >> setOn: element rawValue: array [
 	element perform: self implementingSelector asMutator with: array
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FM3Property >> setOn: element values: array [
 	"This method is meant to be used by the repository"
 
@@ -343,13 +345,13 @@ FM3Property >> setOn: element values: array [
 	element mmSetProperty: self to: parameter
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Property >> type [
 	<FMProperty: #type type: #FM3Class>
 	^type
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Property >> type: anObject [
 	type := anObject
 ]

@@ -2,34 +2,35 @@
 Check if the opposite class declared in a pragma #MSEProperty:type:opposite: is defined.
 "
 Class {
-	#name : #FameOppositeClassNotExistRule,
-	#superclass : #ReAbstractRule,
-	#category : #'Fame-Rules'
+	#name : 'FameOppositeClassNotExistRule',
+	#superclass : 'ReAbstractRule',
+	#category : 'Fame-Rules',
+	#package : 'Fame-Rules'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 FameOppositeClassNotExistRule class >> checksMethod [
 
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FameOppositeClassNotExistRule class >> group [
 	^ 'Fame'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FameOppositeClassNotExistRule class >> ruleName [
 
 	^ 'An opposite class declared in pragma #FMProperty:type:opposite: does not exist'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FameOppositeClassNotExistRule class >> uniqueIdentifierName [
 	^ 'OppositeClassNotExist'
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FameOppositeClassNotExistRule >> basicCheck: aMethod [
 
 	((aMethod methodClass methodNamed: aMethod selector) pragmaAt: #FMProperty:type:opposite:) ifNotNil: [ :pragma |

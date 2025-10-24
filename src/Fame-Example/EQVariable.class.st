@@ -1,31 +1,32 @@
 Class {
-	#name : #EQVariable,
-	#superclass : #EQSimple,
+	#name : 'EQVariable',
+	#superclass : 'EQSimple',
 	#instVars : [
 		'identifier'
 	],
-	#category : #'Fame-Example'
+	#category : 'Fame-Example',
+	#package : 'Fame-Example'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 EQVariable class >> annotation [
 	<FMClass: #Variable super: #EQSimple>
 	<package: #EQ>
 	<abstract>
 ]
 
-{ #category : #Fame }
+{ #category : 'Fame' }
 EQVariable >> identifier [
 	<FMProperty: #identifier type: #EQIdentifier>
 	^identifier
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 EQVariable >> identifier: anObject [
 	identifier := anObject
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 EQVariable >> printOn: stream [
 
 	stream print: identifier

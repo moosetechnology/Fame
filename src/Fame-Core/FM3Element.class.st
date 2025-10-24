@@ -22,17 +22,19 @@ Internal Representation and Key Implementation Points.
 	name:		<aString>		Name of the element.
 "
 Class {
-	#name : #FM3Element,
-	#superclass : #Object,
+	#name : 'FM3Element',
+	#superclass : 'Object',
 	#instVars : [
 		'name',
 		'metamodel',
 		'comment'
 	],
-	#category : #'Fame-Core-Model'
+	#category : 'Fame-Core-Model',
+	#package : 'Fame-Core',
+	#tag : 'Model'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FM3Element class >> annotation [
 	<FMClass: #Element super: #Object>
 	<package: #FM3>
@@ -40,36 +42,36 @@ FM3Element class >> annotation [
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FM3Element class >> isAbstract [
 	^ self = FM3Element
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FM3Element class >> named: aString [
 	^ self new
 		name: aString;
 		yourself
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FM3Element >> accept: arg1 [ 
 	^ self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Element >> comment [
 
 	^ comment
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Element >> comment: anObject [
 
 	comment := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Element >> fullName [
 	<FMProperty: #fullName type: #String>
 	<derived>
@@ -81,48 +83,48 @@ FM3Element >> fullName [
 			owner fullName ifNotNil: [ :fullName | fullName , '.' , self name ] ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FM3Element >> hasComment [
 
 	^ self comment isNotNil
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FM3Element >> hasOwner [
 	^ self owner isNotNil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Element >> metamodel [
 
 	^ metamodel
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Element >> metamodel: anObject [
 
 	metamodel := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Element >> name [
 	<FMProperty: #name type: #String>
 	^name 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Element >> name: aString [
 	name := aString ifNotNil: #asSymbol
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Element >> owner [
 	<FMProperty: #owner type: #FM3Element>
 	<derived>
 	^ self subclassResponsibility
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 FM3Element >> printOn: aStream [
 	super printOn: aStream.
 	name

@@ -21,15 +21,17 @@ Examples
 	FMMetaMetaModel testMetaMetaModel. ""This one will return a new instance if you wish to do some testing.""
 "
 Class {
-	#name : #FMMetaMetaModel,
-	#superclass : #FMMetaModel,
+	#name : 'FMMetaMetaModel',
+	#superclass : 'FMMetaModel',
 	#classVars : [
 		'UniqueInstance'
 	],
-	#category : #'Fame-Core-Models'
+	#category : 'Fame-Core-Models',
+	#package : 'Fame-Core',
+	#tag : 'Models'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMMetaMetaModel class >> default [
 	^ UniqueInstance
 		ifNil: [ UniqueInstance := super new
@@ -38,29 +40,29 @@ FMMetaMetaModel class >> default [
 				yourself ]
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FMMetaMetaModel class >> new [
 	^ self error: 'The FMMetaMetaModel should be accessed via the #default method. In case you need a new instance for tests purposes you can use #testMetaMetaModel.'
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FMMetaMetaModel class >> reset [
 	<script>
 	UniqueInstance := nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMMetaMetaModel class >> testMetaMetaModel [
 	^ super new
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FMMetaMetaModel >> defaultMetamodel [
 	"The Meta Meta Model is its own Meta model."
 	^ self
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FMMetaMetaModel >> initialize [
 	super initialize.
 	self
@@ -70,7 +72,7 @@ FMMetaMetaModel >> initialize [
 				elements)
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FMMetaMetaModel >> isMetaMetamodel [
 	^ true
 ]

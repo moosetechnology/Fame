@@ -7,29 +7,31 @@ I am a class meant to be used as an internal of a FMMany slot.
 I'll be wrapped by the slot and manage the content of the many slot.
 "
 Class {
-	#name : #FMSlotMultivalueLink,
-	#superclass : #OrderedCollection,
+	#name : 'FMSlotMultivalueLink',
+	#superclass : 'OrderedCollection',
 	#instVars : [
 		'owner',
 		'slot'
 	],
-	#category : #'Fame-Core-Utilities'
+	#category : 'Fame-Core-Utilities',
+	#package : 'Fame-Core',
+	#tag : 'Utilities'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FMSlotMultivalueLink class >> new [
 
 	^ self new: 4
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FMSlotMultivalueLink class >> on: anObject slot: aFMRelationSlot [
 
 	^ self new owner: anObject slot: aFMRelationSlot
 
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 FMSlotMultivalueLink >> addLast: anElement [
 
 	slot add: anElement to: owner.
@@ -37,19 +39,19 @@ FMSlotMultivalueLink >> addLast: anElement [
 	^ anElement
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 FMSlotMultivalueLink >> asOrderedCollection [
 
 	^ OrderedCollection newFrom: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMSlotMultivalueLink >> byName: name [
 
 	^ self byName: name ifAbsent: [ self errorNotFound: name ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMSlotMultivalueLink >> byName: name ifAbsent: exceptionBlock [
 
 	^ self
@@ -57,7 +59,7 @@ FMSlotMultivalueLink >> byName: name ifAbsent: exceptionBlock [
 		  ifNone: exceptionBlock
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMSlotMultivalueLink >> byName: name ifPresent: aBlock ifAbsent: exceptionBlock [
 
 	^ self
@@ -66,14 +68,14 @@ FMSlotMultivalueLink >> byName: name ifPresent: aBlock ifAbsent: exceptionBlock 
 		  ifNone: exceptionBlock
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FMSlotMultivalueLink >> owner: anObject slot: aFMRelationSlot [
 
 	owner := anObject.
 	slot := aFMRelationSlot
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 FMSlotMultivalueLink >> remove: anElement ifAbsent: exceptionBlock [
 
 	super remove: anElement ifAbsent: [ ^ exceptionBlock value ].
@@ -81,7 +83,7 @@ FMSlotMultivalueLink >> remove: anElement ifAbsent: exceptionBlock [
 	^ anElement
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 FMSlotMultivalueLink >> removeAll [
 	"The collection is reversed to make a copy, to avoid trying to remove while iterating,
 	and to remove items from last to first, which is faster."
@@ -89,32 +91,32 @@ FMSlotMultivalueLink >> removeAll [
 	self reversed do: [ :anElement | self remove: anElement ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FMSlotMultivalueLink >> species [
 
 	^ OrderedCollection
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 FMSlotMultivalueLink >> uncheckUnsafeAdd: element [
 	"Calls the implementation in OrderedCollection."
 
 	super addLast: element
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FMSlotMultivalueLink >> unsafeAdd: element [
 
 	(self includes: element) ifFalse: [ super addLast: element ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FMSlotMultivalueLink >> unsafeRemove: element [
 
 	super remove: element ifAbsent: nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMSlotMultivalueLink >> value: aCollection [
 
 	^ self

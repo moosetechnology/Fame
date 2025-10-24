@@ -1,11 +1,11 @@
-Extension { #name : #Metaclass }
+Extension { #name : 'Metaclass' }
 
-{ #category : #'*Fame-Core' }
+{ #category : '*Fame-Core' }
 Metaclass >> isMetamodelEntity [
 	^ self metamodelDefinitionPragma isNotNil
 ]
 
-{ #category : #'*Fame-Core' }
+{ #category : '*Fame-Core' }
 Metaclass >> metamodelDefinitionPragma [
 	"29 of October 2019: The MSEClass:super: pragma is deprecated and should not be used anymore. But we still keep it for some time for backward compatibility."
 

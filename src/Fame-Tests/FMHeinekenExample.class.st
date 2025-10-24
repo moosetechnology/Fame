@@ -1,10 +1,11 @@
 Class {
-	#name : #FMHeinekenExample,
-	#superclass : #TestCase,
-	#category : #'Fame-Tests'
+	#name : 'FMHeinekenExample',
+	#superclass : 'TestCase',
+	#category : 'Fame-Tests',
+	#package : 'Fame-Tests'
 }
 
-{ #category : #resources }
+{ #category : 'resources' }
 FMHeinekenExample class >> metamodelMSE [
 
 	^'((FM3.Package 
@@ -64,7 +65,7 @@ FMHeinekenExample class >> metamodelMSE [
 	)))'.
 ]
 
-{ #category : #resources }
+{ #category : 'resources' }
 FMHeinekenExample class >> modelMSE [
 
 	^'((HNK.Beer (id: 1)
@@ -89,7 +90,7 @@ FMHeinekenExample class >> modelMSE [
 	)'.
 ]
 
-{ #category : #resources }
+{ #category : 'resources' }
 FMHeinekenExample class >> modelMSEWithDanglingReferences [
 
 	^'((HNK.Beer (id: 1)

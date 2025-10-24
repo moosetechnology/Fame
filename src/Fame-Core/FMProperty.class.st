@@ -14,37 +14,39 @@ Examples
 		package: 'Famix-Traits-Method'
 "
 Class {
-	#name : #FMProperty,
-	#superclass : #InstanceVariableSlot,
+	#name : 'FMProperty',
+	#superclass : 'InstanceVariableSlot',
 	#instVars : [
 		'defaultValue'
 	],
-	#category : #'Fame-Core-Utilities'
+	#category : 'Fame-Core-Utilities',
+	#package : 'Fame-Core',
+	#tag : 'Utilities'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 FMProperty >> defaultValue [
 	^ defaultValue 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FMProperty >> defaultValue: aValue [
 	defaultValue := aValue
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 FMProperty >> hasSameDefinitionAs: otherSlot [
 
 	^ (super hasSameDefinitionAs: otherSlot) and: [
 		  defaultValue = otherSlot defaultValue ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FMProperty >> isFameSlot [
 	^ true
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FMProperty >> printOn: aStream [
 
 	aStream

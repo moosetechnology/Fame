@@ -1,13 +1,15 @@
 Class {
-	#name : #FMMetaMetaModelTest,
-	#superclass : #TestCase,
+	#name : 'FMMetaMetaModelTest',
+	#superclass : 'TestCase',
 	#instVars : [
 		'metaMetaModel'
 	],
-	#category : #'Fame-Tests-Core'
+	#category : 'Fame-Tests-Core',
+	#package : 'Fame-Tests',
+	#tag : 'Core'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMetaMetaModelTest >> assertDefaultValueFor: fullName is: aValue [
 	| method pragma defaultValue prop implementingSelector implementingClass |
 	
@@ -31,24 +33,24 @@ FMMetaMetaModelTest >> assertDefaultValueFor: fullName is: aValue [
 	self assert: defaultValue equals: aValue.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMetaMetaModelTest >> findProperty: fullName [
 	^ (metaMetaModel elements select: [ :each | each fullName = fullName ]) at: 1.
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FMMetaMetaModelTest >> setUp [
 	super setUp.
 	metaMetaModel := FMMetaMetaModel default.
 	metaMetaModel class reset.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMetaMetaModelTest >> testFM3 [
 	self assert: metaMetaModel isNotNil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMetaMetaModelTest >> testFM3Classes [
 	self assert: (metaMetaModel descriptionOf: FM3Element ifAbsent: [ nil ]) isNotNil.
 	self assert: (metaMetaModel descriptionOf: FM3Property ifAbsent: [ nil ]) isNotNil.
@@ -57,7 +59,7 @@ FMMetaMetaModelTest >> testFM3Classes [
 	self assert: (metaMetaModel descriptionOf: FMMetaModelTest ifAbsent: [ nil ]) isNil
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMetaMetaModelTest >> testFM3DefaultValue [
 	self assertDefaultValueFor: 'FM3.Property.container' is: false.
 	self assertDefaultValueFor: 'FM3.Property.derived' is: false.
@@ -71,7 +73,7 @@ FMMetaMetaModelTest >> testFM3DefaultValue [
 	self assert: (self findProperty: 'FM3.Element.fullName') defaultValue equals: nil.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMetaMetaModelTest >> testFM3IsComplete [
 	"More information about FM3 may be found on http://smallwiki.unibe.ch/fame/fm3/"
 
@@ -119,7 +121,7 @@ FMMetaMetaModelTest >> testFM3IsComplete [
 	self assert: (names select: [ :n | n beginsWith: 'FM3.' ]) size equals: 33
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMetaMetaModelTest >> testMetaMetaModelIsItsOwnMetaModel [
 	self assert: metaMetaModel metamodel identicalTo: metaMetaModel
 ]

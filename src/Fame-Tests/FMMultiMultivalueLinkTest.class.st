@@ -2,12 +2,14 @@
 This class is complementary with the tests in `FMDungeonExample`
 "
 Class {
-	#name : #FMMultiMultivalueLinkTest,
-	#superclass : #TestCase,
-	#category : #'Fame-Tests-Core'
+	#name : 'FMMultiMultivalueLinkTest',
+	#superclass : 'TestCase',
+	#category : 'Fame-Tests-Core',
+	#package : 'Fame-Tests',
+	#tag : 'Core'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMultiMultivalueLinkTest >> testCollect [
 
 	| dragon1 hero1 |
@@ -19,7 +21,7 @@ FMMultiMultivalueLinkTest >> testCollect [
 		equals: { dragon1 } asOrderedCollection
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMultiMultivalueLinkTest >> testCollectThenSelect [
 
 	| dragon1 dragon2 hero1 treasure1 |
@@ -38,7 +40,7 @@ FMMultiMultivalueLinkTest >> testCollectThenSelect [
 		hasSameElements: { { treasure1 } }
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMultiMultivalueLinkTest >> testOneDragonIsKilledByOneHero [
 
 	| dragon1 hero1 |
@@ -49,7 +51,7 @@ FMMultiMultivalueLinkTest >> testOneDragonIsKilledByOneHero [
 	self assert: dragon1 killedBy anyOne equals: hero1
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMultiMultivalueLinkTest >> testOneHeroKillOneDragon [
 
 	| dragon1 hero1 |
@@ -60,7 +62,7 @@ FMMultiMultivalueLinkTest >> testOneHeroKillOneDragon [
 	self assert: hero1 kills anyOne equals: dragon1
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMultiMultivalueLinkTest >> testOneHeroKillOneDragonThenTheDragonDecideToNotBeKilled [
 
 	| dragon1 hero1 |
@@ -72,7 +74,7 @@ FMMultiMultivalueLinkTest >> testOneHeroKillOneDragonThenTheDragonDecideToNotBeK
 	self assert: dragon1 killedBy size equals: 0
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMultiMultivalueLinkTest >> testOneHeroKillOneDragonsThenTwoWithTheFirstOneAgain [
 
 	| dragon1 dragon2 hero1 |
@@ -94,7 +96,7 @@ FMMultiMultivalueLinkTest >> testOneHeroKillOneDragonsThenTwoWithTheFirstOneAgai
 	self assert: dragon2 killedBy anyOne equals: hero1
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMultiMultivalueLinkTest >> testOneHeroKillTwiceTheSameDragon [
 
 	| dragon1 hero1 |
@@ -109,7 +111,7 @@ FMMultiMultivalueLinkTest >> testOneHeroKillTwiceTheSameDragon [
 	self assert: dragon1 killedBy anyOne equals: hero1
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMultiMultivalueLinkTest >> testOneHeroKillTwoDragons [
 
 	| dragon1 dragon2 hero1 |
@@ -125,7 +127,7 @@ FMMultiMultivalueLinkTest >> testOneHeroKillTwoDragons [
 			dragon2 }
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMultiMultivalueLinkTest >> testOneHeroKillTwoDragonsAndFinallyOnlyOne [
 
 	| dragon1 dragon2 hero1 |
@@ -143,7 +145,7 @@ FMMultiMultivalueLinkTest >> testOneHeroKillTwoDragonsAndFinallyOnlyOne [
 	self assert: dragon2 killedBy size equals: 0
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMultiMultivalueLinkTest >> testOneHeroKilledLotOfDragon [
 
 	"This is a performance test"
@@ -156,7 +158,7 @@ FMMultiMultivalueLinkTest >> testOneHeroKilledLotOfDragon [
 	self assert: hero1 kills size equals: 50000.
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMultiMultivalueLinkTest >> testReject [
 
 	| dragon1 dragon2 hero1 treasure1 |
@@ -176,7 +178,7 @@ FMMultiMultivalueLinkTest >> testReject [
 		equals: { dragon1 } asOrderedCollection
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMultiMultivalueLinkTest >> testRejectThenCollect [
 
 	| dragon1 dragon2 hero1 treasure1 |
@@ -195,7 +197,7 @@ FMMultiMultivalueLinkTest >> testRejectThenCollect [
 		equals: { treasure1 } asOrderedCollection
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMultiMultivalueLinkTest >> testSelect [
 
 	| dragon1 dragon2 hero1 treasure1 |
@@ -215,7 +217,7 @@ FMMultiMultivalueLinkTest >> testSelect [
 		equals: { dragon2 } asOrderedCollection
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMultiMultivalueLinkTest >> testSelectThenCollect [
 
 	| dragon1 dragon2 hero1 treasure1 |
@@ -234,7 +236,7 @@ FMMultiMultivalueLinkTest >> testSelectThenCollect [
 		equals: { treasure1 } asOrderedCollection
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMultiMultivalueLinkTest >> testTwoDragonsAreKilledByOneHero [
 
 	| dragon1 hero1 dragon2 |
@@ -255,7 +257,7 @@ FMMultiMultivalueLinkTest >> testTwoDragonsAreKilledByOneHero [
 			dragon2 }
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMultiMultivalueLinkTest >> testTwoDragonsAreKilledByTwoHeros [
 
 	| dragon1 hero1 dragon2 hero2 |
@@ -288,7 +290,7 @@ FMMultiMultivalueLinkTest >> testTwoDragonsAreKilledByTwoHeros [
 			dragon2 }
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMultiMultivalueLinkTest >> testTwoHerosKillTWiceTwoDragons [
 
 	| dragon1 dragon2 hero1 hero2 |
@@ -320,7 +322,7 @@ FMMultiMultivalueLinkTest >> testTwoHerosKillTWiceTwoDragons [
 			hero2 }
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMultiMultivalueLinkTest >> testTwoHerosKillThriceTheSameDragon [
 
 	| dragon1 hero1 hero2 |
@@ -345,7 +347,7 @@ FMMultiMultivalueLinkTest >> testTwoHerosKillThriceTheSameDragon [
 			hero2 }
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMultiMultivalueLinkTest >> testTwoHerosKillTwiceTheSameDragon [
 
 	| dragon1 hero1 hero2 |

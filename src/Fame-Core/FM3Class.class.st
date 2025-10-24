@@ -29,42 +29,44 @@ Internal Representation and Key Implementation Points.
 	traits:					<aCollection>		A collection of FM3Class representing the traits I am using.
 "
 Class {
-	#name : #FM3Class,
-	#superclass : #FM3Type,
+	#name : 'FM3Class',
+	#superclass : 'FM3Type',
 	#instVars : [
 		'isAbstract',
 		'superclass',
 		'implementingClass',
 		'subclasses'
 	],
-	#category : #'Fame-Core-Model'
+	#category : 'Fame-Core-Model',
+	#package : 'Fame-Core',
+	#tag : 'Model'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FM3Class class >> annotation [
 	<FMClass: #Class super: #FM3Type>
 	<package: #FM3>
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Class class >> defaultSuperclass [
 	^ FM3Object instance
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FM3Class >> accept: aVisitor [
 	^ aVisitor visitClass: self
 ]
 
-{ #category : #enumerating }
+{ #category : 'enumerating' }
 FM3Class >> allPropertiesDo: block [
 	properties do: block.
 	self superclass ifNotNil: [ :class | class allPropertiesDo: block ].
 	self traits do: [ :trait | trait allPropertiesDo: block ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Class >> allSubclasses [
 	| all |
 	all := OrderedCollection new.
@@ -72,7 +74,7 @@ FM3Class >> allSubclasses [
 	^ all
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Class >> allSubclassesDo: aBlock [
 	self subclasses
 		do: [ :each | 
@@ -80,7 +82,7 @@ FM3Class >> allSubclassesDo: aBlock [
 			each allSubclassesDo: aBlock ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Class >> allSuperclasses [
 	| mmclass superclasses |
 	superclasses := OrderedCollection new.
@@ -92,50 +94,50 @@ FM3Class >> allSuperclasses [
 	^ superclasses
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Class >> allSuperclassesDo: aBlock [
 	self allSuperclasses do: [ :each | aBlock value: each ]
 ]
 
-{ #category : #'accessing-query' }
+{ #category : 'accessing-query' }
 FM3Class >> complexProperties [
 	^ self properties reject: [ :attr | attr type isPrimitive ]
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FM3Class >> createInstance [
 	^ implementingClass
 		ifNil: [ FMRuntimeElement new description: self ]
 		ifNotNil: [ implementingClass new ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FM3Class >> hasPackage [
 	^ package isNotNil
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FM3Class >> hasSuperclass [
 	^ superclass isNotNil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Class >> implementingClass [
 	^ implementingClass
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Class >> implementingClass: smalltalkClass [
 	implementingClass := smalltalkClass
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Class >> inheritsFrom: aClass [
 	self allSuperclassesDo: [ :each | each = aClass ifTrue: [ ^ true ] ].
 	^ false
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FM3Class >> initialize [
 	super initialize.
 	isAbstract := false.
@@ -143,62 +145,62 @@ FM3Class >> initialize [
 	subclasses := FMMultivalueLink on: self opposite: #superclass:
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FM3Class >> isAbstract [
 	<FMProperty: #abstract type: #Boolean defaultValue: false>
 	^ isAbstract
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Class >> isAbstract: aBoolean [
 	isAbstract := aBoolean
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FM3Class >> isBuiltIn [
 	^ self isPrimitive or: [ self isRoot ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FM3Class >> isConstant [
 	^ false
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FM3Class >> isFM3Class [
 	^ true
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FM3Class >> isPrimitive [
 	<FMProperty: #primitive type: #Boolean defaultValue: false>
 	<derived>
 	^ false
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FM3Class >> isRoot [
 	<FMProperty: #root type: #Boolean defaultValue: false>
 	<derived>
 	^ false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Class >> owner [
 	^ self package
 ]
 
-{ #category : #'accessing-query' }
+{ #category : 'accessing-query' }
 FM3Class >> ownerProperties [
 	^ self allProperties select: #isContainer
 ]
 
-{ #category : #'accessing-query' }
+{ #category : 'accessing-query' }
 FM3Class >> primitiveProperties [
 	^ self properties select: [ :attr | attr type isPrimitive ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Class >> subclasses [ 
 	<FMProperty: #subclasses type: #FM3Class opposite: #superclass>
 	<derived>
@@ -206,18 +208,18 @@ FM3Class >> subclasses [
 	^subclasses
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Class >> subclasses: anObject [
 	subclasses value: anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Class >> superclass [
 	<FMProperty: #superclass type: #FM3Class opposite: #subclasses>
 	^ superclass
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Class >> superclass: newClass [
 	superclass := FMMultivalueLink
 		on: self
@@ -226,14 +228,14 @@ FM3Class >> superclass: newClass [
 		to: newClass
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Class >> withAllSubclasses [
 	^ self allSubclasses
 		add: self;
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Class >> withAllSuperclasses [
 	^ self allSuperclasses
 		add: self;

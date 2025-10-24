@@ -1,6 +1,6 @@
-Extension { #name : #ZnEncodedStream }
+Extension { #name : 'ZnEncodedStream' }
 
-{ #category : #'*Fame-ImportExport' }
+{ #category : '*Fame-ImportExport' }
 ZnEncodedStream >> localName [
 	^ self wrappedStream localName
 ]

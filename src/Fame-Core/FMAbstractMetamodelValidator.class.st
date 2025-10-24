@@ -21,32 +21,34 @@ Internal Representation and Key Implementation Points.
 
 "
 Class {
-	#name : #FMAbstractMetamodelValidator,
-	#superclass : #Object,
+	#name : 'FMAbstractMetamodelValidator',
+	#superclass : 'Object',
 	#instVars : [
 		'metaModelBuilder'
 	],
-	#category : #'Fame-Core-Utilities'
+	#category : 'Fame-Core-Utilities',
+	#package : 'Fame-Core',
+	#tag : 'Utilities'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FMAbstractMetamodelValidator class >> for: aPragmaProcessor [
 	self new
 		metaModelBuilder: aPragmaProcessor;
 		validate
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMAbstractMetamodelValidator >> metaModelBuilder [
 	^ metaModelBuilder
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMAbstractMetamodelValidator >> metaModelBuilder: anObject [
 	metaModelBuilder := anObject
 ]
 
-{ #category : #validation }
+{ #category : 'validation' }
 FMAbstractMetamodelValidator >> validate [
 	self subclassResponsibility
 ]

@@ -18,8 +18,8 @@ Internal Representation and Key Implementation Points.
 
 "
 Class {
-	#name : #FMMSEParser,
-	#superclass : #Object,
+	#name : 'FMMSEParser',
+	#superclass : 'Object',
 	#instVars : [
 		'stream',
 		'progBar',
@@ -30,10 +30,12 @@ Class {
 		'importer',
 		'numberParser'
 	],
-	#category : #'Fame-ImportExport-Importers'
+	#category : 'Fame-ImportExport-Importers',
+	#package : 'Fame-ImportExport',
+	#tag : 'Importers'
 }
 
-{ #category : #expressions }
+{ #category : 'expressions' }
 FMMSEParser >> Document [
 	"Matches a document node (returns a boolean)."
 
@@ -54,7 +56,7 @@ FMMSEParser >> Document [
 	^ true
 ]
 
-{ #category : #expressions }
+{ #category : 'expressions' }
 FMMSEParser >> Entity [
 	"Matches an entity node (returns boolean)."
 
@@ -77,7 +79,7 @@ FMMSEParser >> Entity [
 	^ true
 ]
 
-{ #category : #expressions }
+{ #category : 'expressions' }
 FMMSEParser >> Identifier [
 	"Matches numerical identifier (returns Number or nil)."
 
@@ -93,7 +95,7 @@ FMMSEParser >> Identifier [
 	^ (numberParser on: buffer contents readStream) nextInteger
 ]
 
-{ #category : #expressions }
+{ #category : 'expressions' }
 FMMSEParser >> Number [
 	"Matches a number (returns Number or nil)."
 
@@ -141,7 +143,7 @@ FMMSEParser >> Number [
 	^ (numberParser on: buffer contents readStream) nextNumber
 ]
 
-{ #category : #expressions }
+{ #category : 'expressions' }
 FMMSEParser >> Primitive [
 	"Matches primitive value (returns boolean)."
 
@@ -155,7 +157,7 @@ FMMSEParser >> Primitive [
 	^ false
 ]
 
-{ #category : #expressions }
+{ #category : 'expressions' }
 FMMSEParser >> Property [
 	"Matches a property node (returns boolean)."
 
@@ -174,7 +176,7 @@ FMMSEParser >> Property [
 	^ true
 ]
 
-{ #category : #expressions }
+{ #category : 'expressions' }
 FMMSEParser >> Reference [
 	"Matches a Reference node (returns boolean)."
 	"Reference --> OPEN REF n:Identifier { client referenceNumber: n } CLOSE"
@@ -190,7 +192,7 @@ FMMSEParser >> Reference [
 	^ true
 ]
 
-{ #category : #expressions }
+{ #category : 'expressions' }
 FMMSEParser >> Reference2 [
 	"Matches a Reference node (returns boolean)."
 	"Reference --> OPEN REF n:Name { client referenceName: n } CLOSE"
@@ -206,7 +208,7 @@ FMMSEParser >> Reference2 [
 	^ true
 ]
 
-{ #category : #expressions }
+{ #category : 'expressions' }
 FMMSEParser >> Serial [
 	"Matches a serial number node (returns boolean)."
 	"Serial --> OPEN ID n:Identifier { client serial: n } CLOSE"
@@ -222,7 +224,7 @@ FMMSEParser >> Serial [
 	^ true
 ]
 
-{ #category : #expressions }
+{ #category : 'expressions' }
 FMMSEParser >> String [
 	$' == chararacter ifFalse: [ ^ nil ].
 
@@ -236,7 +238,7 @@ FMMSEParser >> String [
 	^ buffer contents
 ]
 
-{ #category : #expressions }
+{ #category : 'expressions' }
 FMMSEParser >> Value [
 	"Matchs a value (returns true)."
 
@@ -245,12 +247,12 @@ FMMSEParser >> Value [
 	^ self Primitive or: [ self Reference or: [ self Reference2 or: [ self Entity ] ] ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FMMSEParser >> atEnd [
 	^ chararacter isNil
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FMMSEParser >> backtrack: integer [
 	"Backtracks to given integer."
 
@@ -260,47 +262,47 @@ FMMSEParser >> backtrack: integer [
 	^ false
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FMMSEParser >> basicRun [
 	self Document.
 	self atEnd ifFalse: [ ^ self syntaxError ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMMSEParser >> characterSet [
 	^ characterSet ifNil: [ characterSet := chararacter characterSet ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMMSEParser >> fromString: mseString [ 
 	self stream: mseString readStream
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMMSEParser >> importer [
 	^ importer
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMMSEParser >> importer: aFMImporter [
 	importer := aFMImporter
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FMMSEParser >> incrementProgressBar [
 	(progBar isNotNil and: [ (Time millisecondsSince: lastUpdate) >= 500 ]) ifFalse: [ ^ self ].
 	progBar value: self position.
 	lastUpdate := Time millisecondClockValue
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FMMSEParser >> initialize [
 
 	super initialize.
 	numberParser := NumberParser new
 ]
 
-{ #category : #tokens }
+{ #category : 'tokens' }
 FMMSEParser >> matchesWord: aString [
 	"I am checking if the next part of the stream watches a word. If it matches, I also eat the next whitespace and return true. Else I return false (I do not backtrack)"
 
@@ -309,28 +311,28 @@ FMMSEParser >> matchesWord: aString [
 	^ true
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FMMSEParser >> next [
 	^ chararacter := stream next
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FMMSEParser >> nextCharIsAlphanumeric [
 	self next.
 	^ (self characterSet isLetter: chararacter) or: [ self characterSet isDigit: chararacter ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FMMSEParser >> peek [
 	^ chararacter
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FMMSEParser >> position [
 	^ stream position
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FMMSEParser >> run [
 	UIManager default
 		displayProgress: 'Parsing ' , self stream localName
@@ -342,25 +344,25 @@ FMMSEParser >> run [
 			self basicRun ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMMSEParser >> stream [
 	^ stream
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMMSEParser >> stream: aStream [
 	stream := aStream.
 	buffer := '' writeStream.
 	self next	"look ahead"
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FMMSEParser >> syntaxError [
 	self syntaxError: 'Syntax error at ' , self position printString.
 	^ nil
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FMMSEParser >> syntaxError: aString [
 	(FMSyntaxError new
 		parser: self;
@@ -373,21 +375,21 @@ FMMSEParser >> syntaxError: aString [
 	^ nil
 ]
 
-{ #category : #tokens }
+{ #category : 'tokens' }
 FMMSEParser >> tCLOSE [
 	"Matches opening parenthesis (returns boolean)."
 
 	^ self matchesWord: ')'
 ]
 
-{ #category : #tokens }
+{ #category : 'tokens' }
 FMMSEParser >> tFALSE [
 	"Matches false keyword (returns boolean)."
 
 	^ self matchesWord: 'false'
 ]
 
-{ #category : #tokens }
+{ #category : 'tokens' }
 FMMSEParser >> tFULLNAME [
 	(self characterSet isLetter: chararacter) ifFalse: [ ^ nil ].
 
@@ -402,14 +404,14 @@ FMMSEParser >> tFULLNAME [
 	^ buffer contents
 ]
 
-{ #category : #tokens }
+{ #category : 'tokens' }
 FMMSEParser >> tID [
 	"Match id keyword (returns boolean)."
 
 	^ self matchesWord: 'id:'
 ]
 
-{ #category : #tokens }
+{ #category : 'tokens' }
 FMMSEParser >> tNAME [
 	(self characterSet isLetter: chararacter) ifFalse: [ ^ nil ].
 
@@ -420,28 +422,28 @@ FMMSEParser >> tNAME [
 	^ buffer contents
 ]
 
-{ #category : #tokens }
+{ #category : 'tokens' }
 FMMSEParser >> tOPEN [
 	"Matches opening parenthesis (returns boolean)."
 
 	^ self matchesWord: '('
 ]
 
-{ #category : #tokens }
+{ #category : 'tokens' }
 FMMSEParser >> tREF [
 	"Matches ref keyword (returns boolean)."
 
 	^ self matchesWord: 'ref:'
 ]
 
-{ #category : #tokens }
+{ #category : 'tokens' }
 FMMSEParser >> tTRUE [
 	"Match 'true' and whitespace"
 
 	^ self matchesWord: 'true'
 ]
 
-{ #category : #tokens }
+{ #category : 'tokens' }
 FMMSEParser >> tWHITESPACE [
 	[ $" == chararacter
 		ifTrue: [ [ [ self next.

@@ -1,15 +1,16 @@
 Class {
-	#name : #FMJSONParserTest,
-	#superclass : #TestCase,
+	#name : 'FMJSONParserTest',
+	#superclass : 'TestCase',
 	#instVars : [
 		'a',
 		'parser',
 		'importer'
 	],
-	#category : #'Fame-Tests'
+	#category : 'Fame-Tests',
+	#package : 'Fame-Tests'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMJSONParserTest class >> famix30mse [
 	^ '[{
 	"FM3":"FM3.Package",
@@ -654,7 +655,7 @@ FMJSONParserTest class >> famix30mse [
 ]'
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FMJSONParserTest >> setUp [
 
 	super setUp.
@@ -663,7 +664,7 @@ FMJSONParserTest >> setUp [
 	parser importer: importer
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMJSONParserTest >> testBacktrack [
 	| pos |
 	parser fromString: 'abcdefg'.
@@ -681,7 +682,7 @@ FMJSONParserTest >> testBacktrack [
 	self assert: parser next equals: $e
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMJSONParserTest >> testEmptyDocument [
 	parser fromString: ''.
 	parser Document.
@@ -689,7 +690,7 @@ FMJSONParserTest >> testEmptyDocument [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMJSONParserTest >> testEmptyExportString [
 
 	parser fromString: ''.
@@ -698,7 +699,7 @@ FMJSONParserTest >> testEmptyExportString [
 ]'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMJSONParserTest >> testEntity [
 	a := #(#(#beginEntity: 'Foo') #(#endEntity: 'Foo')).
 	importer reset.
@@ -713,7 +714,7 @@ FMJSONParserTest >> testEntity [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMJSONParserTest >> testEntityWithID [
 	a := #(#(#beginEntity: 'Foo') #(#serial: 42) #(#endEntity: 'Foo')).
 	importer reset.
@@ -728,7 +729,7 @@ FMJSONParserTest >> testEntityWithID [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMJSONParserTest >> testEntityWithProperties [
 	a := #(#(#beginEntity: 'Foo') #(#beginProperty: 'name') #(#primitive: 'test') #(#endProperty: 'name') #(#beginProperty: 'count') #(#primitive: 12) #(#endProperty: 'count') #(#endEntity: 'Foo')).
 	importer reset.
@@ -743,7 +744,7 @@ FMJSONParserTest >> testEntityWithProperties [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMJSONParserTest >> testEntityWithPropertiesAndID [
 	a := #(#(#beginEntity: 'Foo') #(#serial: 42) #(#beginProperty: 'name') #(#primitive: 'test') #(#endProperty: 'name') #(#beginProperty: 'count') #(#primitive: 12) #(#endProperty: 'count') #(#endEntity: 'Foo')).
 	importer reset.
@@ -758,7 +759,7 @@ FMJSONParserTest >> testEntityWithPropertiesAndID [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMJSONParserTest >> testFamixModel [
 	| metamodel names famixPackage accessClass accessorProperty behaviouralEntity outgoingAccesses |
 	metamodel := FMMetaModel fromJSONString: self class famix30mse.
@@ -832,7 +833,7 @@ FMJSONParserTest >> testFamixModel [
 	self assert: accessorProperty opposite equals: outgoingAccesses
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMJSONParserTest >> testFullName [
 	parser fromString: '"FM3":"Foo"'.
 	importer := parser tFULLNAME.
@@ -844,7 +845,7 @@ FMJSONParserTest >> testFullName [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMJSONParserTest >> testFullName2 [
 	parser fromString: '"FM3":"Foo.Bar"'.
 	importer := parser tFULLNAME.
@@ -856,7 +857,7 @@ FMJSONParserTest >> testFullName2 [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMJSONParserTest >> testFullName3 [
 	parser fromString: '"FM3":"Foo.Bar.Qux"'.
 	importer := parser tFULLNAME.
@@ -868,12 +869,12 @@ FMJSONParserTest >> testFullName3 [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMJSONParserTest >> testImporter [
 	self assert: parser importer equals: importer
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMJSONParserTest >> testMatchString [
 	parser fromString: '"Lorem"'.
 	importer := parser String.
@@ -889,7 +890,7 @@ FMJSONParserTest >> testMatchString [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMJSONParserTest >> testMultiValueString [
 
 	parser fromString: '["public"]'.
@@ -897,7 +898,7 @@ FMJSONParserTest >> testMultiValueString [
 	self assert: importer exportJsonString equals: '"public"'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMJSONParserTest >> testMultiValueWithMultiString [
 
 	parser fromString: '["public", "hello"]'.
@@ -905,7 +906,7 @@ FMJSONParserTest >> testMultiValueWithMultiString [
 	self assert: importer exportJsonString equals: '"public""hello"'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMJSONParserTest >> testNumber [
 	parser fromString: '14'.
 	importer := parser Number.
@@ -925,7 +926,7 @@ FMJSONParserTest >> testNumber [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMJSONParserTest >> testNumber2 [
 	parser fromString: '12.91'.
 	importer := parser Number.
@@ -945,7 +946,7 @@ FMJSONParserTest >> testNumber2 [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMJSONParserTest >> testNumber3 [
 	parser fromString: '12.91e33'.
 	importer := parser Number.
@@ -969,19 +970,19 @@ FMJSONParserTest >> testNumber3 [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMJSONParserTest >> testNumberTrailingDotFails [
 	parser fromString: '12.'.
 	self should: [ parser Number ] raise: Error
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMJSONParserTest >> testNumberTrailingLetterFails [
 	parser fromString: '12.11e'.
 	self should: [ parser Number ] raise: Error
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMJSONParserTest >> testProperty [
 	a := #(#(#beginProperty: 'name') #(#primitive: true) #(#endProperty: 'name')).
 	importer reset.
@@ -996,7 +997,7 @@ FMJSONParserTest >> testProperty [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMJSONParserTest >> testPropertyWithReferences [
 	a := #(#(#beginProperty: 'name') #(#referenceNumber: 2) #(#endProperty: 'name')).
 	importer reset.
@@ -1011,7 +1012,7 @@ FMJSONParserTest >> testPropertyWithReferences [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMJSONParserTest >> testPropertyWithStrings2 [
 	a := #(#(#beginProperty: 'name') #(#primitive: 'bar"ba"rossa') #(#endProperty: 'name')).
 	importer reset.
@@ -1026,7 +1027,7 @@ FMJSONParserTest >> testPropertyWithStrings2 [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMJSONParserTest >> testSerial [
 	parser fromString: '"id":42'.
 	parser Serial.
@@ -1040,7 +1041,7 @@ FMJSONParserTest >> testSerial [
 	self setUp
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMJSONParserTest >> testSimpleDocument [
 	parser fromString: '[]'.
 	parser Document.
@@ -1053,7 +1054,7 @@ FMJSONParserTest >> testSimpleDocument [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMJSONParserTest >> testString [
 
 	| result |
@@ -1064,7 +1065,7 @@ FMJSONParserTest >> testString [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMJSONParserTest >> testStringWithEscapedBackslash [
 
 	| result |
@@ -1075,7 +1076,7 @@ FMJSONParserTest >> testStringWithEscapedBackslash [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMJSONParserTest >> testStringWithEscapedDoubleQuotes [
 
 	| result |
@@ -1086,7 +1087,7 @@ FMJSONParserTest >> testStringWithEscapedDoubleQuotes [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMJSONParserTest >> testValueFloat [
 	importer reset.
 	parser fromString: '3.14'.
@@ -1095,21 +1096,21 @@ FMJSONParserTest >> testValueFloat [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMJSONParserTest >> testValueFloatError [
 	importer reset.
 	parser fromString: '3.14e$'.
 	self should: [ parser Value ] raise: FMSyntaxError
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMJSONParserTest >> testValueFloatError2 [
 	importer reset.
 	parser fromString: '1..2'.
 	self should: [ parser Value ] raise: FMSyntaxError
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMJSONParserTest >> testValueFloatWithExponent [
 	importer reset.
 	parser fromString: '1.291e3'.
@@ -1118,7 +1119,7 @@ FMJSONParserTest >> testValueFloatWithExponent [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMJSONParserTest >> testValueNegativeNumber [
 	importer reset.
 	parser fromString: '-42'.
@@ -1127,7 +1128,7 @@ FMJSONParserTest >> testValueNegativeNumber [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMJSONParserTest >> testValueNegativeNumberError [
 	importer reset.
 	parser fromString: '--42'.
@@ -1136,7 +1137,7 @@ FMJSONParserTest >> testValueNegativeNumberError [
 	self assert: parser position equals: 1
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMJSONParserTest >> testValueNumber [
 	importer reset.
 	parser fromString: '13'.
@@ -1145,7 +1146,7 @@ FMJSONParserTest >> testValueNumber [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMJSONParserTest >> testValueReference [
 	importer reset.
 	parser fromString: '{"ref": 24}'.
@@ -1154,7 +1155,7 @@ FMJSONParserTest >> testValueReference [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMJSONParserTest >> testValueReferenceBigInteger [
 	importer reset.
 	parser fromString: '{"ref": 112233445566778899}'.
@@ -1163,7 +1164,7 @@ FMJSONParserTest >> testValueReferenceBigInteger [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMJSONParserTest >> testValueReferenceFullName [
 	importer reset.
 	parser fromString: '{"ref": "EG.Foo"}'.
@@ -1172,7 +1173,7 @@ FMJSONParserTest >> testValueReferenceFullName [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMJSONParserTest >> testValueReferenceName [
 	importer reset.
 	parser fromString: '{"ref": "Foo"}'.

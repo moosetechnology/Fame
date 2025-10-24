@@ -1,31 +1,32 @@
 Class {
-	#name : #EQOperator,
-	#superclass : #Object,
+	#name : 'EQOperator',
+	#superclass : 'Object',
 	#instVars : [
 		'symbol'
 	],
-	#category : #'Fame-Example'
+	#category : 'Fame-Example',
+	#package : 'Fame-Example'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 EQOperator class >> annotation [
 	<FMClass: #Operator super: #Object>
 	<package: #EQ>
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 EQOperator >> printOn: stream [
 
 	stream nextPutAll: symbol
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 EQOperator >> symbol [
 	<FMProperty: #symbol type: #String>
 	^symbol
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 EQOperator >> symbol: anObject [
 	symbol := anObject
 ]

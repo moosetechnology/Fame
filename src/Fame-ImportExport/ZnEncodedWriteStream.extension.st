@@ -1,6 +1,6 @@
-Extension { #name : #ZnEncodedWriteStream }
+Extension { #name : 'ZnEncodedWriteStream' }
 
-{ #category : #'*Fame-ImportExport' }
+{ #category : '*Fame-ImportExport' }
 ZnEncodedWriteStream >> next: anInteger put: anObject [ 
 	<compilerOptions: #(+ optionInlineTimesRepeat)>
 	
