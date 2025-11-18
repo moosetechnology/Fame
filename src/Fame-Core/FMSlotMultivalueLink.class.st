@@ -106,8 +106,11 @@ FMSlotMultivalueLink >> uncheckUnsafeAdd: element [
 
 { #category : 'private' }
 FMSlotMultivalueLink >> unsafeAdd: element [
+	"The cost of this #includes can be pretty high so there is a way to disable it when we know there will be no duplicates. Check the class comment of the dynamic variable."
 
-	(self includes: element) ifFalse: [ super addLast: element ]
+	FMShouldCheckForDuplicatedEntitiesInMultivalueLinks value
+		ifTrue: [ (self includes: element) ifFalse: [ self uncheckUnsafeAdd: element ] ]
+		ifFalse: [ self uncheckUnsafeAdd: element ]
 ]
 
 { #category : 'private' }
