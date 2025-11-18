@@ -264,8 +264,11 @@ FMMSEParser >> backtrack: integer [
 
 { #category : 'running' }
 FMMSEParser >> basicRun [
-	self Document.
-	self atEnd ifFalse: [ ^ self syntaxError ]
+	"During the parsing of MSE files we know there will be no duplicates in collections so we can disable the check."
+
+	FMShouldCheckForDuplicatedEntitiesInMultivalueLinks value: false during: [
+			self Document.
+			self atEnd ifFalse: [ ^ self syntaxError ] ]
 ]
 
 { #category : 'accessing' }
