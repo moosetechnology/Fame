@@ -172,13 +172,6 @@ FM3Class >> isFM3Class [
 ]
 
 { #category : 'testing' }
-FM3Class >> isPrimitive [
-	<FMProperty: #primitive type: #Boolean defaultValue: false>
-	<derived>
-	^ false
-]
-
-{ #category : 'testing' }
 FM3Class >> isRoot [
 	<FMProperty: #root type: #Boolean defaultValue: false>
 	<derived>

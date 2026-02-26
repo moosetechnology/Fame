@@ -82,6 +82,13 @@ FM3Type >> initialize [
 	traits := Set new
 ]
 
+{ #category : 'testing' }
+FM3Type >> isPrimitive [
+	<FMProperty: #primitive type: #Boolean defaultValue: false>
+	<derived>
+	^ false
+]
+
 { #category : 'accessing' }
 FM3Type >> package [
 	<FMProperty: #package type: #FM3Package opposite: #classes>
