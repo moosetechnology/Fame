@@ -119,8 +119,9 @@ FMRelationSlot >> inClass: aTargetClassOrSymbol [
 
 { #category : 'initialization' }
 FMRelationSlot >> initialize [
+
 	super initialize.
-	inverseSlotDic := IdentityDictionary new
+	self resetInverseSlotsCache
 ]
 
 { #category : 'initialization' }
@@ -186,6 +187,8 @@ FMRelationSlot >> printOn: aStream [
 
 { #category : 'accessing' }
 FMRelationSlot >> realInverseSlotFor: anObject [
+	"The inverseSlotDic needs to be flushed if an opposite slot is changing. This is done by the metamodel builder. It invalidates the caches of all slots in the MM to build."
+
 	^ inverseSlotDic at: anObject class ifAbsentPut: [ anObject class slotNamed: self inverseName ]
 ]
 
@@ -201,6 +204,12 @@ FMRelationSlot >> removeAssociationFrom: ownerObject to: otherObject [
 	realInverseSlot isToOne
 		ifTrue: [ realInverseSlot writeInverse: nil to: otherObject ]
 		ifFalse: [ (realInverseSlot read: otherObject) unsafeRemove: ownerObject ]
+]
+
+{ #category : 'initialization' }
+FMRelationSlot >> resetInverseSlotsCache [
+
+	inverseSlotDic := IdentityDictionary new
 ]
 
 { #category : 'accessing' }
