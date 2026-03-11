@@ -291,6 +291,8 @@ FMMetaModelBuilder >> processSlot: aSlot in: aClass [
 	oppositeDict at: prop put: aSlot inverseName.
 
 	aClass compiledMethodAt: aSlot name asSymbol ifPresent: [ :aMethod | self processInfosFrom: aMethod for: prop ].
+	
+	aSlot resetInverseSlotsCache. "Regenerating the MM means we might change relations. So we invalidate the slot cache since the content will change. I am not sure this is the best place. Ideally we should have a mecanism in the class builder but it's not the case for now."
 
 	elements add: prop
 ]
