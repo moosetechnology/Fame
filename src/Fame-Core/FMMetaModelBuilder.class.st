@@ -250,7 +250,6 @@ FMMetaModelBuilder >> processCompiledMethod: aMethod [
 		ifFound: [ :pragma | 
 			| prop |
 			prop := FM3Property named: (pragma argumentAt: 1) asString.
-			method comment ifNotNil: [ :c | prop comment: c ].
 			typeDict at: prop put: (pragma argumentAt: 2).
 			mmClassDict at: prop put: method methodClass.
 			pragma selector = #FMProperty:type:defaultValue: ifTrue: [ prop defaultValue: (pragma argumentAt: 3) ].
