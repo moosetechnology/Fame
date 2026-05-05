@@ -67,7 +67,7 @@ FMMSEPrinter >> endProperty: name [
 { #category : 'parsing' }
 FMMSEPrinter >> primitive: value [
 	stream space.
-	value msePrintOn: stream
+	value famePrintOn: stream
 ]
 
 { #category : 'parsing' }

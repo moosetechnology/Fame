@@ -1,7 +1,7 @@
 Extension { #name : 'Symbol' }
 
 { #category : '*Fame-ImportExport' }
-Symbol >> msePrintOn: aStream [
+Symbol >> famePrintOn: aStream [
 	| x |
 	aStream nextPut: $'.
 	1 to: self size do: [ :i | 

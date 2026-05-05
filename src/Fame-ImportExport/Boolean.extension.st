@@ -1,6 +1,6 @@
 Extension { #name : 'Boolean' }
 
 { #category : '*Fame-ImportExport' }
-Boolean >> msePrintOn: aStream [
+Boolean >> famePrintOn: aStream [
 	self printOn: aStream
 ]

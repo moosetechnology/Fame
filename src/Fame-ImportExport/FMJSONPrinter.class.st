@@ -78,7 +78,7 @@ FMJSONPrinter >> primitive: value [
 					charToPrint := $t ].
 				stream nextPut: (charToPrint ifNil: [ char ]) ].
 			stream nextPut: $" ]
-		ifFalse: [ value msePrintOn: stream ]
+		ifFalse: [ value famePrintOn: stream ]
 ]
 
 { #category : 'parsing' }
