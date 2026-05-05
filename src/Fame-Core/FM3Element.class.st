@@ -73,14 +73,14 @@ FM3Element >> comment: anObject [
 
 { #category : 'accessing' }
 FM3Element >> fullName [
+
 	<FMProperty: #fullName type: #String>
 	<derived>
 	self name ifNil: [ ^ nil ].
 
 	^ self owner
-		ifNil: [ self name ]
-		ifNotNil: [ :owner |
-			owner fullName ifNotNil: [ :fullName | fullName , '.' , self name ] ]
+		  ifNil: [ self name ]
+		  ifNotNil: [ :owner | owner fullName ifNotNil: [ :fullName | fullName , ('.' , self name) ] ] "Parenthesis are here to concatenate strings before symbols"
 ]
 
 { #category : 'testing' }
