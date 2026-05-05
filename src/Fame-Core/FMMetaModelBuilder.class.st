@@ -243,21 +243,17 @@ FMMetaModelBuilder >> processCompiledMethod: aMethod [
 			          compiledMethod ].
 	self assert: method isCompiledMethod.
 
-	"29 of October 2019: The MSEProperty:type:(opposite:) pragma is deprecated and should not be used anymore. But we still keep it for some time for backward compatibility."
 	method pragmas
 		detect: [ :each | 
-			#( #MSEProperty:type:opposite: #MSEProperty:type: #FMProperty:type:opposite: #FMProperty:type: #FMProperty:type:defaultValue: ) includes: each selector ]
+			#(#FMProperty:type:opposite: #FMProperty:type: #FMProperty:type:defaultValue: ) includes: each selector ]
 		ifFound: [ :pragma | 
 			| prop |
 			prop := FM3Property named: (pragma argumentAt: 1) asString.
 			typeDict at: prop put: (pragma argumentAt: 2).
 			mmClassDict at: prop put: method methodClass.
 			pragma selector = #FMProperty:type:defaultValue: ifTrue: [ prop defaultValue: (pragma argumentAt: 3) ].
-			(pragma selector = #FMProperty:type: 
-				and: [ method pragmas anySatisfy: [ :p | p selector = #withDefaultValueFromType ] ]) 
-					ifTrue: [ prop hasDefaultValueFromType: true ].
-			(pragma selector = #MSEProperty:type:opposite: or: [ pragma selector = #FMProperty:type:opposite: ]) ifTrue: [ 
-				oppositeDict at: prop put: (pragma argumentAt: 3) ].
+			(pragma selector = #FMProperty:type: and: [ method pragmas anySatisfy: [ :p | p selector = #withDefaultValueFromType ] ]) ifTrue: [ prop hasDefaultValueFromType: true ].
+			(pragma selector = #FMProperty:type:opposite: ) ifTrue: [ oppositeDict at: prop put: (pragma argumentAt: 3) ].
 			self processInfosFrom: method for: prop.
 
 			elements add: prop ]
@@ -265,6 +261,7 @@ FMMetaModelBuilder >> processCompiledMethod: aMethod [
 
 { #category : 'private' }
 FMMetaModelBuilder >> processInfosFrom: aMethod for: prop [
+
 	prop implementingSelector: aMethod selector.
 	self extractPackageFrom: aMethod for: prop.
 	(aMethod pragmaAt: #container) ifNotNil: [ prop isContainer: true ].
@@ -272,10 +269,8 @@ FMMetaModelBuilder >> processInfosFrom: aMethod for: prop [
 	(aMethod pragmaAt: #source) ifNotNil: [ prop isSource: true ].
 	(aMethod pragmaAt: #target) ifNotNil: [ prop isTarget: true ].
 	(aMethod pragmaAt: #multivalued) ifNotNil: [ prop isMultivalued: true ].
-	
-	(aMethod pragmaAt: #FMComment:) ifNotNil: [ :pragma | prop comment: (pragma argumentAt: 1) ].
-	self flag: #todo. "Next line should be removed in Moose 9 since the pragmas starting by MSE should be updated to the FM version."
-	(aMethod pragmaAt: #MSEComment:) ifNotNil: [ :pragma | prop comment: (pragma argumentNamed: #MSEComment) ]
+
+	(aMethod pragmaAt: #FMComment:) ifNotNil: [ :pragma | prop comment: (pragma argumentAt: 1) ]
 ]
 
 { #category : 'private' }

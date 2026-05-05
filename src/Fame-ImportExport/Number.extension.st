@@ -1,6 +1,6 @@
 Extension { #name : 'Number' }
 
 { #category : '*Fame-ImportExport' }
-Number >> msePrintOn: aStream [
+Number >> famePrintOn: aStream [
 	self printOn: aStream
 ]

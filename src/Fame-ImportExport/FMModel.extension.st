@@ -78,9 +78,9 @@ FMModel >> importJSONStream: aReadStream [
 ]
 
 { #category : '*Fame-ImportExport' }
-FMModel >> importJSONString: mseString [
+FMModel >> importJSONString: jsonString [
 
-	self importJSONStream: mseString readStream
+	self importJSONStream: jsonString readStream
 ]
 
 { #category : '*Fame-ImportExport' }
@@ -92,7 +92,7 @@ FMModel >> importStream: aReadStream [
 ]
 
 { #category : '*Fame-ImportExport' }
-FMModel >> importString: mseString [
+FMModel >> importString: string [
 
-	self importStream: mseString readStream
+	self importStream: string readStream
 ]
