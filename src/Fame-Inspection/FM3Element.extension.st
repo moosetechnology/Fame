@@ -4,7 +4,7 @@ Extension { #name : 'FM3Element' }
 FM3Element >> inspectionComment: aBuilder [
 
 	<inspectorPresentationOrder: 5 title: 'Comment'>
-	^ aBuilder newText
-		  text: self comment;
+	^ (aBuilder instantiate: MicrodownPresenter)
+		  documentFromString: self comment;
 		  yourself
 ]
