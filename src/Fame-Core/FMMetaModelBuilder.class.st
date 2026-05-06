@@ -237,26 +237,28 @@ FMMetaModelBuilder >> processCompiledMethod: aMethod [
 
 	"If the method is a reflective method we need to ensure it is compiled and use its compiled method.
 	A refelctive method is for exemple a method created via a metalink and that was never executed."
-	(aMethod isKindOf: ReflectiveMethod) ifTrue: [ 
-		method := aMethod
-			          compileAndInstallCompiledMethod;
-			          compiledMethod ].
+	(aMethod isKindOf: ReflectiveMethod) ifTrue: [
+			method := aMethod
+				          compileAndInstallCompiledMethod;
+				          compiledMethod ].
 	self assert: method isCompiledMethod.
 
 	method pragmas
-		detect: [ :each | 
-			#(#FMProperty:type:opposite: #FMProperty:type: #FMProperty:type:defaultValue: ) includes: each selector ]
-		ifFound: [ :pragma | 
-			| prop |
-			prop := FM3Property named: (pragma argumentAt: 1) asString.
-			typeDict at: prop put: (pragma argumentAt: 2).
-			mmClassDict at: prop put: method methodClass.
-			pragma selector = #FMProperty:type:defaultValue: ifTrue: [ prop defaultValue: (pragma argumentAt: 3) ].
-			(pragma selector = #FMProperty:type: and: [ method pragmas anySatisfy: [ :p | p selector = #withDefaultValueFromType ] ]) ifTrue: [ prop hasDefaultValueFromType: true ].
-			(pragma selector = #FMProperty:type:opposite: ) ifTrue: [ oppositeDict at: prop put: (pragma argumentAt: 3) ].
-			self processInfosFrom: method for: prop.
+		detect: [ :each |
+				#( #FMProperty:type:opposite: #FMProperty:type: #FMProperty:type:defaultValue: )
+					includes: each selector ]
+		ifFound: [ :pragma |
+				| prop |
+				prop := FM3Property named: (pragma argumentAt: 1) asString.
+				typeDict at: prop put: (pragma argumentAt: 2).
+				mmClassDict at: prop put: method methodClass.
+				pragma selector = #FMProperty:type:defaultValue: ifTrue: [
+					prop defaultValue: (pragma argumentAt: 3) ].
+				pragma selector = #FMProperty:type:opposite: ifTrue: [
+					oppositeDict at: prop put: (pragma argumentAt: 3) ].
+				self processInfosFrom: method for: prop.
 
-			elements add: prop ]
+				elements add: prop ]
 ]
 
 { #category : 'private' }
