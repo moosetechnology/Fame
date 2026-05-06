@@ -61,8 +61,7 @@ Class {
 		'implementingSelector',
 		'isTarget',
 		'isSource',
-		'defaultValue',
-		'hasDefaultValueFromType'
+		'defaultValue'
 	],
 	#category : 'Fame-Core-Model',
 	#package : 'Fame-Core',
@@ -117,19 +116,6 @@ FM3Property >> getRawFrom: element [
 FM3Property >> hasDefaultValue [
 	^ defaultValue isNotNil 
 	
-]
-
-{ #category : 'private' }
-FM3Property >> hasDefaultValueFromType [
-
-	<FMProperty: #hasDefaultValueFromType type: #Boolean>
-	^ hasDefaultValueFromType
-]
-
-{ #category : 'private' }
-FM3Property >> hasDefaultValueFromType: aBoolean [
-
-	hasDefaultValueFromType := aBoolean
 ]
 
 { #category : 'testing' }
