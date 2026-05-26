@@ -46,12 +46,16 @@ FM3Type >> allPrimitiveProperties [
 
 { #category : 'accessing-query' }
 FM3Type >> allProperties [
+
 	<FMProperty: #allProperties type: 'FM3.Property'>
 	<multivalued>
 	<derived>
 	| nameDict |
-	nameDict := Dictionary new: 60.	"estimated initial size."
-	self allPropertiesDo: [ :each | nameDict at: each name ifAbsentPut: [ each ] ].
+	nameDict := Dictionary new: 60. "estimated initial size."
+	self properties do: [ :each | nameDict at: each name ifAbsentPut: [ each ] ].
+	self traits do: [ :trait |
+			trait allPropertiesDo: [ :each |
+				nameDict at: each name ifAbsentPut: [ each ] ] ].
 	^ nameDict values asArray
 ]
 
