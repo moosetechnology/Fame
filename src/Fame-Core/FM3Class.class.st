@@ -62,12 +62,9 @@ FM3Class >> accept: aVisitor [
 { #category : 'accessing-query' }
 FM3Class >> allProperties [
 
-	<FMProperty: #allProperties type: 'FM3.Property'>
-	<multivalued>
-	<derived>
 	| nameDict |
 	nameDict := Dictionary new: 60. "estimated initial size."
-	super allProperties do: [ :each | nameDict at: each name ifAbsentPut: [ each ] ].
+	super allProperties do: [ :each |nameDict at: each name ifAbsentPut: [ each ] ].
 	self superclass ifNotNil: [ :class |
 			class allProperties do: [ :each |
 				nameDict at: each name ifAbsentPut: [ each ] ] ].
