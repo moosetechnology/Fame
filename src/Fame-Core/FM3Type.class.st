@@ -61,8 +61,7 @@ FM3Type >> allProperties [
 
 { #category : 'enumerating' }
 FM3Type >> allPropertiesDo: block [
-	self properties do: block.
-	self traits do: [ :trait | trait allPropertiesDo: block ]
+	self allProperties do: block.
 ]
 
 { #category : 'accessing-query' }
