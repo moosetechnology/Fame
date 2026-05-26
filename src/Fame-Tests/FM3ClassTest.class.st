@@ -25,6 +25,25 @@ FM3ClassTest >> testAllProperties [
 ]
 
 { #category : 'tests' }
+FM3ClassTest >> testAllPropertiesDoGiveSameElementsAsAllProperties [
+
+	| desc listWithPropDo listWithoutPropDo |
+	desc := FamixJavaClass metadescription.
+
+	"collecting with allPropertiesDo:"
+	listWithPropDo := OrderedCollection new.
+	desc allPropertiesDo: [ :prop | listWithPropDo add: prop name ].
+
+	"collecting without allPropertiesDo:"
+	listWithoutPropDo := desc allProperties collect: [ :prop | prop name ].
+
+	"the two lists should be equals"
+	self
+		assert: listWithPropDo asArray sorted
+		equals: listWithoutPropDo asArray sorted
+]
+
+{ #category : 'tests' }
 FM3ClassTest >> testAllPropertiesHasNoDuplication [
 
 	| mooseDesc numberOfProperties expectedNumberOfProperties |
