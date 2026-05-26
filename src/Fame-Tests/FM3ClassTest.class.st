@@ -25,6 +25,21 @@ FM3ClassTest >> testAllProperties [
 ]
 
 { #category : 'tests' }
+FM3ClassTest >> testAllPropertiesHasNoDuplication [
+
+	| mooseDesc numberOfProperties expectedNumberOfProperties |
+	mooseDesc := FamixJavaClass metadescription.
+
+	numberOfProperties := 0.
+	mooseDesc allPropertiesDo: [ :each |
+		numberOfProperties := numberOfProperties + 1 ].
+
+	expectedNumberOfProperties := mooseDesc allProperties size.
+
+	self assert: numberOfProperties equals: expectedNumberOfProperties
+]
+
+{ #category : 'tests' }
 FM3ClassTest >> testAllPropertiesMoreThanProperties [
 	element := metaMetamodel elementNamed: 'FM3.Class'.
 	self assert: element allProperties size > element properties size.
