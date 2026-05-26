@@ -75,13 +75,6 @@ FM3Class >> allProperties [
 	^ nameDict values asArray
 ]
 
-{ #category : 'enumerating' }
-FM3Class >> allPropertiesDo: block [
-	properties do: block.
-	self superclass ifNotNil: [ :class | class allPropertiesDo: block ].
-	self traits do: [ :trait | trait allPropertiesDo: block ]
-]
-
 { #category : 'accessing' }
 FM3Class >> allSubclasses [
 	| all |
