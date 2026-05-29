@@ -9,4 +9,6 @@ on:
 jobs:
   run:
     uses: moosetechnology/.github/.github/workflows/run-tests.yml@main
+    with:
+      pharo-versions: '["Pharo64-13", "Pharo64-14"]'
     secrets: inherit
