@@ -201,18 +201,6 @@ FM3Class >> ownerProperties [
 ]
 
 { #category : 'accessing-query' }
-FM3Class >> populatePropertiesDictionary: nameDict [
-	"this method is used to avoid code duplication when filling dictionnary"
-
-	self properties do: [ :each |
-		nameDict at: each name ifAbsentPut: [ each ] ].
-
-	self traits do: [ :trait |
-			trait allPropertiesDo: [ :each |
-				nameDict at: each name ifAbsentPut: [ each ] ] ]
-]
-
-{ #category : 'accessing-query' }
 FM3Class >> primitiveProperties [
 	^ self properties select: [ :attr | attr type isPrimitive ]
 ]
