@@ -27,35 +27,54 @@ FM3ClassTest >> testAllProperties [
 { #category : 'tests' }
 FM3ClassTest >> testAllPropertiesDoGiveSameElementsAsAllProperties [
 
-	| desc listWithPropDo listWithoutPropDo |
-	desc := FamixJavaClass metadescription.
+	| superclass class listWithPropDo listWithoutPropDo |
+	superclass := self actualClass named: 'Superclass'.
+	class := self actualClass named: 'Class'.
+	class superclass: superclass.
+
+	superclass properties: {
+			(FM3Property named: #isDead).
+			(FM3Property named: #numberOfLinesOfCode) }.
+	class properties: {
+			(FM3Property named: #isDead).
+			(FM3Property named: #cc) }.
 
 	"collecting with allPropertiesDo:"
 	listWithPropDo := OrderedCollection new.
-	desc allPropertiesDo: [ :prop | listWithPropDo add: prop name ].
+	class allPropertiesDo: [ :prop | listWithPropDo add: prop name ].
 
-	"collecting without allPropertiesDo:"
-	listWithoutPropDo := desc allProperties collect: [ :prop | prop name ].
+	"collecting with allProperties"
+	listWithoutPropDo := class allProperties collect: [ :prop |
+		                     prop name ].
 
 	"the two lists should be equals"
 	self
-		assert: listWithPropDo asArray sorted
-		equals: listWithoutPropDo asArray sorted
+		assert: listWithPropDo asArray sorted equals: listWithoutPropDo asArray sorted
 ]
 
 { #category : 'tests' }
 FM3ClassTest >> testAllPropertiesHasNoDuplication [
 
-	| mooseDesc numberOfProperties expectedNumberOfProperties |
-	mooseDesc := FamixJavaClass metadescription.
+	| superclass class numberOfProperties expectedNumberOfProperties |
+	superclass := self actualClass named: 'Superclass'.
+	class := self actualClass named: 'Class'.
+	class superclass: superclass.
+
+	superclass properties: {
+		(FM3Property named: #isDead).
+		(FM3Property named: #numberOfLinesOfCode) }.
+	class properties: {
+		(FM3Property named: #isDead).
+		(FM3Property named: #cc) }.
 
 	numberOfProperties := 0.
-	mooseDesc allPropertiesDo: [ :each |
+	class allPropertiesDo: [ :each |
 		numberOfProperties := numberOfProperties + 1 ].
 
-	expectedNumberOfProperties := mooseDesc allProperties size.
+	expectedNumberOfProperties := class allProperties size.
 
-	self assert: numberOfProperties equals: expectedNumberOfProperties
+	self assert: numberOfProperties equals: expectedNumberOfProperties.
+	self assert: numberOfProperties equals: 3
 ]
 
 { #category : 'tests' }
