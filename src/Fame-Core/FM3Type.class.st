@@ -81,6 +81,18 @@ FM3Type >> classUsers [
 	^ { self }
 ]
 
+{ #category : 'as yet unclassified' }
+FM3Type >> fillPropertiesDictionary: nameDict [
+	"this method is used to avoid code duplication when filling dictionnary"
+
+	self properties do: [ :each |
+		nameDict at: each name ifAbsentPut: [ each ] ].
+
+	self traits do: [ :trait |
+			trait allPropertiesDo: [ :each |
+				nameDict at: each name ifAbsentPut: [ each ] ] ]
+]
+
 { #category : 'initialization' }
 FM3Type >> initialize [
 	super initialize.
