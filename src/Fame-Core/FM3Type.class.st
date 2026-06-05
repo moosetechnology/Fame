@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'package',
 		'properties',
-		'traits'
+		'traits',
+		'cachedAllProperties'
 	],
 	#category : 'Fame-Core-Model',
 	#package : 'Fame-Core',
@@ -50,13 +51,15 @@ FM3Type >> allProperties [
 	<FMProperty: #allProperties type: 'FM3.Property'>
 	<multivalued>
 	<derived>
-	| nameDict |
-	nameDict := Dictionary new: 60. "estimated initial size."
-	self properties do: [ :each | nameDict at: each name ifAbsentPut: [ each ] ].
-	self traits do: [ :trait |
-			trait allPropertiesDo: [ :each |
-				nameDict at: each name ifAbsentPut: [ each ] ] ].
-	^ nameDict values asArray
+	^ cachedAllProperties ifNil: [
+			  | nameDict |
+			  nameDict := Dictionary new: 60. "estimated initial size."
+			  self properties do: [ :each |
+				  nameDict at: each name ifAbsentPut: [ each ] ].
+			  self traits do: [ :trait |
+					  trait allPropertiesDo: [ :each |
+						  nameDict at: each name ifAbsentPut: [ each ] ] ].
+			  cachedAllProperties := nameDict values asArray ]
 ]
 
 { #category : 'enumerating' }
