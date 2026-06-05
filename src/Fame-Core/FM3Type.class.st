@@ -54,17 +54,14 @@ FM3Type >> allProperties [
 	^ cachedAllProperties ifNil: [
 			  | nameDict |
 			  nameDict := Dictionary new: 60. "estimated initial size."
-			  self properties do: [ :each |
-				  nameDict at: each name ifAbsentPut: [ each ] ].
-			  self traits do: [ :trait |
-					  trait allPropertiesDo: [ :each |
-						  nameDict at: each name ifAbsentPut: [ each ] ] ].
+			  self fillPropertiesDictionary: nameDict.
 			  cachedAllProperties := nameDict values asArray ]
 ]
 
 { #category : 'enumerating' }
 FM3Type >> allPropertiesDo: block [
-	self allProperties do: block.
+
+	self allProperties do: block
 ]
 
 { #category : 'accessing-query' }
