@@ -59,13 +59,6 @@ FM3Class >> accept: aVisitor [
 	^ aVisitor visitClass: self
 ]
 
-{ #category : 'enumerating' }
-FM3Class >> allPropertiesDo: block [
-	properties do: block.
-	self superclass ifNotNil: [ :class | class allPropertiesDo: block ].
-	self traits do: [ :trait | trait allPropertiesDo: block ]
-]
-
 { #category : 'accessing' }
 FM3Class >> allSubclasses [
 	| all |
@@ -109,6 +102,18 @@ FM3Class >> createInstance [
 	^ implementingClass
 		ifNil: [ FMRuntimeElement new description: self ]
 		ifNotNil: [ implementingClass new ]
+]
+
+{ #category : 'accessing-query' }
+FM3Class >> fillPropertiesDictionary: nameDict [
+	"this method is used to avoid code duplication when filling dictionnary"
+
+	super fillPropertiesDictionary: nameDict.
+
+	"adding superclasses"
+	self superclass ifNotNil: [ :class |
+			class allProperties do: [ :each |
+				nameDict at: each name ifAbsentPut: [ each ] ] ]
 ]
 
 { #category : 'testing' }

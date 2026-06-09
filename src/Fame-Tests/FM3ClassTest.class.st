@@ -25,6 +25,59 @@ FM3ClassTest >> testAllProperties [
 ]
 
 { #category : 'tests' }
+FM3ClassTest >> testAllPropertiesDoGiveSameElementsAsAllProperties [
+
+	| superclass class listWithPropDo listWithoutPropDo |
+	superclass := self actualClass named: 'Superclass'.
+	class := self actualClass named: 'Class'.
+	class superclass: superclass.
+
+	superclass properties: {
+			(FM3Property named: #isDead).
+			(FM3Property named: #numberOfLinesOfCode) }.
+	class properties: {
+			(FM3Property named: #isDead).
+			(FM3Property named: #cc) }.
+
+	"collecting with allPropertiesDo:"
+	listWithPropDo := OrderedCollection new.
+	class allPropertiesDo: [ :prop | listWithPropDo add: prop name ].
+
+	"collecting with allProperties"
+	listWithoutPropDo := class allProperties collect: [ :prop |
+		                     prop name ].
+
+	"the two lists should be equals"
+	self
+		assert: listWithPropDo asArray sorted equals: listWithoutPropDo asArray sorted
+]
+
+{ #category : 'tests' }
+FM3ClassTest >> testAllPropertiesHasNoDuplication [
+
+	| superclass class numberOfProperties expectedNumberOfProperties |
+	superclass := self actualClass named: 'Superclass'.
+	class := self actualClass named: 'Class'.
+	class superclass: superclass.
+
+	superclass properties: {
+		(FM3Property named: #isDead).
+		(FM3Property named: #numberOfLinesOfCode) }.
+	class properties: {
+		(FM3Property named: #isDead).
+		(FM3Property named: #cc) }.
+
+	numberOfProperties := 0.
+	class allPropertiesDo: [ :each |
+		numberOfProperties := numberOfProperties + 1 ].
+
+	expectedNumberOfProperties := class allProperties size.
+
+	self assert: numberOfProperties equals: expectedNumberOfProperties.
+	self assert: numberOfProperties equals: 3
+]
+
+{ #category : 'tests' }
 FM3ClassTest >> testAllPropertiesMoreThanProperties [
 	element := metaMetamodel elementNamed: 'FM3.Class'.
 	self assert: element allProperties size > element properties size.

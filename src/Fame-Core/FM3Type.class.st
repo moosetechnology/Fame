@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'package',
 		'properties',
-		'traits'
+		'traits',
+		'cachedAllProperties'
 	],
 	#category : 'Fame-Core-Model',
 	#package : 'Fame-Core',
@@ -46,19 +47,21 @@ FM3Type >> allPrimitiveProperties [
 
 { #category : 'accessing-query' }
 FM3Type >> allProperties [
+
 	<FMProperty: #allProperties type: 'FM3.Property'>
 	<multivalued>
 	<derived>
-	| nameDict |
-	nameDict := Dictionary new: 60.	"estimated initial size."
-	self allPropertiesDo: [ :each | nameDict at: each name ifAbsentPut: [ each ] ].
-	^ nameDict values asArray
+	^ cachedAllProperties ifNil: [
+			  | nameDict |
+			  nameDict := Dictionary new: 60. "estimated initial size."
+			  self fillPropertiesDictionary: nameDict.
+			  cachedAllProperties := nameDict values asArray ]
 ]
 
 { #category : 'enumerating' }
 FM3Type >> allPropertiesDo: block [
-	self properties do: block.
-	self traits do: [ :trait | trait allPropertiesDo: block ]
+
+	self allProperties do: block
 ]
 
 { #category : 'accessing-query' }
@@ -73,6 +76,18 @@ FM3Type >> classUsers [
 	"This method allows polymorphism with FM3Trait>>#classUsers"
 
 	^ { self }
+]
+
+{ #category : 'as yet unclassified' }
+FM3Type >> fillPropertiesDictionary: nameDict [
+	"this method is used to avoid code duplication when filling dictionnary"
+
+	self properties do: [ :each |
+		nameDict at: each name ifAbsentPut: [ each ] ].
+
+	self traits do: [ :trait |
+			trait allPropertiesDo: [ :each |
+				nameDict at: each name ifAbsentPut: [ each ] ] ]
 ]
 
 { #category : 'initialization' }
