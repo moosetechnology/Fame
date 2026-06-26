@@ -25,10 +25,10 @@ Class {
 		'progBar',
 		'lastUpdate',
 		'characterSet',
-		'chararacter',
 		'buffer',
 		'importer',
-		'numberParser'
+		'numberParser',
+		'character'
 	],
 	#category : 'Fame-ImportExport-Importers',
 	#package : 'Fame-ImportExport',
@@ -85,12 +85,12 @@ FMMSEParser >> Identifier [
 
 	"Identifier := digit+"
 
-	(self characterSet isDigit: chararacter)
+	(self characterSet isDigit: character)
 		ifFalse: [ ^ nil ].
 	
 	buffer reset.
-	buffer nextPut: chararacter.
-	[ self characterSet isDigit: self next ] whileTrue: [ buffer nextPut: chararacter ].
+	buffer nextPut: character.
+	[ self characterSet isDigit: self next ] whileTrue: [ buffer nextPut: character ].
 	self tWHITESPACE.
 	^ (numberParser on: buffer contents readStream) nextInteger
 ]
@@ -105,38 +105,38 @@ FMMSEParser >> Number [
 	pos := self position.
 	buffer reset.
 	"hypen?	"
-	$- == chararacter
-		ifTrue: [ buffer nextPut: chararacter.
+	$- == character
+		ifTrue: [ buffer nextPut: character.
 			self next ].
 	"digit+"
-	(self characterSet isDigit: chararacter)
+	(self characterSet isDigit: character)
 		ifFalse: [ self backtrack: pos.
 			^ nil ].
-	[ buffer nextPut: chararacter.
+	[ buffer nextPut: character.
 	self characterSet isDigit: self next ] whileTrue.
 	"(dot"
-	$. == chararacter
-		ifTrue: [ buffer nextPut: chararacter.
+	$. == character
+		ifTrue: [ buffer nextPut: character.
 			self next.
 			"digit+"
-			(self characterSet isDigit: chararacter)
+			(self characterSet isDigit: character)
 				ifFalse: [ self syntaxError.
 					^ nil ].
-			[ buffer nextPut: chararacter.
+			[ buffer nextPut: character.
 			self characterSet isDigit: self next ] whileTrue.
 			"(e"
-			$e == chararacter
-				ifTrue: [ buffer nextPut: chararacter.
+			$e == character
+				ifTrue: [ buffer nextPut: character.
 					self next.
 					"hypen?"
-					$- == chararacter
-						ifTrue: [ buffer nextPut: chararacter.
+					$- == character
+						ifTrue: [ buffer nextPut: character.
 							self next ].
 					"digit+"
-					(self characterSet isDigit: chararacter)
+					(self characterSet isDigit: character)
 						ifFalse: [ self syntaxError.
 							^ nil ].
-					[ buffer nextPut: chararacter.
+					[ buffer nextPut: character.
 					self characterSet isDigit: self next ] whileTrue
 					")?)?" ] ].
 	self tWHITESPACE.
@@ -226,14 +226,14 @@ FMMSEParser >> Serial [
 
 { #category : 'expressions' }
 FMMSEParser >> String [
-	$' == chararacter ifFalse: [ ^ nil ].
+	$' == character ifFalse: [ ^ nil ].
 
 	buffer reset.
 
 	[ [ self next.
-	chararacter ifNil: [ self syntaxError ].
-	$' == chararacter ] whileFalse: [ buffer nextPut: chararacter ].
-	$' == self next ] whileTrue: [ buffer nextPut: chararacter ].
+	character ifNil: [ self syntaxError ].
+	$' == character ] whileFalse: [ buffer nextPut: character ].
+	$' == self next ] whileTrue: [ buffer nextPut: character ].
 	self tWHITESPACE.
 	^ buffer contents
 ]
@@ -249,7 +249,7 @@ FMMSEParser >> Value [
 
 { #category : 'testing' }
 FMMSEParser >> atEnd [
-	^ chararacter isNil
+	^ character isNil
 ]
 
 { #category : 'private' }
@@ -273,7 +273,7 @@ FMMSEParser >> basicRun [
 
 { #category : 'accessing' }
 FMMSEParser >> characterSet [
-	^ characterSet ifNil: [ characterSet := chararacter characterSet ]
+	^ characterSet ifNil: [ characterSet := character characterSet ]
 ]
 
 { #category : 'accessing' }
@@ -309,25 +309,25 @@ FMMSEParser >> initialize [
 FMMSEParser >> matchesWord: aString [
 	"I am checking if the next part of the stream watches a word. If it matches, I also eat the next whitespace and return true. Else I return false (I do not backtrack)"
 
-	aString do: [ :char | char == chararacter ifTrue: [ self next ] ifFalse: [ ^ false ] ].
+	aString do: [ :char | char == character ifTrue: [ self next ] ifFalse: [ ^ false ] ].
 	self tWHITESPACE.
 	^ true
 ]
 
 { #category : 'private' }
 FMMSEParser >> next [
-	^ chararacter := stream next
+	^ character := stream next
 ]
 
 { #category : 'testing' }
 FMMSEParser >> nextCharIsAlphanumeric [
 	self next.
-	^ (self characterSet isLetter: chararacter) or: [ self characterSet isDigit: chararacter ]
+	^ (self characterSet isLetter: character) or: [ self characterSet isDigit: character ]
 ]
 
 { #category : 'private' }
 FMMSEParser >> peek [
-	^ chararacter
+	^ character
 ]
 
 { #category : 'private' }
@@ -394,15 +394,15 @@ FMMSEParser >> tFALSE [
 
 { #category : 'tokens' }
 FMMSEParser >> tFULLNAME [
-	(self characterSet isLetter: chararacter) ifFalse: [ ^ nil ].
+	(self characterSet isLetter: character) ifFalse: [ ^ nil ].
 
 	buffer reset.
-	[ buffer nextPut: chararacter.
-	[ self nextCharIsAlphanumeric or: [ chararacter = $- ] ] whileTrue: [ buffer nextPut: chararacter ].
-	$. == chararacter ]
-		whileTrue: [ buffer nextPut: chararacter.
+	[ buffer nextPut: character.
+	[ self nextCharIsAlphanumeric or: [ character = $- ] ] whileTrue: [ buffer nextPut: character ].
+	$. == character ]
+		whileTrue: [ buffer nextPut: character.
 			(self characterSet isLetter: self next) ifFalse: [ ^ self syntaxError ] ].
-	$: == chararacter ifTrue: [ ^ self syntaxError ].
+	$: == character ifTrue: [ ^ self syntaxError ].
 	self tWHITESPACE.
 	^ buffer contents
 ]
@@ -416,11 +416,11 @@ FMMSEParser >> tID [
 
 { #category : 'tokens' }
 FMMSEParser >> tNAME [
-	(self characterSet isLetter: chararacter) ifFalse: [ ^ nil ].
+	(self characterSet isLetter: character) ifFalse: [ ^ nil ].
 
 	buffer reset.
-	buffer nextPut: chararacter.
-	[ self nextCharIsAlphanumeric or: [ chararacter == $_ ] ] whileTrue: [ buffer nextPut: chararacter ].
+	buffer nextPut: character.
+	[ self nextCharIsAlphanumeric or: [ character == $_ ] ] whileTrue: [ buffer nextPut: character ].
 	self tWHITESPACE.
 	^ buffer contents
 ]
@@ -448,10 +448,10 @@ FMMSEParser >> tTRUE [
 
 { #category : 'tokens' }
 FMMSEParser >> tWHITESPACE [
-	[ $" == chararacter
+	[ $" == character
 		ifTrue: [ [ [ self next.
-			nil == chararacter ifTrue: [ ^ self syntaxError ].
-			$" == chararacter ] whileFalse.
+			nil == character ifTrue: [ ^ self syntaxError ].
+			$" == character ] whileFalse.
 			$" == self next ] whileTrue ].
-	chararacter isMSESeparator ] whileTrue: [ self next ]
+	character isMSESeparator ] whileTrue: [ self next ]
 ]
