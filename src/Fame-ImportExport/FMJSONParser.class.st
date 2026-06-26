@@ -164,11 +164,19 @@ FMJSONParser >> String [
 	buffer reset.
 	"read the string"
 	[ 
-	previousChar := chararacter.
-	self next.
-	isEscape := chararacter = $" and: [ previousChar = $\ ].
-	chararacter ifNil: [ self syntaxError ].
-	$" == chararacter and: [ isEscape not ] ] whileFalse: [ ($\ ~= chararacter or: [ previousChar == $\ ]) ifTrue: [ buffer nextPut: chararacter ] ].
+		previousChar := chararacter.
+		self next.
+		isEscape := chararacter = $" and: [ previousChar = $\ ].
+		chararacter ifNil: [ self syntaxError ].
+		$" == chararacter and: [ isEscape not ]
+	]
+	whileFalse: [
+		($\ ~= chararacter or: [ previousChar == $\ ])
+			ifTrue: [
+				buffer nextPut: chararacter.
+				"if the character added is a $\ at the end of the parsed String there was a bug"
+				chararacter = $\ ifTrue: [ chararacter := $_ ] ]
+	].
 	"eat the last "" character"
 	self next.
 	self tWHITESPACE.
