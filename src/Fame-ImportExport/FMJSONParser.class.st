@@ -159,23 +159,23 @@ FMJSONParser >> String [
 
 	| previousChar isEscape |
 	"read a string"
-	$" == chararacter ifFalse: [ ^ nil ].
+	$" == character ifFalse: [ ^ nil ].
 
 	buffer reset.
 	"read the string"
 	[ 
-		previousChar := chararacter.
+		previousChar := character.
 		self next.
-		isEscape := chararacter = $" and: [ previousChar = $\ ].
-		chararacter ifNil: [ self syntaxError ].
-		$" == chararacter and: [ isEscape not ]
+		isEscape := character = $" and: [ previousChar = $\ ].
+		character ifNil: [ self syntaxError ].
+		$" == character and: [ isEscape not ]
 	]
 	whileFalse: [
-		($\ ~= chararacter or: [ previousChar == $\ ])
+		($\ ~= character or: [ previousChar == $\ ])
 			ifTrue: [
-				buffer nextPut: chararacter.
+				buffer nextPut: character.
 				"if the character added is a $\ at the end of the parsed String there was a bug"
-				chararacter = $\ ifTrue: [ chararacter := $_ ] ]
+				character = $\ ifTrue: [ character := $_ ] ]
 	].
 	"eat the last "" character"
 	self next.
@@ -205,14 +205,14 @@ FMJSONParser >> tFULLNAME [
 	self tPropertyNameOPEN ifFalse: [ ^ nil ].
 	buffer reset.
 	[ 
-	buffer nextPut: chararacter.
-	[ self nextCharIsAlphanumeric or: [ chararacter ~= $" ] ] whileTrue: [ 
-		buffer nextPut: chararacter ].
-	$. == chararacter ] whileTrue: [ 
-		buffer nextPut: chararacter.
+	buffer nextPut: character.
+	[ self nextCharIsAlphanumeric or: [ character ~= $" ] ] whileTrue: [ 
+		buffer nextPut: character ].
+	$. == character ] whileTrue: [ 
+		buffer nextPut: character.
 		(self characterSet isLetter: self next) ifFalse: [ 
 			^ self syntaxError ] ].
-	$: == chararacter ifTrue: [ ^ self syntaxError ].
+	$: == character ifTrue: [ ^ self syntaxError ].
 	self tFULLNAMEPropertyClose.
 	^ buffer contents
 ]
@@ -283,5 +283,5 @@ FMJSONParser >> tREF [
 
 { #category : 'tokens' }
 FMJSONParser >> tWHITESPACE [
-	^ [ self atEnd not and: [ chararacter isSeparator  ] ] whileTrue: [ self next ]
+	^ [ self atEnd not and: [ character isSeparator  ] ] whileTrue: [ self next ]
 ]
