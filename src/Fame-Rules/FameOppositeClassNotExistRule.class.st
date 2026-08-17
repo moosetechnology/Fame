@@ -34,6 +34,7 @@ FameOppositeClassNotExistRule class >> uniqueIdentifierName [
 FameOppositeClassNotExistRule >> basicCheck: aMethod [
 
 	((aMethod methodClass methodNamed: aMethod selector) pragmaAt: #FMProperty:type:opposite:) ifNotNil: [ :pragma |
-		self class environment at: (pragma argumentAt: 2) ifPresent: [ :oppositeClass | ^ true ] ].
+		self class environment at: (pragma argumentAt: 2) ifAbsent: [ :oppositeClass | ^ true ] ].
+
 	^ false
 ]
