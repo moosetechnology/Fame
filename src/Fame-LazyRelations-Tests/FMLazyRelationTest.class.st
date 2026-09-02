@@ -148,6 +148,26 @@ FMLazyRelationTest >> testOneToManyRelation [
 ]
 
 { #category : 'tests' }
+FMLazyRelationTest >> testOneToManyRelationTwiceCalled [
+
+	| entity hero count |
+	entity := RPGLazyTalisman new.
+	hero := RPGLazyHero new.
+	count := 0.
+
+	FMLazyValue
+		makeRelation: #owner
+		of: entity
+		lazyUsing: [ :rel :entit |
+			count := count + 1.
+			rel value: hero ].
+	entity owner.
+	entity owner.
+
+	self assert: count equals: 1
+]
+
+{ #category : 'tests' }
 FMLazyRelationTest >> testRelationIsLoadedOnlyOnce [
 
 	| entity count first second |
