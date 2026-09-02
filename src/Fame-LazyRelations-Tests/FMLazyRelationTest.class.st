@@ -16,7 +16,6 @@ FMLazyRelationTest >> testAccessMaterializesRelation [
 
 	lazy := FMLazyRelation loader: [ :relat :entit | loaded := true ].
 
-	"Pour le spike : trouver l'écriture brute appropriée"
 	slot write: lazy to: entity.
 
 	self deny: loaded.
@@ -40,9 +39,7 @@ FMLazyRelationTest >> testAddEntitiesInRelation [
 			        RPGLazyDragon new.
 			        RPGLazyDragon new } ].
 
-	"Pour le spike : trouver l'écriture brute appropriée"
 	slot write: lazy to: entity.
-
 
 	relation := entity kills.
 
