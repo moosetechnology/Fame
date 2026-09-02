@@ -48,6 +48,70 @@ FMLazyRelationTest >> testAddEntitiesInRelation [
 ]
 
 { #category : 'tests' }
+FMLazyRelationTest >> testAddToLazyRelation [
+
+	| entity dragon |
+	entity := RPGLazyHero new.
+
+	FMLazyRelation
+		makeRelation: #kills
+		of: entity
+		lazyUsing: [ :rel :entit |
+			rel addAll: {
+					RPGLazyDragon new.
+					RPGLazyDragon new } ].
+
+	dragon := RPGLazyDragon new.
+
+	dragon killedBy: { entity }.
+
+	self assert: dragon killedBy size equals: 1.
+	self assert: dragon killedBy anyOne equals: entity.
+	self assert: entity kills size equals: 3.
+	self assert: entity kills last identicalTo: dragon.
+	
+]
+
+{ #category : 'tests' }
+FMLazyRelationTest >> testByPassByDirectlyAdding [
+
+	| entity dragon |
+	entity := RPGLazyHero new.
+
+	FMLazyRelation
+		makeRelation: #kills
+		of: entity
+		lazyUsing: [ :rel :entit |
+			rel addAll: {
+					RPGLazyDragon new.
+					RPGLazyDragon new } ].
+
+	dragon := RPGLazyDragon new.
+
+
+	entity kills: { dragon }.
+
+	self assert: entity kills size equals: 1.
+	self assert: entity kills anyOne identicalTo: dragon
+	
+]
+
+{ #category : 'tests' }
+FMLazyRelationTest >> testDefaultBehavior [
+
+	| entity dragon |
+	entity := RPGLazyHero new.
+	dragon := RPGLazyDragon new.
+	dragon killedBy: { entity }.
+
+	self assert: dragon killedBy size equals: 1.
+	self assert: dragon killedBy anyOne equals: entity.
+	self assert: entity kills size equals: 1.
+	self assert: entity kills anyOne equals: dragon.
+	
+]
+
+{ #category : 'tests' }
 FMLazyRelationTest >> testRelationIsLoadedOnlyOnce [
 
 	| entity count first second |

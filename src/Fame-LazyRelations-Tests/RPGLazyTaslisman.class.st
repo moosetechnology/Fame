@@ -1,8 +1,8 @@
 Class {
-	#name : 'RPGLazyDragon',
+	#name : 'RPGLazyTaslisman',
 	#superclass : 'RPGLazyEntity',
 	#instVars : [
-		'#killedBy => FMMany type: #RPGLazyHero opposite: #kills'
+		'#owner => FMOne type: #RPGLazyHero opposite: #talismans'
 	],
 	#category : 'Fame-LazyRelations-Tests-Example',
 	#package : 'Fame-LazyRelations-Tests',
@@ -10,13 +10,13 @@ Class {
 }
 
 { #category : 'accessing' }
-RPGLazyDragon >> killedBy [
+RPGLazyTaslisman >> owner [
 
-	^ killedBy
+	^ owner
 ]
 
 { #category : 'accessing' }
-RPGLazyDragon >> killedBy: anObject [
-	"value when multimulti relation"
-	killedBy value: anObject
+RPGLazyTaslisman >> owner: anObject [
+
+	owner := anObject
 ]
