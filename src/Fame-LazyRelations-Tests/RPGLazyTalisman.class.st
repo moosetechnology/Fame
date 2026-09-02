@@ -1,5 +1,5 @@
 Class {
-	#name : 'RPGLazyTaslisman',
+	#name : 'RPGLazyTalisman',
 	#superclass : 'RPGLazyEntity',
 	#instVars : [
 		'#owner => FMOne type: #RPGLazyHero opposite: #talismans'
@@ -10,13 +10,13 @@ Class {
 }
 
 { #category : 'accessing' }
-RPGLazyTaslisman >> owner [
+RPGLazyTalisman >> owner [
 
 	^ owner
 ]
 
 { #category : 'accessing' }
-RPGLazyTaslisman >> owner: anObject [
+RPGLazyTalisman >> owner: anObject [
 
 	owner := anObject
 ]

@@ -3,7 +3,7 @@ I am an uninitialized relation.
 When first accessed, I relsolved my loader block
 "
 Class {
-	#name : 'FMLazyRelation',
+	#name : 'FMLazyValue',
 	#superclass : 'Object',
 	#instVars : [
 		'loader'
@@ -13,7 +13,7 @@ Class {
 }
 
 { #category : 'accessing' }
-FMLazyRelation class >> loader: aBlock [
+FMLazyValue class >> loader: aBlock [
 
 	^ self new
 		  loader: aBlock;
@@ -21,49 +21,42 @@ FMLazyRelation class >> loader: aBlock [
 ]
 
 { #category : 'accessing' }
-FMLazyRelation class >> makeRelation: aSymbol of: anEntity lazyUsing: aBlock [
+FMLazyValue class >> makeRelation: aSymbol of: anEntity lazyUsing: aBlock [
 
 	| slot lazy |
 	slot := anEntity class slotNamed: aSymbol.
 
 	self assert: slot isFMRelationSlot.
-	self assert: slot isToMany.
+	lazy := slot isToOne
+		        ifTrue: [ FMLazyOne loader: aBlock ]
+		        ifFalse: [ FMLazyMany loader: aBlock ].
 
-	lazy := self loader: aBlock.
-
-	slot write: lazy to: anEntity.
+	slot writeMaterialized: lazy to: anEntity.
 
 	^ lazy
 ]
 
 { #category : 'accessing' }
-FMLazyRelation >> fmValueReadFrom: aSlot owner: anObject [
+FMLazyValue >> fmValueReadFrom: aSlot owner: anObject [
     ^ self
         materializeFor: anObject
         slot: aSlot
 ]
 
 { #category : 'accessing' }
-FMLazyRelation >> loader [
+FMLazyValue >> loader [
 
 	^ loader
 ]
 
 { #category : 'accessing' }
-FMLazyRelation >> loader: anObject [
+FMLazyValue >> loader: anObject [
 
 	loader := anObject
 ]
 
 { #category : 'accessing' }
-FMLazyRelation >> materializeFor: anObject slot: aSlot [
+FMLazyValue >> materializeFor: anObject slot: aSlot [
 
-	| relation |
-	relation := FMSlotMultivalueLink on: anObject slot: aSlot.
-
-	loader value: relation value: anObject.
-
-	aSlot write: relation to: anObject.
-
-	^ relation
+	^ self subclassResponsibility
 ]

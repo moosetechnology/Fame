@@ -8,15 +8,14 @@ Class {
 { #category : 'tests' }
 FMLazyRelationTest >> testAccessMaterializesRelation [
 
-	| entity slot loaded relation lazy |
+	| entity loaded relation |
 	entity := RPGLazyHero new.
-	slot := entity class slotNamed: #kills.
 
 	loaded := false.
-
-	lazy := FMLazyRelation loader: [ :relat :entit | loaded := true ].
-
-	slot write: lazy to: entity.
+	FMLazyValue
+		makeRelation: #kills
+		of: entity
+		lazyUsing: [ :rel :entit | loaded := true ].
 
 	self deny: loaded.
 
@@ -29,17 +28,16 @@ FMLazyRelationTest >> testAccessMaterializesRelation [
 { #category : 'tests' }
 FMLazyRelationTest >> testAddEntitiesInRelation [
 
-	| entity slot relation lazy |
+	| entity relation |
 	entity := RPGLazyHero new.
-	slot := entity class slotNamed: #kills.
 
-	lazy := FMLazyRelation loader: [ :rel :entit |
-		rel addAll:
-		        {
-			        RPGLazyDragon new.
-			        RPGLazyDragon new } ].
-
-	slot write: lazy to: entity.
+	FMLazyValue
+		makeRelation: #kills
+		of: entity
+		lazyUsing: [ :rel :entit |
+			rel addAll: {
+					RPGLazyDragon new.
+					RPGLazyDragon new } ].
 
 	relation := entity kills.
 
@@ -53,7 +51,7 @@ FMLazyRelationTest >> testAddToLazyRelation [
 	| entity dragon |
 	entity := RPGLazyHero new.
 
-	FMLazyRelation
+	FMLazyValue
 		makeRelation: #kills
 		of: entity
 		lazyUsing: [ :rel :entit |
@@ -78,7 +76,7 @@ FMLazyRelationTest >> testByPassByDirectlyAdding [
 	| entity dragon |
 	entity := RPGLazyHero new.
 
-	FMLazyRelation
+	FMLazyValue
 		makeRelation: #kills
 		of: entity
 		lazyUsing: [ :rel :entit |
@@ -112,13 +110,51 @@ FMLazyRelationTest >> testDefaultBehavior [
 ]
 
 { #category : 'tests' }
+FMLazyRelationTest >> testManyToOneWithlazyOne [
+
+	| entity hero hero2 |
+	self flag: #currentLimitation.
+	"entity := RPGLazyTalisman new.
+	hero := RPGLazyHero new.
+	hero2 := RPGLazyHero new.
+
+	FMLazyValue
+		makeRelation: #owner
+		of: entity
+		lazyUsing: [ :rel :entit | rel value: hero ].
+	hero2 talismans: { entity }.
+	self assert: entity owner identicalTo: hero2.
+	self assert: hero talismans size equals: 0.
+	self assert: hero2 talismans anyOne identicalTo: entity"
+]
+
+{ #category : 'tests' }
+FMLazyRelationTest >> testOneToManyRelation [
+
+    | entity hero |
+
+    entity := RPGLazyTalisman new.
+    hero := RPGLazyHero new.
+
+    FMLazyValue
+        makeRelation: #owner
+        of: entity
+        lazyUsing: [ :rel :entit |
+            rel value: hero ].
+
+    self assert: entity owner identicalTo: hero.
+    self assert: hero talismans size equals: 1.
+    self assert: hero talismans anyOne identicalTo: entity.
+]
+
+{ #category : 'tests' }
 FMLazyRelationTest >> testRelationIsLoadedOnlyOnce [
 
 	| entity count first second |
 	entity := RPGLazyHero new.
 	count := 0.
 
-	FMLazyRelation
+	FMLazyValue
 		makeRelation: #kills
 		of: entity
 		lazyUsing: [ :relation :entit | count := count + 1 ].
@@ -138,7 +174,7 @@ FMLazyRelationTest >> testRelationIsNotAppliedToAllEntities [
 	entity2 := RPGLazyHero new.
 	count := 0.
 
-	FMLazyRelation
+	FMLazyValue
 		makeRelation: #kills
 		of: entity
 		lazyUsing: [ :relation :entit | count := count + 1 ].
