@@ -168,6 +168,41 @@ FMLazyRelationTest >> testOneToManyRelationTwiceCalled [
 ]
 
 { #category : 'tests' }
+FMLazyRelationTest >> testOneToOneRelation [
+
+	| weapon hero |
+	weapon := RPGLazyUniqueWeapon new.
+	hero := RPGLazyHero new.
+
+	FMLazyValue
+		makeRelation: #owner
+		of: weapon
+		lazyUsing: [ :rel :entit | rel value: hero ].
+
+	self assert: weapon owner identicalTo: hero
+]
+
+{ #category : 'tests' }
+FMLazyRelationTest >> testOneToOneRelationReverse [
+
+	| weapon weapon2 hero |
+	self flag: #currentLimitation.
+	"weapon := RPGLazyUniqueWeapon new.
+	hero := RPGLazyHero new.
+	weapon2 := RPGLazyUniqueWeapon new.
+
+	FMLazyValue
+		makeRelation: #owner
+		of: weapon
+		lazyUsing: [ :rel :entit | rel value: hero ].
+	
+	hero uniqueWeapon: weapon2.
+
+	self assert: hero uniqueWeapon identicalTo: weapon2.
+	self assert: weapon owner isNil."
+]
+
+{ #category : 'tests' }
 FMLazyRelationTest >> testRelationIsLoadedOnlyOnce [
 
 	| entity count first second |
