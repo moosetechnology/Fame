@@ -66,8 +66,7 @@ FMLazyRelationTest >> testAddToLazyRelation [
 	self assert: dragon killedBy size equals: 1.
 	self assert: dragon killedBy anyOne equals: entity.
 	self assert: entity kills size equals: 3.
-	self assert: entity kills last identicalTo: dragon.
-	
+	self assert: entity kills last identicalTo: dragon
 ]
 
 { #category : 'tests' }
