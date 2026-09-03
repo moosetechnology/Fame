@@ -35,6 +35,14 @@ BaselineOfFame >> baseline: spec [
 			package: 'Fame-Deprecated'
 			with: [ spec requires: #( 'Fame-ImportExport' ) ].
 
+		"Lazyness"
+		spec
+			package: 'Fame-LazyRelations'
+			with: [ spec requires: #( 'Fame-Core' ) ].
+		spec
+			package: 'Fame-LazyRelations-Tests'
+			with: [ spec requires: #( 'Fame-LazyRelations' ) ].
+
 		spec for: #( #'pharo6.x' #'pharo7.x' #'pharo8.x' ) do: [
 			spec
 				package: 'Fame-GT'
@@ -47,9 +55,9 @@ BaselineOfFame >> baseline: spec [
 		"Groups"
 		spec
 			group: 'Core'
-			with: #( 'Fame-Core' 'Fame-ImportExport' 'Fame-Rules' );
+			with: #( 'Fame-Core' 'Fame-ImportExport' 'Fame-Rules' 'Fame-LazyRelations' );
 			group: 'Deprecated' with: #( 'Core' 'Fame-Deprecated' );
-			group: 'Tests' with: #( 'Fame-Tests' ) ]
+			group: 'Tests' with: #( 'Fame-Tests' 'Fame-LazyRelations-Tests' ) ]
 ]
 
 { #category : 'dependencies' }
