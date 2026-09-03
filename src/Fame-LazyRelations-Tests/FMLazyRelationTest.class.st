@@ -66,8 +66,7 @@ FMLazyRelationTest >> testAddToLazyRelation [
 	self assert: dragon killedBy size equals: 1.
 	self assert: dragon killedBy anyOne equals: entity.
 	self assert: entity kills size equals: 3.
-	self assert: entity kills last identicalTo: dragon.
-	
+	self assert: entity kills last identicalTo: dragon
 ]
 
 { #category : 'tests' }
@@ -86,12 +85,10 @@ FMLazyRelationTest >> testByPassByDirectlyAdding [
 
 	dragon := RPGLazyDragon new.
 
-
 	entity kills: { dragon }.
 
 	self assert: entity kills size equals: 1.
 	self assert: entity kills anyOne identicalTo: dragon
-	
 ]
 
 { #category : 'tests' }
@@ -105,8 +102,7 @@ FMLazyRelationTest >> testDefaultBehavior [
 	self assert: dragon killedBy size equals: 1.
 	self assert: dragon killedBy anyOne equals: entity.
 	self assert: entity kills size equals: 1.
-	self assert: entity kills anyOne equals: dragon.
-	
+	self assert: entity kills anyOne equals: dragon
 ]
 
 { #category : 'tests' }
@@ -132,20 +128,18 @@ FMLazyRelationTest >> testManyToOneWithlazyOne [
 { #category : 'tests' }
 FMLazyRelationTest >> testOneToManyRelation [
 
-    | entity hero |
+	| entity hero |
+	entity := RPGLazyTalisman new.
+	hero := RPGLazyHero new.
 
-    entity := RPGLazyTalisman new.
-    hero := RPGLazyHero new.
+	FMLazyValue
+		makeRelation: #owner
+		of: entity
+		lazyUsing: [ :rel :entit | rel value: hero ].
 
-    FMLazyValue
-        makeRelation: #owner
-        of: entity
-        lazyUsing: [ :rel :entit |
-            rel value: hero ].
-
-    self assert: entity owner identicalTo: hero.
-    self assert: hero talismans size equals: 1.
-    self assert: hero talismans anyOne identicalTo: entity.
+	self assert: entity owner identicalTo: hero.
+	self assert: hero talismans size equals: 1.
+	self assert: hero talismans anyOne identicalTo: entity
 ]
 
 { #category : 'tests' }
