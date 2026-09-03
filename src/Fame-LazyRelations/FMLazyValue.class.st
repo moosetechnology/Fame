@@ -1,6 +1,6 @@
 "
 I am an uninitialized relation.
-When first accessed, I relsolved my loader block
+When first accessed, my `loader` block is evaluated.
 "
 Class {
 	#name : 'FMLazyValue',
@@ -38,9 +38,8 @@ FMLazyValue class >> makeRelation: aSymbol of: anEntity lazyUsing: aBlock [
 
 { #category : 'accessing' }
 FMLazyValue >> fmValueReadFrom: aSlot owner: anObject [
-    ^ self
-        materializeFor: anObject
-        slot: aSlot
+
+	^ self materializeFor: anObject slot: aSlot
 ]
 
 { #category : 'accessing' }
@@ -50,9 +49,9 @@ FMLazyValue >> loader [
 ]
 
 { #category : 'accessing' }
-FMLazyValue >> loader: anObject [
+FMLazyValue >> loader: aBlock [
 
-	loader := anObject
+	loader := aBlock
 ]
 
 { #category : 'accessing' }

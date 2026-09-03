@@ -8,24 +8,16 @@ Class {
 { #category : 'accessing' }
 FMLazyOne >> materializeFor: anObject slot: aSlot [
 
-    | holder value |
-	
-    holder := FMLazyOneHolder new.
+	| holder value |
+	holder := FMLazyOneHolder new.
 
-    loader
-        value: holder
-        value: anObject.
+	loader value: holder value: anObject.
 
-    value := holder value.
+	value := holder value.
 
-    aSlot
-        writeMaterialized: value
-        to: anObject.
+	aSlot writeMaterialized: value to: anObject.
 
-    value ifNotNil: [
-        aSlot
-            addAssociationFrom: anObject
-            to: value ].
+	value ifNotNil: [ aSlot addAssociationFrom: anObject to: value ].
 
-    ^ value
+	^ value
 ]
