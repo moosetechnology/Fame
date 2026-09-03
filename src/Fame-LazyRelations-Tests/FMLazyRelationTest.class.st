@@ -114,7 +114,8 @@ FMLazyRelationTest >> testManyToOneWithlazyOne [
 
 	| entity hero hero2 |
 	self flag: #currentLimitation.
-	"entity := RPGLazyTalisman new.
+	self skip.
+	entity := RPGLazyTalisman new.
 	hero := RPGLazyHero new.
 	hero2 := RPGLazyHero new.
 
@@ -125,7 +126,7 @@ FMLazyRelationTest >> testManyToOneWithlazyOne [
 	hero2 talismans: { entity }.
 	self assert: entity owner identicalTo: hero2.
 	self assert: hero talismans size equals: 0.
-	self assert: hero2 talismans anyOne identicalTo: entity"
+	self assert: hero2 talismans anyOne identicalTo: entity
 ]
 
 { #category : 'tests' }
@@ -187,7 +188,8 @@ FMLazyRelationTest >> testOneToOneRelationReverse [
 
 	| weapon weapon2 hero |
 	self flag: #currentLimitation.
-	"weapon := RPGLazyUniqueWeapon new.
+	self skip.
+	weapon := RPGLazyUniqueWeapon new.
 	hero := RPGLazyHero new.
 	weapon2 := RPGLazyUniqueWeapon new.
 
@@ -199,7 +201,7 @@ FMLazyRelationTest >> testOneToOneRelationReverse [
 	hero uniqueWeapon: weapon2.
 
 	self assert: hero uniqueWeapon identicalTo: weapon2.
-	self assert: weapon owner isNil."
+	self assert: weapon owner isNil.
 ]
 
 { #category : 'tests' }
