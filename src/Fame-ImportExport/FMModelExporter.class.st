@@ -10,6 +10,8 @@ The format will be delegated to a FMDataStructurePrinter via a strategy design p
 
 For performance reasons we use a hash table instead of a dictionary to keep the indexes.
 
+In case the model is small, we do not show a progress bar.
+
 Examples
 --------------------
 
@@ -79,6 +81,13 @@ FMModelExporter >> exportEntity: each [
 	self incrementProgressBar
 ]
 
+{ #category : 'accessing' }
+FMModelExporter >> exportProgressThreshold [
+	"If the model has less than this number of entities, we do not show the progress bar."
+
+	^ 10000
+]
+
 { #category : 'exporting' }
 FMModelExporter >> exportProperty: property for: each [
 	| values |
@@ -146,17 +155,23 @@ FMModelExporter >> roots [
 
 { #category : 'exporting' }
 FMModelExporter >> run [
+
 	| roots |
 	roots := self roots.
 	numberOfExportedElements := 0.
-	UIManager default
-		displayProgress: 'Writing ' , printer stream localName
-		from: 0
-		to: roots size
-		during: [ :bar | 
-			progressBar := bar.
-			lastUpdate := 0.
-			self export: roots ]
+
+	model elements size < self exportProgressThreshold ifTrue: [
+			progressBar := nil.
+			^ self export: roots ].
+
+	[ :bar |
+		progressBar := bar.
+		lastUpdate := 0.
+		self export: roots ] asJob
+		title: 'Writing ' , printer stream localName;
+		min: 0;
+		max: roots size;
+		run
 ]
 
 { #category : 'exporting' }
