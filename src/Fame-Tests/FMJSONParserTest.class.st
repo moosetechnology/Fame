@@ -760,6 +760,21 @@ FMJSONParserTest >> testEntityWithPropertiesAndID [
 ]
 
 { #category : 'tests' }
+FMJSONParserTest >> testEscapeSequencesAreDecoded [
+
+	parser fromString: '"a\rb"'.
+	self assert: parser String equals: 'a' , String cr , 'b'.
+	parser fromString: '"a\nb"'.
+	self assert: parser String equals: 'a' , String lf , 'b'.
+	parser fromString: '"a\tb"'.
+	self assert: parser String equals: 'a' , String tab , 'b'.
+	parser fromString: '"a\"b"'.
+	self assert: parser String equals: 'a"b'.
+	parser fromString: '"a\\b"'.
+	self assert: parser String equals: 'a\b'
+]
+
+{ #category : 'tests' }
 FMJSONParserTest >> testFamixModel [
 	| metamodel names famixPackage accessClass accessorProperty behaviouralEntity outgoingAccesses |
 	metamodel := FMMetaModel fromJSONString: self class famix30mse.
@@ -1063,6 +1078,20 @@ FMJSONParserTest >> testString [
 	result := parser String.
 	self assert: result equals: 'test'.
 	self assert: parser atEnd
+]
+
+{ #category : 'tests' }
+FMJSONParserTest >> testStringRoundTripPreservesSpecialCharacters [
+
+	| printer json source |
+	printer := FMJSONPrinter onString.
+	source := 'method1
+source1'.
+	printer primitive: source.
+	json := printer stream contents.
+	self assert: json equals: '"method1\rsource1"'.
+	parser fromString: json.
+	self assert: parser String equals: source
 ]
 
 { #category : 'tests' }
