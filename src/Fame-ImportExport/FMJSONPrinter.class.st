@@ -63,27 +63,30 @@ FMJSONPrinter >> endProperty: name [
 
 { #category : 'parsing' }
 FMJSONPrinter >> primitive: value [
+
 	value isString
-		ifTrue: [ 
-			stream nextPut: $".
-			value do: [ :char | 
-				| charToPrint |
-				$" == char ifTrue: [ stream nextPut: $\ ].
-				$\ == char ifTrue: [ stream nextPut: $\ ].
-				Character cr == char ifTrue: [ 
-					stream nextPut: $\.
-					charToPrint := $n ].
-				Character tab == char ifTrue: [ 
-					stream nextPut: $\.
-					charToPrint := $t ].
-				stream nextPut: (charToPrint ifNil: [ char ]) ].
-			stream nextPut: $" ]
+		ifTrue: [
+				stream nextPut: $".
+				value do: [ :char | self printJSONStringCharacter: char ].
+				stream nextPut: $" ]
 		ifFalse: [ value famePrintOn: stream ]
 ]
 
 { #category : 'parsing' }
 FMJSONPrinter >> printEntitySeparator [
 	stream nextPut: $,
+]
+
+{ #category : 'parsing' }
+FMJSONPrinter >> printJSONStringCharacter: char [
+	"Writes the JSON string escape for a character, or the character itself."
+
+	char = Character cr ifTrue: [ ^ stream nextPutAll: '\r' ].
+	char = Character lf ifTrue: [ ^ stream nextPutAll: '\n' ].
+	char = Character tab ifTrue: [ ^ stream nextPutAll: '\t' ].
+	char = $" ifTrue: [ ^ stream nextPutAll: '\"' ].
+	char = $\ ifTrue: [ ^ stream nextPutAll: '\\' ].
+	^ stream nextPut: char
 ]
 
 { #category : 'parsing' }

@@ -156,31 +156,28 @@ FMJSONParser >> Serial [
 
 { #category : 'tokens' }
 FMJSONParser >> String [
+	"Matches a JSON string literal and decodes its escapes so that the exported text is restored verbatim."
 
-	| previousChar isEscape |
-	"read a string"
 	$" == character ifFalse: [ ^ nil ].
-
 	buffer reset.
-	"read the string"
-	[ 
-		previousChar := character.
-		self next.
-		isEscape := character = $" and: [ previousChar = $\ ].
-		character ifNil: [ self syntaxError ].
-		$" == character and: [ isEscape not ]
-	]
-	whileFalse: [
-		($\ ~= character or: [ previousChar == $\ ])
-			ifTrue: [
-				buffer nextPut: character.
-				"if the character added is a $\ at the end of the parsed String there was a bug"
-				character = $\ ifTrue: [ character := $_ ] ]
-	].
-	"eat the last "" character"
 	self next.
-	self tWHITESPACE.
-	^ buffer contents
+	[
+		character ifNil: [ self syntaxError ].
+		character = $" ifTrue: [
+				self
+					next;
+					tWHITESPACE.
+				^ buffer contents ].
+		character = $\
+			ifTrue: [
+					self next.
+					character ifNil: [ self syntaxError ].
+					character = $n ifTrue: [ character := Character lf ].
+					character = $r ifTrue: [ character := Character cr ].
+					character = $t ifTrue: [ character := Character tab ].
+					buffer nextPut: character ]
+			ifFalse: [ buffer nextPut: character ].
+		self next ] repeat
 ]
 
 { #category : 'tokens' }
