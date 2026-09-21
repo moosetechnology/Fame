@@ -337,14 +337,15 @@ FMMSEParser >> position [
 
 { #category : 'running' }
 FMMSEParser >> run [
-	UIManager default
-		displayProgress: 'Parsing ' , self stream localName
-		from: 1
-		to: self stream size
-		during: [ :bar | 
-			progBar := bar.
-			lastUpdate := 0.
-			self basicRun ]
+
+	[ :bar |
+		progBar := bar.
+		lastUpdate := 0.
+		self basicRun ] asJob
+		title: 'Parsing ' , self stream localName;
+		min: 1;
+		max: self stream size;
+		run
 ]
 
 { #category : 'accessing' }

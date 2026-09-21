@@ -146,17 +146,18 @@ FMModelExporter >> roots [
 
 { #category : 'exporting' }
 FMModelExporter >> run [
+
 	| roots |
 	roots := self roots.
 	numberOfExportedElements := 0.
-	UIManager default
-		displayProgress: 'Writing ' , printer stream localName
-		from: 0
-		to: roots size
-		during: [ :bar | 
-			progressBar := bar.
-			lastUpdate := 0.
-			self export: roots ]
+	[ :bar |
+		progressBar := bar.
+		lastUpdate := 0.
+		self export: roots ] asJob
+		title: 'Writing ' , printer stream localName;
+		min: 0;
+		max: roots size;
+		run
 ]
 
 { #category : 'exporting' }
