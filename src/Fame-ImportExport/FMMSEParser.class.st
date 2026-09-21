@@ -325,6 +325,13 @@ FMMSEParser >> nextCharIsAlphanumeric [
 	^ (self characterSet isLetter: character) or: [ self characterSet isDigit: character ]
 ]
 
+{ #category : 'accessing' }
+FMMSEParser >> parseProgressThreshold [
+	"Number of bytes the stream to import should contain for me to display a progress bar. Skip the bar for small models."
+
+	^ 2000000
+]
+
 { #category : 'private' }
 FMMSEParser >> peek [
 	^ character
@@ -337,6 +344,11 @@ FMMSEParser >> position [
 
 { #category : 'running' }
 FMMSEParser >> run [
+	"Skip the progress bar for small models."
+
+	self stream size < self parseProgressThreshold ifTrue: [
+			progBar := nil.
+			^ self basicRun ].
 
 	[ :bar |
 		progBar := bar.
