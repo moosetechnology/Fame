@@ -144,10 +144,8 @@ FMModelExporter >> printer: aPrinter [
 
 { #category : 'private' }
 FMModelExporter >> roots [
-	^ model elements iterator
-		| [ :each | FM3Constant constants includes: each ] rejectIt
-		| [ :each | model isMetamodel not or: [ model classIsRoot: each ] ] selectIt
-		> Array 
+
+	^ model elements iterator | [ :each | FM3Constant constants includes: each ] rejectIt > Array
 ]
 
 { #category : 'exporting' }
