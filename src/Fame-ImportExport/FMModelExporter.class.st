@@ -99,20 +99,17 @@ FMModelExporter >> exportProperty: property for: each [
 FMModelExporter >> exportProperty: property withAll: values [
 
 	printer inProperty: property name do: [
-		property isMultivalued ifTrue: [ printer beginMultivalue: property ].
-		(values reject: [ :value | value asString = 'unavailable' "value = MooseUnavailableMetric" ])
-			do: [ :each |
-				property type isPrimitive
-					ifTrue: [ printer primitive: each ]
-					ifFalse: [
-						property isChildrenProperty
-							ifTrue: [ self exportEntity: each ]
+			property isMultivalued ifTrue: [ printer beginMultivalue: property ].
+			(values reject: [ :value | value asString = 'unavailable' "value = MooseUnavailableMetric" ])
+				do: [ :each |
+						property type isPrimitive
+							ifTrue: [ printer primitive: each ]
 							ifFalse: [
-								(FM3Constant constants includes: each)
-									ifTrue: [ printer referenceName: each name ]
-									ifFalse: [ printer referenceNumber: (self indexOf: each) ] ] ] ]
-			separatedBy: [ printer printEntitySeparator ].
-		property isMultivalued ifTrue: [ printer endMultivalue: property ] ]
+									(FM3Constant constants includes: each)
+										ifTrue: [ printer referenceName: each name ]
+										ifFalse: [ printer referenceNumber: (self indexOf: each) ] ] ]
+				separatedBy: [ printer printEntitySeparator ].
+			property isMultivalued ifTrue: [ printer endMultivalue: property ] ]
 ]
 
 { #category : 'exporting' }
@@ -147,10 +144,8 @@ FMModelExporter >> printer: aPrinter [
 
 { #category : 'private' }
 FMModelExporter >> roots [
-	^ model elements iterator
-		| [ :each | FM3Constant constants includes: each ] rejectIt
-		| [ :each | model isMetamodel not or: [ model classIsRoot: each ] ] selectIt
-		> Array 
+
+	^ model elements iterator | [ :each | FM3Constant constants includes: each ] rejectIt > Array
 ]
 
 { #category : 'exporting' }

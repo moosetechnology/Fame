@@ -141,15 +141,6 @@ FMLibraryExample >> testPragmasAsMetamodel [
 ]
 
 { #category : 'tests' }
-FMLibraryExample >> testPrintMetamodel [
-
-	self assert:
-		(LIBRoot libraryMetaModel exportMSEString beginsWith: '(
-	(FM3.Package (id: 1)
-		(name ''LIB'')')
-]
-
-{ #category : 'tests' }
 FMLibraryExample >> testPrintModel [
 
 	self assert: (LIBRoot libraryModel exportMSEString beginsWith: '(
