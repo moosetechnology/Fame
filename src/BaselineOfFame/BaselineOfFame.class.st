@@ -55,9 +55,9 @@ BaselineOfFame >> baseline: spec [
 		"Groups"
 		spec
 			group: 'Core'
-			with: #( 'Fame-Core' 'Fame-ImportExport' 'Fame-Rules' 'Fame-LazyRelations' );
+			with: #( 'Fame-Core' 'Fame-ImportExport' 'Fame-Rules' 'Fame-LazyRelations' 'Fame-Materialize' );
 			group: 'Deprecated' with: #( 'Core' 'Fame-Deprecated' );
-			group: 'Tests' with: #( 'Fame-Tests' 'Fame-LazyRelations-Tests' ) ]
+			group: 'Tests' with: #( 'Fame-Tests' 'Fame-LazyRelations-Tests' 'Fame-Materialize-Test' ) ]
 ]
 
 { #category : 'dependencies' }
