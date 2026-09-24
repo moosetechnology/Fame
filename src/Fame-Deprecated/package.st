@@ -1,1 +1,1 @@
-Package { #name : #'Fame-Deprecated' }
+Package { #name : 'Fame-Deprecated' }

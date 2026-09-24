@@ -1,43 +1,44 @@
 Class {
-	#name : #EQEquation,
-	#superclass : #Object,
+	#name : 'EQEquation',
+	#superclass : 'Object',
 	#instVars : [
 		'rightHandSide',
 		'leftHandSide'
 	],
-	#category : #'Fame-Example'
+	#category : 'Fame-Example',
+	#package : 'Fame-Example'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 EQEquation class >> annotation [
 	<FMClass: #Equation super: #Object>
 	<package: #EQ>
 ]
 
-{ #category : #Fame }
+{ #category : 'Fame' }
 EQEquation >> leftHandSide [
 	<FMProperty: #leftHandSide type: #EQVariable>
 	^leftHandSide
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 EQEquation >> leftHandSide: anObject [
 	leftHandSide := anObject
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 EQEquation >> printOn: stream [
 
 	stream print: leftHandSide; space; nextPut: $=; space; print: rightHandSide
 ]
 
-{ #category : #Fame }
+{ #category : 'Fame' }
 EQEquation >> rightHandSide [
 	<FMProperty: #rightHandSide type: #EQExpression>
 	^rightHandSide
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 EQEquation >> rightHandSide: anObject [
 	rightHandSide := anObject
 ]

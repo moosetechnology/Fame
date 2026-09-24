@@ -1,44 +1,45 @@
 Class {
-	#name : #EQCompound,
-	#superclass : #EQExpression,
+	#name : 'EQCompound',
+	#superclass : 'EQExpression',
 	#instVars : [
 		'op',
 		'args'
 	],
-	#category : #'Fame-Example'
+	#category : 'Fame-Example',
+	#package : 'Fame-Example'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 EQCompound class >> annotation [
 	<FMClass: #Compound super: #EQExpression >
 	<package: #EQ>
 	<abstract>
 ]
 
-{ #category : #Fame }
+{ #category : 'Fame' }
 EQCompound >> args [
 	<FMProperty: #args type: #EQExpression>
 	<multivalued>
 	^args
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 EQCompound >> args: anObject [
 	args := anObject
 ]
 
-{ #category : #Fame }
+{ #category : 'Fame' }
 EQCompound >> op [
 	<FMProperty: #op type: #EQOperator>
 	^op
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 EQCompound >> op: anObject [
 	op := anObject
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 EQCompound >> printOn: stream [
 
 	stream nextPut: $(.

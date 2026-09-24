@@ -1,10 +1,11 @@
 Class {
-	#name : #FMExporterTest,
-	#superclass : #TestCase,
-	#category : #'Fame-Tests'
+	#name : 'FMExporterTest',
+	#superclass : 'TestCase',
+	#category : 'Fame-Tests',
+	#package : 'Fame-Tests'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMExporterTest >> testExportAsJSon [
 	| printer metamodel lines |
 	printer := FMJSONPrinter onString.
@@ -18,7 +19,7 @@ FMExporterTest >> testExportAsJSon [
 	self assert: (lines last endsWith: ']' )
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMExporterTest >> testExportAsMSE [
 	| printer metamodel lines |
 	printer := FMMSEPrinter onString.
@@ -35,7 +36,7 @@ FMExporterTest >> testExportAsMSE [
 	self assert: (lines last endsWith: ')' )
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMExporterTest >> testExportAsXML [
 	| printer metamodel lines |
 	printer := FMXMLPrinter onString.
@@ -50,7 +51,7 @@ FMExporterTest >> testExportAsXML [
 	self assert: (lines allSatisfy: [ :l | l endsWith: '>'] )
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMExporterTest >> testExportedModelIsTheSameAsBeforeExport [
 	| metamodel printer |
 	metamodel := FMMetaModelBuilder metamodelFrom: {LIBLibrary . LIBBook . LIBPerson . LIBTNamed}.
@@ -68,7 +69,7 @@ FMExporterTest >> testExportedModelIsTheSameAsBeforeExport [
 	self assert: metamodel properties size equals: 6
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMExporterTest >> testMSEExportWithWrongTypeRaiseError [
 	| printer model |
 	model := FMModel withMetamodel: FMEquationSystemExample createMetamodel.

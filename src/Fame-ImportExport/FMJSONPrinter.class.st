@@ -1,16 +1,18 @@
 Class {
-	#name : #FMJSONPrinter,
-	#superclass : #FMDataStructurePrinter,
-	#category : #'Fame-ImportExport-Exporters'
+	#name : 'FMJSONPrinter',
+	#superclass : 'FMDataStructurePrinter',
+	#category : 'Fame-ImportExport-Exporters',
+	#package : 'Fame-ImportExport',
+	#tag : 'Exporters'
 }
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMJSONPrinter >> beginDocument [
 
 	stream nextPut: $[
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMJSONPrinter >> beginEntity: name [
 	indent := indent + 1.
 	stream nextPutAll: '{'.
@@ -22,12 +24,12 @@ FMJSONPrinter >> beginEntity: name [
 	self crTabs
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMJSONPrinter >> beginMultivalue: anEntity [
 	stream nextPut: $[
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMJSONPrinter >> beginProperty: name [
 	self crTabs.
 	stream 
@@ -37,59 +39,62 @@ FMJSONPrinter >> beginProperty: name [
 		nextPut: $:
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMJSONPrinter >> endDocument [
 	self crTabs.
 	stream nextPut: $]
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMJSONPrinter >> endEntity: name [
 	self crTabs.
 	stream nextPut: $}.
 	indent := indent - 1
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMJSONPrinter >> endMultivalue: anEntity [
 	stream nextPut: $]
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMJSONPrinter >> endProperty: name [
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMJSONPrinter >> primitive: value [
+
 	value isString
-		ifTrue: [ 
-			stream nextPut: $".
-			value do: [ :char | 
-				| charToPrint |
-				$" == char ifTrue: [ stream nextPut: $\ ].
-				$\ == char ifTrue: [ stream nextPut: $\ ].
-				Character cr == char ifTrue: [ 
-					stream nextPut: $\.
-					charToPrint := $n ].
-				Character tab == char ifTrue: [ 
-					stream nextPut: $\.
-					charToPrint := $t ].
-				stream nextPut: (charToPrint ifNil: [ char ]) ].
-			stream nextPut: $" ]
-		ifFalse: [ value msePrintOn: stream ]
+		ifTrue: [
+				stream nextPut: $".
+				value do: [ :char | self printJSONStringCharacter: char ].
+				stream nextPut: $" ]
+		ifFalse: [ value famePrintOn: stream ]
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMJSONPrinter >> printEntitySeparator [
 	stream nextPut: $,
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
+FMJSONPrinter >> printJSONStringCharacter: char [
+	"Writes the JSON string escape for a character, or the character itself."
+
+	char = Character cr ifTrue: [ ^ stream nextPutAll: '\r' ].
+	char = Character lf ifTrue: [ ^ stream nextPutAll: '\n' ].
+	char = Character tab ifTrue: [ ^ stream nextPutAll: '\t' ].
+	char = $" ifTrue: [ ^ stream nextPutAll: '\"' ].
+	char = $\ ifTrue: [ ^ stream nextPutAll: '\\' ].
+	^ stream nextPut: char
+]
+
+{ #category : 'parsing' }
 FMJSONPrinter >> printPropertySeparator [
 	stream nextPut: $,
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMJSONPrinter >> referenceName: name [
 	stream
 		space;
@@ -102,7 +107,7 @@ FMJSONPrinter >> referenceName: name [
 		nextPut: $}
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMJSONPrinter >> referenceNumber: index [
 	stream
 		space;
@@ -113,7 +118,7 @@ FMJSONPrinter >> referenceNumber: index [
 		nextPut: $}
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMJSONPrinter >> serial: index [
 
 	stream

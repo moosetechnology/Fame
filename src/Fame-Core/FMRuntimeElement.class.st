@@ -8,70 +8,72 @@ Instance Variables
 
 "
 Class {
-	#name : #FMRuntimeElement,
-	#superclass : #Object,
+	#name : 'FMRuntimeElement',
+	#superclass : 'Object',
 	#instVars : [
 		'description',
 		'slots'
 	],
-	#category : #'Fame-Core-Utilities'
+	#category : 'Fame-Core-Utilities',
+	#package : 'Fame-Core',
+	#tag : 'Utilities'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FMRuntimeElement class >> with: aFM3Class [
 	^self new description: aFM3Class
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMRuntimeElement >> at: property [
 
 	^ self at: property ifAbsent: [ Array new ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMRuntimeElement >> at: property ifAbsent: aBlock [
 
 	^slots at: property ifAbsent: aBlock 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMRuntimeElement >> at: property ifAbsentPut: aBlock [
 	^ self at: property ifAbsentPut: [ aBlock value ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMRuntimeElement >> at: property put: array [
 
 	^slots at: property put: array
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMRuntimeElement >> description [
 	^ description
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMRuntimeElement >> description: anObject [
 	description := anObject
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FMRuntimeElement >> initialize [
 	super initialize.
 	slots := IdentityDictionary new
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMRuntimeElement >> metaDescriptionIn: aMetamodel [
 	^ self description
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMRuntimeElement >> mmGetProperty: aFM3Property [
 	^ self at: aFM3Property name
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMRuntimeElement >> mmSetProperty: aFM3Property to: value [
 
 	aFM3Property hasOpposite ifTrue: [ |opposite| "handle opposite setter here"

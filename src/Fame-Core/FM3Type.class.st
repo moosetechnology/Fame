@@ -1,71 +1,76 @@
 Class {
-	#name : #FM3Type,
-	#superclass : #FM3Element,
+	#name : 'FM3Type',
+	#superclass : 'FM3Element',
 	#instVars : [
 		'package',
 		'properties',
-		'traits'
+		'traits',
+		'cachedAllProperties'
 	],
-	#category : #'Fame-Core-Model'
+	#category : 'Fame-Core-Model',
+	#package : 'Fame-Core',
+	#tag : 'Model'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FM3Type class >> annotation [
 	<FMClass: #Type super: #FM3Element>
 	<package: #FM3>
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Type class >> defaultSuperclass [
 	^ FM3Object instance
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 FM3Type >> addTraits: aCollection [
 	self traits addAll: aCollection
 ]
 
-{ #category : #'accessing-query' }
+{ #category : 'accessing-query' }
 FM3Type >> allComplexProperties [
 	^ self allProperties reject: [ :attr | attr type isNotNil and: [ attr type isPrimitive ] ]
 ]
 
-{ #category : #'accessing-query' }
+{ #category : 'accessing-query' }
 FM3Type >> allContainerProperties [
 
 	^ self allProperties select: [ :property | property isContainer ]
 ]
 
-{ #category : #'accessing-query' }
+{ #category : 'accessing-query' }
 FM3Type >> allPrimitiveProperties [
 	^ self allProperties select: [ :attr | attr type isNotNil and: [ attr type isPrimitive ] ]
 ]
 
-{ #category : #'accessing-query' }
+{ #category : 'accessing-query' }
 FM3Type >> allProperties [
+
 	<FMProperty: #allProperties type: 'FM3.Property'>
 	<multivalued>
 	<derived>
-	| nameDict |
-	nameDict := Dictionary new: 60.	"estimated initial size."
-	self allPropertiesDo: [ :each | nameDict at: each name ifAbsentPut: [ each ] ].
-	^ nameDict values asArray
+	^ cachedAllProperties ifNil: [
+			  | nameDict |
+			  nameDict := Dictionary new: 60. "estimated initial size."
+			  self fillPropertiesDictionary: nameDict.
+			  cachedAllProperties := nameDict values asArray ]
 ]
 
-{ #category : #enumerating }
+{ #category : 'enumerating' }
 FM3Type >> allPropertiesDo: block [
-	self properties do: block.
-	self traits do: [ :trait | trait allPropertiesDo: block ]
+
+	self allProperties do: block
 ]
 
-{ #category : #'accessing-query' }
+{ #category : 'accessing-query' }
 FM3Type >> allRelationProperties [
 
 	^ self allProperties select: [ :property | property isRelation ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Type >> classUsers [
 
 	"This method allows polymorphism with FM3Trait>>#classUsers"
@@ -73,21 +78,33 @@ FM3Type >> classUsers [
 	^ { self }
 ]
 
-{ #category : #initialization }
+{ #category : 'as yet unclassified' }
+FM3Type >> fillPropertiesDictionary: nameDict [
+	"this method is used to avoid code duplication when filling dictionnary"
+
+	self properties do: [ :each |
+		nameDict at: each name ifAbsentPut: [ each ] ].
+
+	self traits do: [ :trait |
+			trait allPropertiesDo: [ :each |
+				nameDict at: each name ifAbsentPut: [ each ] ] ]
+]
+
+{ #category : 'initialization' }
 FM3Type >> initialize [
 	super initialize.
 	properties := FMMultivalueLink on: self opposite: #mmClass:.
 	traits := Set new
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Type >> package [
 	<FMProperty: #package type: #FM3Package opposite: #classes>
 	<container>
 	^ package
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Type >> package: newPackage [
 	package := FMMultivalueLink
 		on: self
@@ -96,36 +113,36 @@ FM3Type >> package: newPackage [
 		to: newPackage
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Type >> properties [
 	<FMProperty: #properties type: 'FM3.Property' opposite: #class>
 	<multivalued>
 	^ properties
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Type >> properties: anObject [
 	properties value: anObject
 ]
 
-{ #category : #'accessing-query' }
+{ #category : 'accessing-query' }
 FM3Type >> propertiesNamed: aListOfSymbol [
 	^ aListOfSymbol collect: [ :each | self propertyNamed: each ]
 ]
 
-{ #category : #'accessing-query' }
+{ #category : 'accessing-query' }
 FM3Type >> propertyNamed: aString [
 	^ self propertyNamed: aString ifAbsent: nil
 ]
 
-{ #category : #'accessing-query' }
+{ #category : 'accessing-query' }
 FM3Type >> propertyNamed: aString ifAbsent: aBlock [
 	self allPropertiesDo: [ :attr | attr name = aString ifTrue: [ ^ attr ] ].
 
 	^ aBlock value
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Type >> traits [
 
 	<FMProperty: #traits type: #FM3Trait opposite: #users>
@@ -133,7 +150,7 @@ FM3Type >> traits [
 	^ traits
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Type >> traits: anObject [
 
 	traits := anObject

@@ -1,6 +1,6 @@
-Extension { #name : #Character }
+Extension { #name : 'Character' }
 
-{ #category : #'*Fame-ImportExport' }
+{ #category : '*Fame-ImportExport' }
 Character >> isMSESeparator [
 	^ self isSeparator
 ]

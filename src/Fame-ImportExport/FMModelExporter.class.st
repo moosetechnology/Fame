@@ -10,6 +10,8 @@ The format will be delegated to a FMDataStructurePrinter via a strategy design p
 
 For performance reasons we use a hash table instead of a dictionary to keep the indexes.
 
+In case the model is small, we do not show a progress bar.
+
 Examples
 --------------------
 
@@ -38,8 +40,8 @@ Internal Representation and Key Implementation Points.
 
 "
 Class {
-	#name : #FMModelExporter,
-	#superclass : #Object,
+	#name : 'FMModelExporter',
+	#superclass : 'Object',
 	#instVars : [
 		'printer',
 		'lastUpdate',
@@ -48,10 +50,12 @@ Class {
 		'progressBar',
 		'indexMap'
 	],
-	#category : #'Fame-ImportExport-Exporters'
+	#category : 'Fame-ImportExport-Exporters',
+	#package : 'Fame-ImportExport',
+	#tag : 'Exporters'
 }
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FMModelExporter >> export: aCollectionOfElements [
 	printer inDocumentDo: [ 
 		aCollectionOfElements
@@ -59,7 +63,7 @@ FMModelExporter >> export: aCollectionOfElements [
 			separatedBy: [ printer printEntitySeparator ] ]
 ]
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FMModelExporter >> exportEntity: each [
 
 	| meta |
@@ -77,34 +81,38 @@ FMModelExporter >> exportEntity: each [
 	self incrementProgressBar
 ]
 
-{ #category : #exporting }
+{ #category : 'accessing' }
+FMModelExporter >> exportProgressThreshold [
+	"If the model has less than this number of entities, we do not show the progress bar."
+
+	^ 10000
+]
+
+{ #category : 'exporting' }
 FMModelExporter >> exportProperty: property for: each [
 	| values |
 	values := model get: property element: each.
 	self exportProperty: property withAll: values
 ]
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FMModelExporter >> exportProperty: property withAll: values [
 
 	printer inProperty: property name do: [
-		property isMultivalued ifTrue: [ printer beginMultivalue: property ].
-		(values reject: [ :value | value asString = 'unavailable' "value = MooseUnavailableMetric" ])
-			do: [ :each |
-				property type isPrimitive
-					ifTrue: [ printer primitive: each ]
-					ifFalse: [
-						property isChildrenProperty
-							ifTrue: [ self exportEntity: each ]
+			property isMultivalued ifTrue: [ printer beginMultivalue: property ].
+			(values reject: [ :value | value asString = 'unavailable' "value = MooseUnavailableMetric" ])
+				do: [ :each |
+						property type isPrimitive
+							ifTrue: [ printer primitive: each ]
 							ifFalse: [
-								(FM3Constant constants includes: each)
-									ifTrue: [ printer referenceName: each name ]
-									ifFalse: [ printer referenceNumber: (self indexOf: each) ] ] ] ]
-			separatedBy: [ printer printEntitySeparator ].
-		property isMultivalued ifTrue: [ printer endMultivalue: property ] ]
+									(FM3Constant constants includes: each)
+										ifTrue: [ printer referenceName: each name ]
+										ifFalse: [ printer referenceNumber: (self indexOf: each) ] ] ]
+				separatedBy: [ printer printEntitySeparator ].
+			property isMultivalued ifTrue: [ printer endMultivalue: property ] ]
 ]
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FMModelExporter >> incrementProgressBar [
 	numberOfExportedElements := numberOfExportedElements + 1.
 	(progressBar isNotNil and: [ (Time millisecondsSince: lastUpdate) >= 500 ]) ifFalse: [ ^ self ].
@@ -113,51 +121,55 @@ FMModelExporter >> incrementProgressBar [
 	lastUpdate := Time millisecondClockValue
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FMModelExporter >> indexOf: each [
 	^ indexMap at: each ifAbsentPut: [ indexMap size + 1 ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FMModelExporter >> initialize [
 	super initialize.
 	indexMap := IdentityHashTable new "We use IdentityHashTable because it is more performant than IdentityDictionary for big collections."
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMModelExporter >> model: aFMModel [
 	model := aFMModel
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMModelExporter >> printer: aPrinter [
 	printer := aPrinter
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FMModelExporter >> roots [
-	^ model elements iterator
-		| [ :each | FM3Constant constants includes: each ] rejectIt
-		| [ :each | model isMetamodel not or: [ model classIsRoot: each ] ] selectIt
-		> Array 
+
+	^ model elements iterator | [ :each | FM3Constant constants includes: each ] rejectIt > Array
 ]
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FMModelExporter >> run [
+
 	| roots |
 	roots := self roots.
 	numberOfExportedElements := 0.
-	UIManager default
-		displayProgress: 'Writing ' , printer stream localName
-		from: 0
-		to: roots size
-		during: [ :bar | 
-			progressBar := bar.
-			lastUpdate := 0.
-			self export: roots ]
+
+	model elements size < self exportProgressThreshold ifTrue: [
+			progressBar := nil.
+			^ self export: roots ].
+
+	[ :bar |
+		progressBar := bar.
+		lastUpdate := 0.
+		self export: roots ] asJob
+		title: 'Writing ' , printer stream localName;
+		min: 0;
+		max: roots size;
+		run
 ]
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FMModelExporter >> shouldExportProperty: property for: each [
 	| values |
 	(self shouldIgnoreProperty: property) ifTrue: [ ^ false ].
@@ -168,14 +180,14 @@ FMModelExporter >> shouldExportProperty: property for: each [
 	^ true
 ]
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FMModelExporter >> shouldIgnoreProperty: property [
 	(model metamodel includes: property) ifFalse: [ ^ true ].
 
 	^ property isDerived
 ]
 
-{ #category : #exporting }
+{ #category : 'exporting' }
 FMModelExporter >> sortedPropertiesOf: meta [
 	"We want to sort the properties into three categories:
 		- The one defining the name

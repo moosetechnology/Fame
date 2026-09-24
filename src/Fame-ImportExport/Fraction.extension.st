@@ -1,6 +1,6 @@
-Extension { #name : #Fraction }
+Extension { #name : 'Fraction' }
 
-{ #category : #'*Fame-ImportExport' }
-Fraction >> msePrintOn: stream [
-	self asFloat msePrintOn: stream
+{ #category : '*Fame-ImportExport' }
+Fraction >> famePrintOn: stream [
+	self asFloat famePrintOn: stream
 ]

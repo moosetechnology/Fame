@@ -1,6 +1,6 @@
-Extension { #name : #Boolean }
+Extension { #name : 'Boolean' }
 
-{ #category : #'*Fame-ImportExport' }
-Boolean >> msePrintOn: aStream [
+{ #category : '*Fame-ImportExport' }
+Boolean >> famePrintOn: aStream [
 	self printOn: aStream
 ]

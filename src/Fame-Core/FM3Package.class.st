@@ -17,51 +17,53 @@ Internal Representation and Key Implementation Points.
 
 "
 Class {
-	#name : #FM3Package,
-	#superclass : #FM3Element,
+	#name : 'FM3Package',
+	#superclass : 'FM3Element',
 	#instVars : [
 		'classes',
 		'extensions'
 	],
-	#category : #'Fame-Core-Model'
+	#category : 'Fame-Core-Model',
+	#package : 'Fame-Core',
+	#tag : 'Model'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FM3Package class >> annotation [
 	<FMClass: #Package super: #FM3Element>
 	<package: #FM3>
 
 ]
 
-{ #category : #'accessing-query' }
+{ #category : 'accessing-query' }
 FM3Package >> classNamed: aString [
 	^ self classNamed: aString ifAbsent: [ nil ]
 ]
 
-{ #category : #'accessing-query' }
+{ #category : 'accessing-query' }
 FM3Package >> classNamed: aString ifAbsent: aBlock [
 	^ classes byName: aString ifAbsent: aBlock
 ]
 
-{ #category : #'accessing-query' }
+{ #category : 'accessing-query' }
 FM3Package >> classNamed: aString ifPresent: aBlock ifAbsent: anotherBlock [
 	^ classes byName: aString ifPresent: aBlock ifAbsent: anotherBlock
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Package >> classes [
 	<FMProperty: #classes type: #FM3Type opposite: #package>
 	<multivalued>
 	^ classes
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Package >> classes: elementCollection [
 
 	classes value: elementCollection
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Package >> extensions [
 	<FMProperty: #extensions type: 'FM3.Property' opposite: #package>
 	<multivalued>
@@ -69,25 +71,25 @@ FM3Package >> extensions [
 	^extensions
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Package >> extensions: elementCollection [
 
 	extensions value: elementCollection
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FM3Package >> initialize [
 	super initialize.
 	classes := FMMultivalueLink on: self opposite: #package:.
 	extensions := FMMultivalueLink on: self opposite: #package:
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FM3Package >> isFM3Package [
 	^true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Package >> owner [
 	"All packages are top-level (but dots are allowed in their name to fake nesting)"
 

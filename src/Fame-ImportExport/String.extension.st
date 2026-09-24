@@ -1,6 +1,6 @@
-Extension { #name : #String }
+Extension { #name : 'String' }
 
-{ #category : #'*Fame-ImportExport' }
-String >> msePrintOn: aStream [
+{ #category : '*Fame-ImportExport' }
+String >> famePrintOn: aStream [
 	self printOn: aStream
 ]

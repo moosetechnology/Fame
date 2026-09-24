@@ -1,6 +1,6 @@
-Extension { #name : #ZnBufferedWriteStream }
+Extension { #name : 'ZnBufferedWriteStream' }
 
-{ #category : #'*Fame-ImportExport' }
+{ #category : '*Fame-ImportExport' }
 ZnBufferedWriteStream >> localName [
 	^ stream localName
 ]

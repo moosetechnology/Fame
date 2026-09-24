@@ -1,6 +1,6 @@
-Extension { #name : #Dictionary }
+Extension { #name : 'Dictionary' }
 
-{ #category : #'*Fame-Core' }
+{ #category : '*Fame-Core' }
 Dictionary >> fmModelAt: key [
 	"I exist only for performance reasons. I avoid to create a #ifAbsent: block. In moose query we call this so much that the creation cost of the block and its garbage collection is too high :("
 

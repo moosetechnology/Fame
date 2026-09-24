@@ -1,5 +1,6 @@
 Class {
-	#name : #FMCodeGenerationTest,
-	#superclass : #TestCase,
-	#category : #'Fame-Tests'
+	#name : 'FMCodeGenerationTest',
+	#superclass : 'TestCase',
+	#category : 'Fame-Tests',
+	#package : 'Fame-Tests'
 }

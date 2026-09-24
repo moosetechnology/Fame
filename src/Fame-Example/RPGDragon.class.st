@@ -1,20 +1,21 @@
 Class {
-	#name : #RPGDragon,
-	#superclass : #Object,
+	#name : 'RPGDragon',
+	#superclass : 'Object',
 	#instVars : [
 		'hoard',
 		'killedBy'
 	],
-	#category : #'Fame-Example'
+	#category : 'Fame-Example',
+	#package : 'Fame-Example'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 RPGDragon class >> annotation [
 	<FMClass: #Dragon super: #Object>
 	<package: #RPG>
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RPGDragon >> hoard [
 	<FMProperty: #hoard type: #RPGTreasure opposite: #keeper>
 	<FMComment: 'Hoard of the dragon.'>
@@ -22,19 +23,19 @@ RPGDragon >> hoard [
 	^ hoard
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RPGDragon >> hoard: aTreasure [
 	hoard value: aTreasure
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 RPGDragon >> initialize [
 	super initialize.
 	hoard := FMMultivalueLink on: self opposite: #keeper:.
 	killedBy := FMMultiMultivalueLink on: self opposite: #kills.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RPGDragon >> killedBy [
 	<FMProperty: #killedBy type: #RPGHero opposite: #kills>
 	<FMComment: 'Defined the hero who killed the dragon.'>
@@ -42,7 +43,7 @@ RPGDragon >> killedBy [
 	^ killedBy
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RPGDragon >> killedBy: aHero [
 	killedBy value: aHero
 ]

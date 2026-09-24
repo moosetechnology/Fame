@@ -1,15 +1,17 @@
 Class {
-	#name : #FMMetaModelBuilderTestDummy,
-	#superclass : #Object,
-	#category : #'Fame-Tests-Core'
+	#name : 'FMMetaModelBuilderTestDummy',
+	#superclass : 'Object',
+	#category : 'Fame-Tests-Core',
+	#package : 'Fame-Tests',
+	#tag : 'Core'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FMMetaModelBuilderTestDummy class >> annotation [
 	<FMClass: #FMAnnotationTest super: #Object>
 ]
 
-{ #category : #properties }
+{ #category : 'properties' }
 FMMetaModelBuilderTestDummy >> simpleProperty [
 	<FMProperty: #aPropertyName type: #Boolean>
 	<FMComment: 'Comment of the simple property'>

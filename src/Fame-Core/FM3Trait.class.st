@@ -1,33 +1,35 @@
 Class {
-	#name : #FM3Trait,
-	#superclass : #FM3Type,
+	#name : 'FM3Trait',
+	#superclass : 'FM3Type',
 	#instVars : [
 		'implementingClass',
 		'users'
 	],
-	#category : #'Fame-Core-Model'
+	#category : 'Fame-Core-Model',
+	#package : 'Fame-Core',
+	#tag : 'Model'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FM3Trait class >> annotation [
 	<FMClass: #Trait super: #FM3Type>
 	<package: #FM3>
 
 ]
 
-{ #category : #visiting }
+{ #category : 'visiting' }
 FM3Trait >> accept: aVisitor [
 
 	^ aVisitor visitTrait: self
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 FM3Trait >> addUser: aFM3Type [
 
 	self users add: aFM3Type
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Trait >> classUsers [
 
 	| classes |
@@ -38,7 +40,7 @@ FM3Trait >> classUsers [
 	^ classes
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Trait >> classUsersOf: aFM3Type in: aSet [
 
 	aFM3Type isFM3Trait
@@ -47,13 +49,13 @@ FM3Trait >> classUsersOf: aFM3Type in: aSet [
 		aFM3Type users do: [ :user | self classUsersOf: user in: aSet ] ]
 ]
 
-{ #category : #'accessing-query' }
+{ #category : 'accessing-query' }
 FM3Trait >> complexProperties [
 
 	^ self properties reject: [ :attr | attr type isPrimitive ]
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FM3Trait >> createInstance [
 
 	^ implementingClass
@@ -61,57 +63,57 @@ FM3Trait >> createInstance [
 		  ifNotNil: [ implementingClass new ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FM3Trait >> hasPackage [
 
 	^ package isNotNil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Trait >> implementingClass [
 
 	^ implementingClass
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Trait >> implementingClass: smalltalkClass [
 
 	implementingClass := smalltalkClass
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FM3Trait >> initialize [
 
 	super initialize.
 	users := Set new
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Trait >> isAbstract [
 
 	self flag: 'This is for compatibility purpose'.
 	^ true
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FM3Trait >> isBuiltIn [
 
 	^ self isPrimitive or: [ self isRoot ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FM3Trait >> isConstant [
 
 	^ false
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FM3Trait >> isFM3Trait [
 
 	^ true
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FM3Trait >> isPrimitive [
 
 	<FMProperty: #primitive type: #Boolean defaultValue: false>
@@ -119,7 +121,7 @@ FM3Trait >> isPrimitive [
 	^ false
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FM3Trait >> isRoot [
 
 	<FMProperty: #root type: #Boolean defaultValue: false>
@@ -127,25 +129,25 @@ FM3Trait >> isRoot [
 	^ false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Trait >> owner [
 
 	^ self package
 ]
 
-{ #category : #'accessing-query' }
+{ #category : 'accessing-query' }
 FM3Trait >> ownerProperties [
 
 	^ self allProperties select: #isContainer
 ]
 
-{ #category : #'accessing-query' }
+{ #category : 'accessing-query' }
 FM3Trait >> primitiveProperties [
 
 	^ self properties select: [ :attr | attr type isPrimitive ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Trait >> users [
 
 	<FMProperty: #users type: #FM3Type opposite: #traits>
@@ -153,7 +155,7 @@ FM3Trait >> users [
 	^ users
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Trait >> users: aCollection [
 
 	users := aCollection

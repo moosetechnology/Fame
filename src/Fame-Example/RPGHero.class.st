@@ -1,45 +1,46 @@
 Class {
-	#name : #RPGHero,
-	#superclass : #Object,
+	#name : 'RPGHero',
+	#superclass : 'Object',
 	#instVars : [
 		'twin',
 		'talisman',
 		'kills'
 	],
-	#category : #'Fame-Example'
+	#category : 'Fame-Example',
+	#package : 'Fame-Example'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 RPGHero class >> annotation [
 	<FMClass: #Hero super: #Object>
 	<package: #RPG>
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 RPGHero >> initialize [
 	super initialize.
 	kills := FMMultiMultivalueLink on: self opposite: #killedBy
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RPGHero >> kills [
 	<FMProperty: #kills type: #RPGDragon opposite: #killedBy>
 	<multivalued>
 	^ kills
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RPGHero >> kills: aDragon [
 	kills value: aDragon
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RPGHero >> talisman [
 	<FMProperty: #talisman type: #RPGTreasure opposite: #owner>
 	^talisman
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RPGHero >> talisman: aTreasure [
 	talisman ~= aTreasure
 		ifTrue: [ | old |
@@ -49,14 +50,14 @@ RPGHero >> talisman: aTreasure [
 			aTreasure ifNotNil: [ aTreasure owner: self ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RPGHero >> twin [
 	<moot: #'4chan' >
 	<FMProperty: #twin type: #RPGHero opposite: #twin>
 	^ twin
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 RPGHero >> twin: aHero [
 	twin ~= aHero
 		ifTrue: [ | old |

@@ -21,26 +21,28 @@ Internal Representation and Key Implementation Points.
 
 "
 Class {
-	#name : #FMCopyReplaceTranslationUnit,
-	#superclass : #FMTranslationUnit,
+	#name : 'FMCopyReplaceTranslationUnit',
+	#superclass : 'FMTranslationUnit',
 	#instVars : [
 		'rules'
 	],
-	#category : #'Fame-ImportExport-Importers'
+	#category : 'Fame-ImportExport-Importers',
+	#package : 'Fame-ImportExport',
+	#tag : 'Importers'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FMCopyReplaceTranslationUnit >> initialize [
 	super initialize.
 	rules := OrderedCollection new
 ]
 
-{ #category : #translate }
+{ #category : 'translate' }
 FMCopyReplaceTranslationUnit >> replacing: aString with: anOtherString [
 	rules add: aString -> anOtherString
 ]
 
-{ #category : #translate }
+{ #category : 'translate' }
 FMCopyReplaceTranslationUnit >> translate: aName ifAbsent: aBlock [
 	^ rules
 		inject: aName

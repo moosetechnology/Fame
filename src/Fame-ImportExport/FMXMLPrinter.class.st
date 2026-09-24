@@ -13,12 +13,14 @@ Examples
 	printer stream contents
 "
 Class {
-	#name : #FMXMLPrinter,
-	#superclass : #FMDataStructurePrinter,
-	#category : #'Fame-ImportExport-Exporters'
+	#name : 'FMXMLPrinter',
+	#superclass : 'FMDataStructurePrinter',
+	#category : 'Fame-ImportExport-Exporters',
+	#package : 'Fame-ImportExport',
+	#tag : 'Exporters'
 }
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMXMLPrinter >> beginDocument [
 	
 	stream nextPutAll: '<?xml version="1.0"?>'.
@@ -26,7 +28,7 @@ FMXMLPrinter >> beginDocument [
 	stream nextPutAll: '<Document'.
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMXMLPrinter >> beginEntity: name [
 
 	stream nextPut: $>.
@@ -38,7 +40,7 @@ FMXMLPrinter >> beginEntity: name [
 		nextPutAll: '"'
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMXMLPrinter >> beginProperty: name [
 
 	stream nextPut: $>.
@@ -50,7 +52,7 @@ FMXMLPrinter >> beginProperty: name [
 		nextPut: $"
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMXMLPrinter >> endDocument [
 	
 	stream nextPut: $>.
@@ -58,7 +60,7 @@ FMXMLPrinter >> endDocument [
 	stream nextPutAll: '</Document>'
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMXMLPrinter >> endEntity: name [
 
 	stream nextPut: $>.
@@ -68,7 +70,7 @@ FMXMLPrinter >> endEntity: name [
 	indent := indent - 1.
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMXMLPrinter >> endProperty: name [
 
 	stream nextPut: $>.
@@ -78,7 +80,7 @@ FMXMLPrinter >> endProperty: name [
 	indent := indent - 1.
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMXMLPrinter >> primitive: value [
 	stream nextPut: $>.
 	indent := indent + 1.
@@ -115,7 +117,7 @@ FMXMLPrinter >> primitive: value [
 	indent := indent - 1
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMXMLPrinter >> referenceName: name [
 
 	stream nextPut: $>.
@@ -129,7 +131,7 @@ FMXMLPrinter >> referenceName: name [
 	indent := indent - 1.
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMXMLPrinter >> referenceNumber: index [
 
 	stream nextPut: $>.
@@ -143,7 +145,7 @@ FMXMLPrinter >> referenceNumber: index [
 	indent := indent - 1.
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMXMLPrinter >> serial: index [
 	
 	stream 

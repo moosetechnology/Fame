@@ -1,23 +1,24 @@
 Class {
-	#name : #LIBLibrary,
-	#superclass : #LIBRoot,
+	#name : 'LIBLibrary',
+	#superclass : 'LIBRoot',
 	#traits : 'LIBTNamed',
 	#classTraits : 'LIBTNamed classTrait',
 	#instVars : [
 		'librarian',
 		'books'
 	],
-	#category : #'Fame-Example'
+	#category : 'Fame-Example',
+	#package : 'Fame-Example'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 LIBLibrary class >> annotation [
 	<FMClass: #Library super: #Object>
 	<package: #LIB>
 	
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 LIBLibrary class >> librarian: aPerson books: aCollection [
 	^ self new
 		librarian: aPerson;
@@ -25,35 +26,35 @@ LIBLibrary class >> librarian: aPerson books: aCollection [
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 LIBLibrary >> books [
 	<FMProperty: #books type: #LIBBook> <multivalued>
 	^books
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 LIBLibrary >> books: aBook [
 	books := aBook
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 LIBLibrary >> initialize [
 	super initialize.
 	books := OrderedCollection new
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 LIBLibrary >> librarian [
 	<FMProperty: #librarian type: #LIBPerson>
 	^librarian
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 LIBLibrary >> librarian: aPerson [
 	librarian := aPerson
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 LIBLibrary >> prettyString [
 	^ 'Library'
 ]

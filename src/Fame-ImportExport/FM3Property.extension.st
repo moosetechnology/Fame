@@ -1,6 +1,6 @@
-Extension { #name : #FM3Property }
+Extension { #name : 'FM3Property' }
 
-{ #category : #'*fame-importexport' }
+{ #category : '*fame-importexport' }
 FM3Property >> accept: aVisitor [
 	^ aVisitor visitProperty: self
 ]

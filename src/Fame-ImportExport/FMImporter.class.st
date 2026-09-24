@@ -35,8 +35,8 @@ Internal Representation and Key Implementation Points.
 
 "
 Class {
-	#name : #FMImporter,
-	#superclass : #Object,
+	#name : 'FMImporter',
+	#superclass : 'Object',
 	#traits : 'FMTImportExportStructure',
 	#classTraits : 'FMTImportExportStructure classTrait',
 	#instVars : [
@@ -51,17 +51,19 @@ Class {
 		'entities',
 		'parser'
 	],
-	#category : #'Fame-ImportExport-Importers'
+	#category : 'Fame-ImportExport-Importers',
+	#package : 'Fame-ImportExport',
+	#tag : 'Importers'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FMImporter class >> model: aRepository [
 	^ self new
 		model: aRepository;
 		yourself
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FMImporter >> assign: element to: serial [
 	| todo |
 	serialDict at: serial put: element.
@@ -73,14 +75,14 @@ FMImporter >> assign: element to: serial [
 			self assert: numberOfDanglingReferences >= 0 ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMImporter >> autorizeDandlingReferencesAtEnd [
 	"I am using DandlingReferences to manage references during the import. At the end I can check that all dandling references are resolved. Calling this method, I'll not do the check and allow partial loading of models."
 
 	ensureNoDandlingReferences := false
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMImporter >> beginDocument [
 	stack := Stack new.
 	entities := OrderedCollection new.
@@ -89,31 +91,31 @@ FMImporter >> beginDocument [
 	numberOfDanglingReferences := 0
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMImporter >> beginEntity: name [
 	| translatedName |
 	translatedName := self translationUnit translate: name.
 	stack push: (FMFutureEntity in: self named: translatedName)
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMImporter >> beginProperty: name [
 	self currentEntity beginProperty: name
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMImporter >> currentEntity [
 	^ stack top
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FMImporter >> dangling: reference to: serial [
 	(reminderDict at: serial ifAbsentPut: [ OrderedCollection new ]) add: reference.
 	numberOfDanglingReferences := numberOfDanglingReferences + 1.
 	^ reference
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMImporter >> endDocument [
 	self assert: stack isEmpty.
 	stack := nil.
@@ -121,7 +123,7 @@ FMImporter >> endDocument [
 	model addAll: entities
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMImporter >> endEntity: name [
 	| future entity |
 	future := stack pop.
@@ -130,69 +132,69 @@ FMImporter >> endEntity: name [
 	stack ifNotEmpty: [ self currentEntity addToPropertyValues: entity ]
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMImporter >> endProperty: name [
 	self currentEntity endProperty
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMImporter >> entityAt: aSerial ifAbsent: aBlock [
 	^ serialDict at: aSerial ifAbsent: aBlock
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMImporter >> fromString: aString [
 	self stream: aString readStream
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FMImporter >> initialize [
 	super initialize.
 	translationUnit := FMNullTranslationUnit new.
 	ensureNoDandlingReferences := true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMImporter >> metamodel [
 	^ model metamodel
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMImporter >> model [
 	^ model
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMImporter >> model: aModel [
 	model := aModel
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FMImporter >> parser [
 	^ parser ifNil: [ parser := FMMSEParser ]
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FMImporter >> parser: aParser [
 	parser := aParser
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMImporter >> primitive: value [
 	self currentEntity addToPropertyValues: value
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMImporter >> referenceName: name [
 	self currentEntity addToPropertyValues: (model elementNamed: name)
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMImporter >> referenceNumber: serial [
 	self currentEntity currentProperty referenceNumber: serial
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FMImporter >> run [
 	self parser new
 		stream: stream;
@@ -200,27 +202,27 @@ FMImporter >> run [
 		run
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMImporter >> serial: serial [
 	self assign: self currentEntity instance to: serial
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMImporter >> stream [
 	^ stream
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMImporter >> stream: aReadStream [
 	stream := aReadStream
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMImporter >> translationUnit [
 	^ translationUnit
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMImporter >> translationUnit: aTranslationUnit [
 	translationUnit := aTranslationUnit
 ]

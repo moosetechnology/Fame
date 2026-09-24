@@ -2,34 +2,35 @@
 Check if an opposite attribute declared in a pragma #MSEProperty:type:opposite: also define a pragma pointing back to the initial class and the initial attribute.
 "
 Class {
-	#name : #FameOppositeAttributeShouldPointBackRule,
-	#superclass : #ReAbstractRule,
-	#category : #'Fame-Rules'
+	#name : 'FameOppositeAttributeShouldPointBackRule',
+	#superclass : 'ReAbstractRule',
+	#category : 'Fame-Rules',
+	#package : 'Fame-Rules'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 FameOppositeAttributeShouldPointBackRule class >> checksMethod [
 
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FameOppositeAttributeShouldPointBackRule class >> group [
 	^ 'Fame'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FameOppositeAttributeShouldPointBackRule class >> ruleName [
 
 	^ 'An opposite attribute declared in pragma does not point back to the initial attribute'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FameOppositeAttributeShouldPointBackRule class >> uniqueIdentifierName [
 	^ 'OppositeAttributeShouldPointBack'
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FameOppositeAttributeShouldPointBackRule >> basicCheck: aMethod [
 
 	| class |

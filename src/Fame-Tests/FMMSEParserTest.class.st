@@ -1,15 +1,16 @@
 Class {
-	#name : #FMMSEParserTest,
-	#superclass : #TestCase,
+	#name : 'FMMSEParserTest',
+	#superclass : 'TestCase',
 	#instVars : [
 		'parser',
 		'importer',
 		'tokens'
 	],
-	#category : #'Fame-Tests'
+	#category : 'Fame-Tests',
+	#package : 'Fame-Tests'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMMSEParserTest class >> famix30mse [
 	^ '((FM3.Package
 		(id: 8)
@@ -398,7 +399,7 @@ FMMSEParserTest class >> famix30mse [
 '
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMMSEParserTest class >> sampleMetaMse [
 	^ '("Meta-model of above file"
    (FM3.Package
@@ -437,7 +438,7 @@ FMMSEParserTest class >> sampleMetaMse [
                        (type (ref: String))))))))'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMMSEParserTest class >> sampleMse [
 	^ '("Sample MSE file"
    (LIB.Library
@@ -466,7 +467,7 @@ FMMSEParserTest class >> sampleMse [
        (name ''Kent Beck'')))'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> famix30mseNames [
 
 	^ { 'Famix.Invocation.sender'. 'Famix.Parameter.parentBehaviouralEntity'.
@@ -508,7 +509,7 @@ FMMSEParserTest >> famix30mseNames [
 	  'Famix.GlobalVariable' }
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> numbersToParseAndRealValues [
 
 	^ Dictionary
@@ -520,7 +521,7 @@ FMMSEParserTest >> numbersToParseAndRealValues [
 			  -2.311e-14. 110.0. -110.0 }
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FMMSEParserTest >> setUp [
 
 	super setUp.
@@ -530,7 +531,7 @@ FMMSEParserTest >> setUp [
 	parser importer: importer
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testBacktrack [
 
 	| pos |
@@ -552,7 +553,7 @@ FMMSEParserTest >> testBacktrack [
 	self assert: parser next equals: $e
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testEmptyDocument [
 
 	parser fromString: ''.
@@ -564,7 +565,7 @@ FMMSEParserTest >> testEmptyDocument [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testEmptyExportString [
 
 	parser fromString: ''.
@@ -572,7 +573,7 @@ FMMSEParserTest >> testEmptyExportString [
 	self assert: importer exportMSEString equals: '()'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testEntity [
 
 	tokens := #( #( #beginEntity: 'Foo' ) #( #endEntity: 'Foo' ) ).
@@ -589,7 +590,7 @@ FMMSEParserTest >> testEntity [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testEntityWithID [
 
 	tokens := #( #( #beginEntity: 'Foo' ) #( #serial: 42 ) #( #endEntity:
@@ -607,7 +608,7 @@ FMMSEParserTest >> testEntityWithID [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testEntityWithPropertys [
 
 	tokens := #( #( #beginEntity: 'Foo' ) #( #beginProperty: 'name' )
@@ -626,7 +627,7 @@ FMMSEParserTest >> testEntityWithPropertys [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testEntityWithPropertysAndID [
 
 	tokens := #( #( #beginEntity: 'Foo' ) #( #serial: 42 )
@@ -647,7 +648,7 @@ FMMSEParserTest >> testEntityWithPropertysAndID [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testFamixModel [
 
 	| metamodel famixPackage accessClass accessorProperty behaviouralEntity outgoingAccesses |
@@ -678,7 +679,7 @@ FMMSEParserTest >> testFamixModel [
 	self assert: accessorProperty opposite equals: outgoingAccesses
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testFullDocument [
 
 	parser fromString: self class famix30mse.
@@ -689,7 +690,7 @@ FMMSEParserTest >> testFullDocument [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testFullName [
 
 	| parsedName |
@@ -705,7 +706,7 @@ FMMSEParserTest >> testFullName [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testFullName2 [
 
 	| parsedName |
@@ -721,7 +722,7 @@ FMMSEParserTest >> testFullName2 [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testFullName3 [
 
 	| parsedName |
@@ -737,27 +738,27 @@ FMMSEParserTest >> testFullName3 [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testFullNameDotDotFails [
 
 	parser fromString: 'Foo..Bar'.
 	self should: [ parser tFULLNAME ] raise: FMSyntaxError
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testFullNameTrailingDotFails [
 
 	parser fromString: 'Foo.'.
 	self should: [ parser tFULLNAME ] raise: FMSyntaxError
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testImporter [
 
 	self assert: parser importer equals: importer
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testMatchString [
 
 	| parsedString |
@@ -778,7 +779,7 @@ FMMSEParserTest >> testMatchString [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testNumber [
 
 	self numbersToParseAndRealValues keysAndValuesDo: [ :string :value |
@@ -790,21 +791,21 @@ FMMSEParserTest >> testNumber [
 		self assert: parser atEnd ]
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testNumberTrailingDotFails [
 
 	parser fromString: '12.'.
 	self should: [ parser Number ] raise: FMSyntaxError
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testNumberTrailingLetterFails [
 
 	parser fromString: '12.11e'.
 	self should: [ parser Number ] raise: FMSyntaxError
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testNumberWithTrailingX [
 
 	| parsedNumber |
@@ -816,7 +817,7 @@ FMMSEParserTest >> testNumberWithTrailingX [
 	self assert: parser peek equals: $x
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testProperty [
 
 	tokens := #( #( #beginProperty: 'name' ) #( #endProperty:
@@ -834,7 +835,7 @@ FMMSEParserTest >> testProperty [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testPropertyNameWithUnderscore [
 
 	tokens := #( #( #beginProperty: 'name_with_underscore' )
@@ -852,7 +853,7 @@ FMMSEParserTest >> testPropertyNameWithUnderscore [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testPropertyWithBoolean [
 
 	tokens := #( #( #beginProperty: 'name' ) #( #primitive: true )
@@ -870,7 +871,7 @@ FMMSEParserTest >> testPropertyWithBoolean [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testPropertyWithEntitys [
 
 	tokens := #( #( #beginProperty: 'name' ) #( #beginEntity:
@@ -890,7 +891,7 @@ FMMSEParserTest >> testPropertyWithEntitys [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testPropertyWithNumbers [
 
 	tokens := #( #( #beginProperty: 'name' ) #( #primitive: 1 )
@@ -909,7 +910,7 @@ FMMSEParserTest >> testPropertyWithNumbers [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testPropertyWithReferences [
 
 	tokens := #( #( #beginProperty: 'name' ) #( #referenceNumber:
@@ -928,7 +929,7 @@ FMMSEParserTest >> testPropertyWithReferences [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testPropertyWithStrings [
 
 	tokens := #( #( #beginProperty: 'name' ) #( #primitive: 'bar' )
@@ -947,7 +948,7 @@ FMMSEParserTest >> testPropertyWithStrings [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testPropertyWithStrings2 [
 
 	tokens := #( #( #beginProperty: 'name' ) #( #primitive: 'bar''ba''rossa' )
@@ -965,7 +966,7 @@ FMMSEParserTest >> testPropertyWithStrings2 [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testSerial [
 
 	parser fromString: '(id:42)'.
@@ -981,7 +982,7 @@ FMMSEParserTest >> testSerial [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testSimpleDocument [
 
 	parser fromString: '()'.
@@ -1000,7 +1001,7 @@ FMMSEParserTest >> testSimpleDocument [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testValueFloat [
 
 	parser fromString: '3.14'.
@@ -1009,21 +1010,21 @@ FMMSEParserTest >> testValueFloat [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testValueFloatError [
 
 	parser fromString: '3.14e$'.
 	self should: [ parser Value ] raise: FMSyntaxError
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testValueFloatError2 [
 
 	parser fromString: '1..2'.
 	self should: [ parser Value ] raise: FMSyntaxError
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testValueFloatWithExponent [
 
 	parser fromString: '1.291e3'.
@@ -1032,7 +1033,7 @@ FMMSEParserTest >> testValueFloatWithExponent [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testValueNegativeNumber [
 
 	parser fromString: '-42'.
@@ -1041,7 +1042,7 @@ FMMSEParserTest >> testValueNegativeNumber [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testValueNegativeNumberError [
 
 	parser fromString: '--42'.
@@ -1050,7 +1051,7 @@ FMMSEParserTest >> testValueNegativeNumberError [
 	self assert: parser position equals: 1
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testValueNumber [
 
 	parser fromString: '13'.
@@ -1059,7 +1060,7 @@ FMMSEParserTest >> testValueNumber [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testValueReference [
 
 	parser fromString: '(ref: 24)'.
@@ -1069,7 +1070,7 @@ FMMSEParserTest >> testValueReference [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testValueReferenceBigInteger [
 
 	parser fromString: '(ref: 112233445566778899)'.
@@ -1080,7 +1081,7 @@ FMMSEParserTest >> testValueReferenceBigInteger [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testValueReferenceFullName [
 
 	parser fromString: '(ref: EG.Foo)'.
@@ -1091,7 +1092,7 @@ FMMSEParserTest >> testValueReferenceFullName [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testValueReferenceName [
 
 	parser fromString: '(ref: Foo)'.
@@ -1102,7 +1103,7 @@ FMMSEParserTest >> testValueReferenceName [
 	self assert: parser atEnd
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 FMMSEParserTest >> testValueReferenceStringError [
 
 	parser fromString: '(ref: ''String'')'.

@@ -5,12 +5,14 @@ Description
 I am a validator that will not validate anything. I am part of the Null Object Pattern.
 "
 Class {
-	#name : #FMNilMetamodelValidator,
-	#superclass : #FMAbstractMetamodelValidator,
-	#category : #'Fame-Core-Utilities'
+	#name : 'FMNilMetamodelValidator',
+	#superclass : 'FMAbstractMetamodelValidator',
+	#category : 'Fame-Core-Utilities',
+	#package : 'Fame-Core',
+	#tag : 'Utilities'
 }
 
-{ #category : #validation }
+{ #category : 'validation' }
 FMNilMetamodelValidator >> validate [
 	"Do nothing in this one."
 

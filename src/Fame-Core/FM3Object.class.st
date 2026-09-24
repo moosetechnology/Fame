@@ -15,22 +15,24 @@ Examples
 	FM3Object instance
 "
 Class {
-	#name : #FM3Object,
-	#superclass : #FM3Constant,
-	#category : #'Fame-Core-Model'
+	#name : 'FM3Object',
+	#superclass : 'FM3Constant',
+	#category : 'Fame-Core-Model',
+	#package : 'Fame-Core',
+	#tag : 'Model'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FM3Object class >> constantName [
 	^ #Object
 ]
 
-{ #category : #'accessing-query' }
+{ #category : 'accessing-query' }
 FM3Object class >> defaultSuperclass [
 	^ nil
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FM3Object >> isRoot [
 	^ true
 ]

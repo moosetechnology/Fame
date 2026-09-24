@@ -1,10 +1,11 @@
 Class {
-	#name : #LIBRoot,
-	#superclass : #Object,
-	#category : #'Fame-Example'
+	#name : 'LIBRoot',
+	#superclass : 'Object',
+	#category : 'Fame-Example',
+	#package : 'Fame-Example'
 }
 
-{ #category : #examples }
+{ #category : 'examples' }
 LIBRoot class >> library [
 	| a1 a4 a2 a5 a3 |
 	a1 := LIBPerson named: 'Erich Gamma'.
@@ -19,12 +20,12 @@ LIBRoot class >> library [
 			(LIBBook title: 'Smalltalk Best Practice Patterns' authors: {a5})}
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 LIBRoot class >> libraryMetaModel [
 	^ FMMetaModelBuilder metamodelFrom: {LIBLibrary . LIBBook . LIBPerson. LIBTNamed }
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 LIBRoot class >> libraryModel [
 	| library |
 	library := self library.
@@ -36,7 +37,7 @@ LIBRoot class >> libraryModel [
 		yourself
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 LIBRoot >> prettyString [
 	^ self printString
 ]

@@ -8,17 +8,19 @@ It might happen that we want to translate the names of entities previously expor
 For example, if the model changed the name of the classes but a parser was not updated, we can use translation units to match the names.
 "
 Class {
-	#name : #FMTranslationUnit,
-	#superclass : #Object,
-	#category : #'Fame-ImportExport-Importers'
+	#name : 'FMTranslationUnit',
+	#superclass : 'Object',
+	#category : 'Fame-ImportExport-Importers',
+	#package : 'Fame-ImportExport',
+	#tag : 'Importers'
 }
 
-{ #category : #translate }
+{ #category : 'translate' }
 FMTranslationUnit >> translate: aName [
 	^ self translate: aName ifAbsent: [ aName ]
 ]
 
-{ #category : #translate }
+{ #category : 'translate' }
 FMTranslationUnit >> translate: aName ifAbsent: aBlock [ 
 	self subclassResponsibility .
 ]

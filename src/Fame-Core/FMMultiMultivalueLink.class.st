@@ -19,24 +19,26 @@ LIBBook>>authors: persons
 	authors value: persons
 "
 Class {
-	#name : #FMMultiMultivalueLink,
-	#superclass : #FMMultivalueLink,
-	#category : #'Fame-Core-Utilities'
+	#name : 'FMMultiMultivalueLink',
+	#superclass : 'FMMultivalueLink',
+	#category : 'Fame-Core-Utilities',
+	#package : 'Fame-Core',
+	#tag : 'Utilities'
 }
 
-{ #category : #adding }
+{ #category : 'adding' }
 FMMultiMultivalueLink >> addOpposite: anElement [
 
 	(anElement perform: opposite) unsafeAdd: owner
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 FMMultiMultivalueLink >> removeOpposite: anElement [
 
 	(anElement perform: opposite) unsafeRemove: owner
 ]
 
-{ #category : #'private - adding' }
+{ #category : 'private - adding' }
 FMMultiMultivalueLink >> uncheckAdd: anElement [
 
 	(anElement perform: opposite) uncheckUnsafeAdd: owner.
@@ -44,7 +46,7 @@ FMMultiMultivalueLink >> uncheckAdd: anElement [
 	^ anElement
 ]
 
-{ #category : #'private - adding' }
+{ #category : 'private - adding' }
 FMMultiMultivalueLink >> uncheckAddAll: aCollection [
 	"Include all the elements of aCollection as the receiver's elements. Answer 
 	aCollection. Actually, any object responding to #do: can be used as argument."
@@ -53,7 +55,7 @@ FMMultiMultivalueLink >> uncheckAddAll: aCollection [
 	^ aCollection
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 FMMultiMultivalueLink >> value: aCollection [
 
 	^ self
@@ -64,7 +66,7 @@ FMMultiMultivalueLink >> value: aCollection [
 				   as: OrderedDictionary) keys
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 FMMultiMultivalueLink >> with: element opposite: oppositeSelector [
 
 	self assert: oppositeSelector numArgs = 0.

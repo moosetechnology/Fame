@@ -1,31 +1,32 @@
 Class {
-	#name : #EQIdentifier,
-	#superclass : #Object,
+	#name : 'EQIdentifier',
+	#superclass : 'Object',
 	#instVars : [
 		'symbol'
 	],
-	#category : #'Fame-Example'
+	#category : 'Fame-Example',
+	#package : 'Fame-Example'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 EQIdentifier class >> annotation [
 	<FMClass: #Identifier super: #Object>
 	<package: #EQ>
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 EQIdentifier >> printOn: stream [
 
 	stream nextPutAll: symbol
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 EQIdentifier >> symbol [
 	<FMProperty: #symbol type: #String>
 	^symbol
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 EQIdentifier >> symbol: anObject [
 	symbol := anObject
 ]

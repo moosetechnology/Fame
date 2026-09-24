@@ -18,25 +18,27 @@ Internal Representation and Key Implementation Points.
 	dictionary:		<aDictionary> 		A dictionary containing all the names to translate with their translations.
 "
 Class {
-	#name : #FMDictionaryTranslationUnit,
-	#superclass : #FMTranslationUnit,
+	#name : 'FMDictionaryTranslationUnit',
+	#superclass : 'FMTranslationUnit',
 	#instVars : [
 		'dictionary'
 	],
-	#category : #'Fame-ImportExport-Importers'
+	#category : 'Fame-ImportExport-Importers',
+	#package : 'Fame-ImportExport',
+	#tag : 'Importers'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMDictionaryTranslationUnit >> dictionary [
 	^ dictionary 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMDictionaryTranslationUnit >> dictionary: aDictionary [
 	dictionary := aDictionary
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMDictionaryTranslationUnit >> translate: aName ifAbsent: aBlock [ 
 	^ dictionary at: aName ifAbsent: aBlock
 ]

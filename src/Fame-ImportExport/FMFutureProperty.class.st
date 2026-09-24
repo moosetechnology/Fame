@@ -15,38 +15,40 @@ Internal Representation and Key Implementation Points.
 
 "
 Class {
-	#name : #FMFutureProperty,
-	#superclass : #FMFuture,
+	#name : 'FMFutureProperty',
+	#superclass : 'FMFuture',
 	#instVars : [
 		'values',
 		'parentElement'
 	],
-	#category : #'Fame-ImportExport-Importers'
+	#category : 'Fame-ImportExport-Importers',
+	#package : 'Fame-ImportExport',
+	#tag : 'Importers'
 }
 
-{ #category : #adding }
+{ #category : 'adding' }
 FMFutureProperty >> addToValues: anObject [
 	values add: anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMFutureProperty >> importer [
 	^ self parentEntity importer
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FMFutureProperty >> in: aFutureEntity named: aString [
 	parentElement := aFutureEntity.
 	metaDescription := parentElement metaDescription propertyNamed: aString ifAbsent: [ aString ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FMFutureProperty >> initialize [
 	super initialize.
 	values := OrderedCollection new
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMFutureProperty >> maybeEnd [
 	"If the property still has dangling references we cannot end it."
 	self numberOfDanglingReferences isZero ifFalse: [ ^ self ].
@@ -57,28 +59,28 @@ FMFutureProperty >> maybeEnd [
 		ifFalse: [ parentElement instance handleFameProperty: metaDescription value: values ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMFutureProperty >> numberOfDanglingReferences [
 	^ self values count: #isDanglingReference
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMFutureProperty >> parentEntity [
 	^ parentElement
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMFutureProperty >> referenceNumber: serial [
 	self addToValues: (self importer entityAt: serial ifAbsent: [ self importer dangling: (FMDanglingReference with: self) to: serial ])
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMFutureProperty >> replaceDanglingReferenceAt: anInteger by: anElement [
 	self values at: anInteger put: anElement.
 	self maybeEnd
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMFutureProperty >> values [
 	^ values
 ]

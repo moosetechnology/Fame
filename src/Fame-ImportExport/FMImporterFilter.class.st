@@ -14,8 +14,8 @@ Internal Representation and Key Implementation Points.
 
 "
 Class {
-	#name : #FMImporterFilter,
-	#superclass : #Object,
+	#name : 'FMImporterFilter',
+	#superclass : 'Object',
 	#traits : 'FMTImportExportStructure',
 	#classTraits : 'FMTImportExportStructure classTrait',
 	#instVars : [
@@ -23,10 +23,12 @@ Class {
 		'filter',
 		'importer'
 	],
-	#category : #'Fame-ImportExport-Importers'
+	#category : 'Fame-ImportExport-Importers',
+	#package : 'Fame-ImportExport',
+	#tag : 'Importers'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FMImporterFilter class >> on: aFMParserClient filtering: aCollectionOfElementNames [
 	^ self new
 		importer: aFMParserClient;
@@ -34,12 +36,12 @@ FMImporterFilter class >> on: aFMParserClient filtering: aCollectionOfElementNam
 		yourself
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMImporterFilter >> beginDocument [
 	importer beginDocument
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMImporterFilter >> beginEntity: name [
 	(filter includes: name)
 		ifTrue: [ shouldSkip := false.
@@ -47,97 +49,97 @@ FMImporterFilter >> beginEntity: name [
 		ifFalse: [ shouldSkip := true ]
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMImporterFilter >> beginProperty: name [
 	shouldSkip ifFalse: [ importer beginProperty: name ]
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMImporterFilter >> endDocument [
 	importer endDocument
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMImporterFilter >> endEntity: name [
 	shouldSkip ifFalse: [ importer endEntity: name ]
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMImporterFilter >> endProperty: name [
 	shouldSkip ifFalse: [ importer endProperty: name ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMImporterFilter >> filter [
 	^ filter
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMImporterFilter >> filter: aCollectionOfElementNames [
 	"Filter is a collection containing the names of elements that can be imported. When the method #beginElement: is invoked, if the name of the element is not in filter, nothing will be generated. In the opposite case, the work will be delegated to parserClient."
 
 	filter := aCollectionOfElementNames
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMImporterFilter >> fromString: aString [
 	^ self importer fromString: aString
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMImporterFilter >> importer [
 	^ importer
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMImporterFilter >> importer: aFMImporter [
 	"Importer will be we the FMImporter that will execute the concrete operations. This class only provided the filtering aspect"
 
 	importer := aFMImporter
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMImporterFilter >> index [
 	^ self importer index
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 FMImporterFilter >> initialize [
 	super initialize.
 	shouldSkip := false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMImporterFilter >> metamodel [
 	^ self importer metamodel
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMImporterFilter >> model [
 	^ self importer model
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMImporterFilter >> model: aModel [
 	^ self importer model: aModel
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMImporterFilter >> primitive: value [
 	shouldSkip ifFalse: [ importer primitive: value ]
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMImporterFilter >> referenceName: name [
 	shouldSkip ifFalse: [ importer referenceName: name ]
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMImporterFilter >> referenceNumber: index [
 	shouldSkip ifFalse: [ importer referenceNumber: index ]
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FMImporterFilter >> run [
 
 	importer parser new
@@ -146,17 +148,17 @@ FMImporterFilter >> run [
 		run
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 FMImporterFilter >> serial: index [
 	shouldSkip ifFalse: [ importer serial: index ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMImporterFilter >> stream [
 	^ self importer stream
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FMImporterFilter >> stream: aReadStream [
 	^ self importer stream: aReadStream
 ]
