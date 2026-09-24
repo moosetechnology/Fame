@@ -10,7 +10,8 @@ FMMaterializer >> materialize: aFMMetaModel [
 
 	aFMMetaModel packages do: [ :package |
 		self materializePackage: package ].
-	aFMMetaModel traits do: [ :trait | self materializeTrait: trait ]
+	aFMMetaModel traits do: [ :trait | self materializeTrait: trait ].
+	aFMMetaModel classes do: [ :fm3Class | self materializeClass: fm3Class ].
 ]
 
 { #category : 'as yet unclassified' }
