@@ -16,12 +16,14 @@ FMMaterializer >> materialize: aFMMetaModel [
 { #category : 'as yet unclassified' }
 FMMaterializer >> materializeClass: aFM3Class [
 
-	| classBuilder |
+	| classBuilder superClass |
 	aFM3Class package ifNil: [ FMMaterializerNoPackageError signal ].
-
-	classBuilder := Object << aFM3Class name package:
+	superClass := aFM3Class superclass isRoot
+		              ifTrue: [ Object ]
+		              ifFalse: [ self materializeClass: aFM3Class superclass ].
+	classBuilder := superClass << aFM3Class name package:
 		                aFM3Class package name.
-	classBuilder install
+	^ classBuilder install
 ]
 
 { #category : 'as yet unclassified' }

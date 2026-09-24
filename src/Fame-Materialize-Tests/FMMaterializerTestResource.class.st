@@ -2,11 +2,20 @@ Class {
 	#name : 'FMMaterializerTestResource',
 	#superclass : 'TestResource',
 	#instVars : [
-		'metamodel'
+		'metamodel',
+		'trait',
+		'class',
+		'superclass'
 	],
 	#category : 'Fame-Materialize-Tests',
 	#package : 'Fame-Materialize-Tests'
 }
+
+{ #category : 'accessing' }
+FMMaterializerTestResource >> clazz [
+
+	^ class
+]
 
 { #category : 'running' }
 FMMaterializerTestResource >> metamodel [
@@ -17,14 +26,21 @@ FMMaterializerTestResource >> metamodel [
 { #category : 'running' }
 FMMaterializerTestResource >> setUp [
 
-	| trait class |
 	super setUp.
 	metamodel := FMMetaModel new.
 	metamodel add: (FM3Package named: 'Fame-Materialize-TestResource').
 	trait := FM3Trait named: 'TATrait'.
 	metamodel add: trait.
 	class := FM3Class named: 'AClass'.
-	metamodel add: class
+	metamodel add: class.
+	superclass := FM3Class named: 'ASuperClass'.
+	metamodel add: superclass.
+]
+
+{ #category : 'accessing' }
+FMMaterializerTestResource >> superclass [
+
+	^ superclass
 ]
 
 { #category : 'running' }
@@ -34,4 +50,10 @@ FMMaterializerTestResource >> tearDown [
 		on: NotFound
 		do: [ ].
 	super tearDown
+]
+
+{ #category : 'accessing' }
+FMMaterializerTestResource >> trait [
+
+	^ trait
 ]

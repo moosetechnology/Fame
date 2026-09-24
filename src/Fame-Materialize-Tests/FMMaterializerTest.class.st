@@ -27,11 +27,49 @@ FMMaterializerTest >> setUp [
 FMMaterializerTest >> testMaterializeClass [
 
 	| class |
-	class := FMMaterializerTestResource current metamodel classes anyOne.
+	class := FMMaterializerTestResource current clazz.
 	class package:
 		FMMaterializerTestResource current metamodel packages anyOne.
 	materializer materializeClass: class.
 	self assert: (Smalltalk globals includesKey: class name)
+]
+
+{ #category : 'tests' }
+FMMaterializerTest >> testMaterializeClassWithSuperClassReverseOrder [
+
+	| class superclass |
+	class := FMMaterializerTestResource current clazz.
+	superclass := FMMaterializerTestResource current superclass.
+	class superclass: superclass.
+	class package:
+		FMMaterializerTestResource current metamodel packages anyOne.
+	superclass package:
+		FMMaterializerTestResource current metamodel packages anyOne.
+	materializer materializeClass: class.
+	materializer materializeClass: superclass.
+	self assert: (Smalltalk globals includesKey: class name).
+	self
+		assert: (Smalltalk globals at: class name) superclass name
+		equals: superclass name
+]
+
+{ #category : 'tests' }
+FMMaterializerTest >> testMaterializeClassWithSuperClassSimpleOrder [
+
+	| class superclass |
+	class := FMMaterializerTestResource current clazz.
+	superclass := FMMaterializerTestResource current superclass.
+	class superclass: superclass.
+	class package:
+		FMMaterializerTestResource current metamodel packages anyOne.
+	superclass package:
+		FMMaterializerTestResource current metamodel packages anyOne.
+	materializer materializeClass: superclass.
+	materializer materializeClass: class.
+	self assert: (Smalltalk globals includesKey: class name).
+	self
+		assert: (Smalltalk globals at: class name) superclass name
+		equals: superclass name
 ]
 
 { #category : 'tests' }
@@ -72,4 +110,15 @@ FMMaterializerTest >> testMaterializeTraitWithoutPackage [
 				materializer materializeTrait:
 					FMMaterializerTestResource current metamodel traits anyOne ]
 		raises: FMMaterializerNoPackageError
+]
+
+{ #category : 'tests' }
+FMMaterializerTest >> testMaterializeWithSuperClass [
+
+	| class |
+	class := FMMaterializerTestResource current metamodel classes anyOne.
+	class package:
+		FMMaterializerTestResource current metamodel packages anyOne.
+	materializer materializeClass: class.
+	self assert: (Smalltalk globals includesKey: class name)
 ]
