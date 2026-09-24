@@ -17,9 +17,14 @@ FMMaterializerTestResource >> metamodel [
 { #category : 'running' }
 FMMaterializerTestResource >> setUp [
 
+	| trait class |
 	super setUp.
 	metamodel := FMMetaModel new.
-	metamodel add: (FM3Package named: 'Fame-Materialize-TestResource')
+	metamodel add: (FM3Package named: 'Fame-Materialize-TestResource').
+	trait := FM3Trait named: 'TATrait'.
+	metamodel add: trait.
+	class := FM3Class named: 'AClass'.
+	metamodel add: class
 ]
 
 { #category : 'running' }
