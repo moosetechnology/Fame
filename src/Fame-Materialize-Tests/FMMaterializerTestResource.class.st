@@ -1,3 +1,6 @@
+"
+I build a metamodel that can be used to be materialized and clean what could have been created by tests
+"
 Class {
 	#name : 'FMMaterializerTestResource',
 	#superclass : 'TestResource',
