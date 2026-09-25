@@ -12,6 +12,17 @@ For performance reasons we use a hash table instead of a dictionary to keep the 
 
 In case the model is small, we do not show a progress bar.
 
+Export rules
+--------------------
+
+Relations are exported at most once, whatever their multiplicity:
+
+- A one-to-one relation is serialized when the second entity of the relation is exported; the first side is skipped to avoid dangling references on import.
+- A one-to-many relation is serialized only on its many side.
+- A many-to-many relation is serialized on the side whose name sorts before its opposite's. This keeps the choice deterministic and independent of the export order. A self-opposite many-to-many relation has no such side to choose from and is exported on both sides.
+
+The derived pragma is ignored on relations: a relation is exported according to these rules whatever its derived status. Only derived properties without an opposite (computed attributes) are still filtered out. Using derived on relations is deprecated and will be removed in a future step.
+
 Examples
 --------------------
 
@@ -76,22 +87,6 @@ FMModelExporter >> exportEntity: anEntity [
 	self incrementProgressBar
 ]
 
-{ #category : 'exporting' }
-FMModelExporter >> exportPrimitiveProperty: property for: anEntity [
-
-	printer inProperty: property name do: [
-			| values |
-			values := model get: property element: anEntity.
-
-			property isMultivalued ifTrue: [ printer beginMultivalue: property ].
-
-			(values reject: [ :value | value asString = 'unavailable' "value = MooseUnavailableMetric" ])
-				do: [ :each | printer primitive: each ]
-				separatedBy: [ printer printEntitySeparator ].
-
-			property isMultivalued ifTrue: [ printer endMultivalue: property ] ]
-]
-
 { #category : 'accessing' }
 FMModelExporter >> exportProgressThreshold [
 	"If the model has less than this number of entities, we do not show the progress bar."
@@ -102,28 +97,24 @@ FMModelExporter >> exportProgressThreshold [
 { #category : 'exporting' }
 FMModelExporter >> exportProperty: property for: anEntity [
 
-	property type isPrimitive
-		ifTrue: [ self exportPrimitiveProperty: property for: anEntity ]
-		ifFalse: [ self exportRelation: property for: anEntity ]
-]
-
-{ #category : 'exporting' }
-FMModelExporter >> exportRelation: property for: anEntity [
-
 	printer inProperty: property name do: [
-			| values |
-			values := model get: property element: anEntity.
+		| values |
 
-			property isMultivalued ifTrue: [ printer beginMultivalue: property ].
+		values := model get: property element: anEntity.
 
-			(values reject: [ :value | value asString = 'unavailable' "value = MooseUnavailableMetric" ])
-				do: [ :each |
+		property isMultivalued ifTrue: [ printer beginMultivalue: property ].
+
+		(values reject: [ :value | value asString = 'unavailable' "value = MooseUnavailableMetric" ])
+			do: [ :each |
+				property type isPrimitive
+					ifTrue: [ printer primitive: each ]
+					ifFalse: [
 						(FM3Constant constants includes: each)
 							ifTrue: [ printer referenceName: each name ]
-							ifFalse: [ printer referenceNumber: (self indexOf: each) ] ]
-				separatedBy: [ printer printEntitySeparator ].
+							ifFalse: [ printer referenceNumber: (self indexOf: each) ] ] ]
+			separatedBy: [ printer printEntitySeparator ].
 
-			property isMultivalued ifTrue: [ printer endMultivalue: property ] ]
+		property isMultivalued ifTrue: [ printer endMultivalue: property ] ]
 ]
 
 { #category : 'exporting' }
