@@ -211,6 +211,13 @@ FM3Property >> isGenerated [
 	^self compiledMethod pragmas anySatisfy: [ :p | p selector = #generated ]
 ]
 
+{ #category : 'testing' }
+FM3Property >> isManyToManyRelation [
+	"A property is part of a many-to-many relation when it and its opposite are both multivalued."
+
+	^ self opposite isNotNil and: [ self isMultivalued and: [ self opposite isMultivalued ] ]
+]
+
 { #category : 'accessing' }
 FM3Property >> isMultivalued [
 	<FMProperty: #multivalued type: #Boolean defaultValue: false>
@@ -220,6 +227,21 @@ FM3Property >> isMultivalued [
 { #category : 'accessing' }
 FM3Property >> isMultivalued: anObject [
 	isMultivalued := anObject
+]
+
+{ #category : 'testing' }
+FM3Property >> isOneToManyRelation [
+	"A property is part of a one-to-many relation when it or its opposite is
+	 multivalued while the other is single-valued."
+
+	^ self opposite isNotNil and: [ self isMultivalued xor: self opposite isMultivalued ]
+]
+
+{ #category : 'testing' }
+FM3Property >> isOneToOneRelation [
+	"A property is a one-to-one relation when it is single-valued and its opposite  is single-valued too."
+
+	^ self isMultivalued not and: [ self opposite isNotNil and: [ self opposite isMultivalued not ] ]
 ]
 
 { #category : 'accessing' }

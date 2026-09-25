@@ -151,11 +151,9 @@ FMMultivalueLink >> uncheckUnsafeAdd: element [
 
 { #category : 'private' }
 FMMultivalueLink >> unsafeAdd: element [
-	"The cost of this #includes can be pretty high so there is a way to disable it when we know there will be no duplicates. Check the class comment of the dynamic variable."
+	"We cannot mimic FMSlotMultivalueLink>>#unsafeAdd: because we have no way to perform a private addition here: the inverse side of a getter-backed link is updated through the element's public setter (see #addOpposite:), which reflects the change back into this very collection. As a result, one #addLast: can add the same element twice, so duplicates must be filtered unconditionally."
 
-	FMShouldCheckForDuplicatedEntitiesInMultivalueLinks value
-		ifTrue: [ (self includes: element) ifFalse: [ self uncheckUnsafeAdd: element ] ]
-		ifFalse: [ self uncheckUnsafeAdd: element ]
+	(self includes: element) ifFalse: [ self uncheckUnsafeAdd: element ]
 ]
 
 { #category : 'private' }

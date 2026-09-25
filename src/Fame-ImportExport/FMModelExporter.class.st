@@ -12,6 +12,17 @@ For performance reasons we use a hash table instead of a dictionary to keep the 
 
 In case the model is small, we do not show a progress bar.
 
+Export rules
+--------------------
+
+Relations are exported at most once, whatever their multiplicity:
+
+- A one-to-one relation is serialized when the second entity of the relation is exported; the first side is skipped to avoid dangling references on import.
+- A one-to-many relation is serialized only on its many side.
+- A many-to-many relation is serialized on the side whose name sorts before its opposite's. This keeps the choice deterministic and independent of the export order. A self-opposite many-to-many relation has no such side to choose from and is exported on both sides.
+
+The derived pragma is ignored on relations: a relation is exported according to these rules whatever its derived status. Only derived properties without an opposite (computed attributes) are still filtered out. Using derived on relations is deprecated and will be removed in a future step.
+
 Examples
 --------------------
 
@@ -48,7 +59,8 @@ Class {
 		'model',
 		'numberOfExportedElements',
 		'progressBar',
-		'indexMap'
+		'indexMap',
+		'exportedEntities'
 	],
 	#category : 'Fame-ImportExport-Exporters',
 	#package : 'Fame-ImportExport',
@@ -56,28 +68,22 @@ Class {
 }
 
 { #category : 'exporting' }
-FMModelExporter >> export: aCollectionOfElements [
-	printer inDocumentDo: [ 
-		aCollectionOfElements
-			do: [ :each | self exportEntity: each ]
-			separatedBy: [ printer printEntitySeparator ] ]
+FMModelExporter >> export: aCollectionOfEntities [
+
+	printer inDocumentDo: [ aCollectionOfEntities do: [ :entity | self exportEntity: entity ] separatedBy: [ printer printEntitySeparator ] ]
 ]
 
 { #category : 'exporting' }
-FMModelExporter >> exportEntity: each [
+FMModelExporter >> exportEntity: anEntity [
 
 	| meta |
-	meta := model metaDescriptionOf: each.
+	meta := model metaDescriptionOf: anEntity.
 	printer inEntity: meta fullName do: [
-		| sortedProperties |
-		printer serial: (self indexOf: each).
-		sortedProperties := (self sortedPropertiesOf: meta) select: [
-			                    :property |
-			                    self shouldExportProperty: property for: each ].
-		sortedProperties ifNotEmpty: [ printer printPropertySeparator ].
-		sortedProperties
-			do: [ :property | self exportProperty: property for: each ]
-			separatedBy: [ printer printPropertySeparator ] ].
+			printer serial: (self indexOf: anEntity).
+			exportedEntities add: anEntity.
+			((self sortedPropertiesOf: meta) select: [ :property | self shouldExportProperty: property for: anEntity ]) ifNotEmpty: [ :sortedProperties |
+					printer printPropertySeparator.
+					sortedProperties do: [ :property | self exportProperty: property for: anEntity ] separatedBy: [ printer printPropertySeparator ] ] ].
 	self incrementProgressBar
 ]
 
@@ -89,27 +95,26 @@ FMModelExporter >> exportProgressThreshold [
 ]
 
 { #category : 'exporting' }
-FMModelExporter >> exportProperty: property for: each [
-	| values |
-	values := model get: property element: each.
-	self exportProperty: property withAll: values
-]
-
-{ #category : 'exporting' }
-FMModelExporter >> exportProperty: property withAll: values [
+FMModelExporter >> exportProperty: property for: anEntity [
 
 	printer inProperty: property name do: [
-			property isMultivalued ifTrue: [ printer beginMultivalue: property ].
-			(values reject: [ :value | value asString = 'unavailable' "value = MooseUnavailableMetric" ])
-				do: [ :each |
-						property type isPrimitive
-							ifTrue: [ printer primitive: each ]
-							ifFalse: [
-									(FM3Constant constants includes: each)
-										ifTrue: [ printer referenceName: each name ]
-										ifFalse: [ printer referenceNumber: (self indexOf: each) ] ] ]
-				separatedBy: [ printer printEntitySeparator ].
-			property isMultivalued ifTrue: [ printer endMultivalue: property ] ]
+		| values |
+
+		values := model get: property element: anEntity.
+
+		property isMultivalued ifTrue: [ printer beginMultivalue: property ].
+
+		(values reject: [ :value | value asString = 'unavailable' "value = MooseUnavailableMetric" ])
+			do: [ :each |
+				property type isPrimitive
+					ifTrue: [ printer primitive: each ]
+					ifFalse: [
+						(FM3Constant constants includes: each)
+							ifTrue: [ printer referenceName: each name ]
+							ifFalse: [ printer referenceNumber: (self indexOf: each) ] ] ]
+			separatedBy: [ printer printEntitySeparator ].
+
+		property isMultivalued ifTrue: [ printer endMultivalue: property ] ]
 ]
 
 { #category : 'exporting' }
@@ -128,8 +133,10 @@ FMModelExporter >> indexOf: each [
 
 { #category : 'initialization' }
 FMModelExporter >> initialize [
+
 	super initialize.
-	indexMap := IdentityHashTable new "We use IdentityHashTable because it is more performant than IdentityDictionary for big collections."
+	indexMap := IdentityHashTable new. "We use IdentityHashTable because it is more performant than IdentityDictionary for big collections."
+	exportedEntities := IdentitySet new
 ]
 
 { #category : 'accessing' }
@@ -170,21 +177,33 @@ FMModelExporter >> run [
 ]
 
 { #category : 'exporting' }
-FMModelExporter >> shouldExportProperty: property for: each [
+FMModelExporter >> shouldExportProperty: property for: anEntity [
+
 	| values |
 	(self shouldIgnoreProperty: property) ifTrue: [ ^ false ].
-	values := model get: property element: each.
+	values := model get: property element: anEntity.
 
 	"Do not export empty properties."
 	values isEmptyOrNil ifTrue: [ ^ false ].
+
+	"A one-to-many relation is exported only on its many side: when we are on the single-valued side, it is never serialized."
+	(property isOneToManyRelation and: [ property isMultivalued not ]) ifTrue: [ ^ false ].
+
+	"A many-to-many relation is serialized only on one side: the one whose name sorts before its opposite's. This avoids exporting the same relation twice while keeping the decision deterministic and independent of the export order."
+	(property isManyToManyRelation and: [ property name > property opposite name ]) ifTrue: [ ^ false ].
+
+	"A one-to-one relation is exported when exporting the second entity of the relation to avoid futurs during import."
+	(property isOneToOneRelation and: [ (exportedEntities includes: values anyOne) not ]) ifTrue: [ ^ false ].
 	^ true
 ]
 
 { #category : 'exporting' }
 FMModelExporter >> shouldIgnoreProperty: property [
+
 	(model metamodel includes: property) ifFalse: [ ^ true ].
 
-	^ property isDerived
+	"We ignore the derived pragma on relations: a relation is exported according to the export rules, whatever its derived status. Only derived properties that are not relations (e.g. computed attributes without an opposite) are still filtered. The possibility to make a relation derived should be deprecated in the future but directly in the MM. This will be a step after the update of the exporter"
+	^ property isDerived and: [ property hasOpposite not ]
 ]
 
 { #category : 'exporting' }
