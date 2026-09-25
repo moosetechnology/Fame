@@ -198,6 +198,9 @@ FMModelExporter >> shouldExportProperty: property for: anEntity [
 	"A one-to-many relation is exported only on its many side: when we are on the single-valued side, it is never serialized."
 	(property isOneToManyRelation and: [ property isMultivalued not ]) ifTrue: [ ^ false ].
 
+	"A many-to-many relation is serialized only on one side: the one whose name sorts before its opposite's. This avoids exporting the same relation twice while keeping the decision deterministic and independent of the export order."
+	(property isManyToManyRelation and: [ property name > property opposite name ]) ifTrue: [ ^ false ].
+
 	"A one-to-one relation is exported when exporting the second entity of the relation to avoid futurs during import."
 	(property isOneToOneRelation and: [ (exportedEntities includes: values anyOne) not ]) ifTrue: [ ^ false ].
 	^ true
