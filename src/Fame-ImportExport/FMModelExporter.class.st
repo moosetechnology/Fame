@@ -48,7 +48,8 @@ Class {
 		'model',
 		'numberOfExportedElements',
 		'progressBar',
-		'indexMap'
+		'indexMap',
+		'exportedEntities'
 	],
 	#category : 'Fame-ImportExport-Exporters',
 	#package : 'Fame-ImportExport',
@@ -68,6 +69,7 @@ FMModelExporter >> exportEntity: anEntity [
 	meta := model metaDescriptionOf: anEntity.
 	printer inEntity: meta fullName do: [
 			printer serial: (self indexOf: anEntity).
+			exportedEntities add: anEntity.
 			((self sortedPropertiesOf: meta) select: [ :property | self shouldExportProperty: property for: anEntity ]) ifNotEmpty: [ :sortedProperties |
 					printer printPropertySeparator.
 					sortedProperties do: [ :property | self exportProperty: property for: anEntity ] separatedBy: [ printer printPropertySeparator ] ] ].
@@ -140,8 +142,10 @@ FMModelExporter >> indexOf: each [
 
 { #category : 'initialization' }
 FMModelExporter >> initialize [
+
 	super initialize.
-	indexMap := IdentityHashTable new "We use IdentityHashTable because it is more performant than IdentityDictionary for big collections."
+	indexMap := IdentityHashTable new. "We use IdentityHashTable because it is more performant than IdentityDictionary for big collections."
+	exportedEntities := IdentitySet new
 ]
 
 { #category : 'accessing' }
@@ -182,21 +186,28 @@ FMModelExporter >> run [
 ]
 
 { #category : 'exporting' }
-FMModelExporter >> shouldExportProperty: property for: each [
+FMModelExporter >> shouldExportProperty: property for: anEntity [
+
 	| values |
 	(self shouldIgnoreProperty: property) ifTrue: [ ^ false ].
-	values := model get: property element: each.
+	values := model get: property element: anEntity.
 
 	"Do not export empty properties."
 	values isEmptyOrNil ifTrue: [ ^ false ].
+
+	"A one-to-one relation is exported when exporting the second entity of the relation to avoid futurs during import."
+	(property isOneToOneRelation and: [ (exportedEntities includes: values anyOne) not ]) ifTrue: [ ^ false ].
 	^ true
 ]
 
 { #category : 'exporting' }
 FMModelExporter >> shouldIgnoreProperty: property [
-	(model metamodel includes: property) ifFalse: [ ^ true ].
 
-	^ property isDerived
+	(model metamodel includes: property) ifFalse: [ ^ true ].
+	
+	"We ignore the derived pragma on one-to-one relations: they are exported from
+	 the second entity of the relation, whatever their derived status. The possibility to make a relation derived should be deprecated in the future."
+	^ property isDerived and: [ property isOneToOneRelation not ]
 ]
 
 { #category : 'exporting' }
