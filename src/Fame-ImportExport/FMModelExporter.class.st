@@ -195,6 +195,9 @@ FMModelExporter >> shouldExportProperty: property for: anEntity [
 	"Do not export empty properties."
 	values isEmptyOrNil ifTrue: [ ^ false ].
 
+	"A one-to-many relation is exported only on its many side: when we are on the single-valued side, it is never serialized."
+	(property isOneToManyRelation and: [ property isMultivalued not ]) ifTrue: [ ^ false ].
+
 	"A one-to-one relation is exported when exporting the second entity of the relation to avoid futurs during import."
 	(property isOneToOneRelation and: [ (exportedEntities includes: values anyOne) not ]) ifTrue: [ ^ false ].
 	^ true
@@ -204,10 +207,9 @@ FMModelExporter >> shouldExportProperty: property for: anEntity [
 FMModelExporter >> shouldIgnoreProperty: property [
 
 	(model metamodel includes: property) ifFalse: [ ^ true ].
-	
-	"We ignore the derived pragma on one-to-one relations: they are exported from
-	 the second entity of the relation, whatever their derived status. The possibility to make a relation derived should be deprecated in the future."
-	^ property isDerived and: [ property isOneToOneRelation not ]
+
+	"We ignore the derived pragma on relations: a relation is exported according to the export rules, whatever its derived status. Only derived properties that are not relations (e.g. computed attributes without an opposite) are still filtered. The possibility to make a relation derived should be deprecated in the future but directly in the MM. This will be a step after the update of the exporter"
+	^ property isDerived and: [ property hasOpposite not ]
 ]
 
 { #category : 'exporting' }

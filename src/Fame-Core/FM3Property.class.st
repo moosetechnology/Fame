@@ -223,6 +223,14 @@ FM3Property >> isMultivalued: anObject [
 ]
 
 { #category : 'testing' }
+FM3Property >> isOneToManyRelation [
+	"A property is part of a one-to-many relation when it or its opposite is
+	 multivalued while the other is single-valued."
+
+	^ self opposite isNotNil and: [ self isMultivalued xor: self opposite isMultivalued ]
+]
+
+{ #category : 'testing' }
 FM3Property >> isOneToOneRelation [
 	"A property is a one-to-one relation when it is single-valued and its opposite  is single-valued too."
 
