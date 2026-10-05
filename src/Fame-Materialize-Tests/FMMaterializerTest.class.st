@@ -35,6 +35,24 @@ FMMaterializerTest >> testMaterializeClass [
 ]
 
 { #category : 'tests' }
+FMMaterializerTest >> testMaterializeClassPrimitivePropertyGetter [
+
+	| class getter |
+	class := FMMaterializerTestResource current clazz.
+	class package:
+		FMMaterializerTestResource current metamodel packages anyOne.
+
+	materializer materializeClass: class.
+
+	getter := (Smalltalk globals at: class name)
+	          >> FMMaterializerTestResource current propertyA name.
+
+	self assert: (getter hasPragmaNamed: 'generated').
+	self assert: (getter hasPragmaNamed: 'FMComment:').
+	self assert: (getter hasPragmaNamed: 'FMProperty:type:')
+]
+
+{ #category : 'tests' }
 FMMaterializerTest >> testMaterializeClassPrimitivePropertySetter [
 
 	| class |

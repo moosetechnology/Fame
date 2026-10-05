@@ -52,6 +52,7 @@ FMMaterializer >> materializeProperty: aFM3Property [
 		                          fm3Property: aFM3Property
 		                          class: owner.
 	accessorTransformation createSetterAccessor.
+	accessorTransformation createGetterAccessor.
 	accessorTransformation performChanges
 ]
 

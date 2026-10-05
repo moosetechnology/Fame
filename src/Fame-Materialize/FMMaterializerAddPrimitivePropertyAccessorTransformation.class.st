@@ -22,15 +22,17 @@ FMMaterializerAddPrimitivePropertyAccessorTransformation class >> fm3Property: a
 { #category : 'private' }
 FMMaterializerAddPrimitivePropertyAccessorTransformation >> defineGetterMethod [
 
-	self halt.
 	getterMethod := self
 		                safeMethodNameFor: self definingClass
 		                basedOn: variableName asString.
 	self generateChangesFor: (RBAddMethodTransformation
 			 model: self model
-			 sourceCode: ('<1s><r><r><t>^ <2s>'
+			 sourceCode:
+				 ('<1s><r><r><t>%<FMProperty: #<1s> type: #<3s>><r><t>%<generated><r><t>%<FMComment: <4p>><r><t>^ <2s>'
 					  expandMacrosWith: getterMethod
-					  with: variableName)
+					  with: variableName
+					  with: fm3Property type name
+					  with: (fm3Property comment ifNil: [ '' ]))
 			 in: self definingClass
 			 withProtocol: 'accessing').
 
