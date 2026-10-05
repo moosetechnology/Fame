@@ -25,9 +25,9 @@ FMMaterializer >> materializeClass: aFM3Class [
 		              self materializeClass: aFM3Class superclass ].
 	classBuilder := superClass << aFM3Class name package:
 		                aFM3Class package name.
-	classBuilder
-		slots: (aFM3Class primitiveProperties collect: [ :primitiveProperty |
-	primitiveProperty name ]).
+	classBuilder slots:
+		(aFM3Class primitiveProperties collect: [ :primitiveProperty |
+			 primitiveProperty name => FMProperty ]).
 	^ classBuilder install
 ]
 

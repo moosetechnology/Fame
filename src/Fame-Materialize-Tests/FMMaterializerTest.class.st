@@ -45,7 +45,10 @@ FMMaterializerTest >> testMaterializeClassProperty [
 	materializer materializeClass: class.
 	self
 		assert: (Smalltalk globals at: class name) slots anyOne name
-		equals: FMMaterializerTestResource current propertyA name
+		equals: FMMaterializerTestResource current propertyA name.
+	self
+		assert: (Smalltalk globals at: class name) slots anyOne class
+		equals: FMProperty
 ]
 
 { #category : 'tests' }
