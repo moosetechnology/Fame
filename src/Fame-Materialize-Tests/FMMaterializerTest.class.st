@@ -35,6 +35,20 @@ FMMaterializerTest >> testMaterializeClass [
 ]
 
 { #category : 'tests' }
+FMMaterializerTest >> testMaterializeClassProperty [
+
+	| class |
+	class := FMMaterializerTestResource current clazz.
+	class package:
+		FMMaterializerTestResource current metamodel packages anyOne.
+
+	materializer materializeClass: class.
+	self
+		assert: (Smalltalk globals at: class name) slots anyOne name
+		equals: FMMaterializerTestResource current propertyA name
+]
+
+{ #category : 'tests' }
 FMMaterializerTest >> testMaterializeClassWithSuperClassReverseOrder [
 
 	| class superclass |

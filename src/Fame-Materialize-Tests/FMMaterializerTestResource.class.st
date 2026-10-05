@@ -8,7 +8,8 @@ Class {
 		'metamodel',
 		'trait',
 		'class',
-		'superclass'
+		'superclass',
+		'propertyA'
 	],
 	#category : 'Fame-Materialize-Tests',
 	#package : 'Fame-Materialize-Tests'
@@ -27,6 +28,12 @@ FMMaterializerTestResource >> metamodel [
 ]
 
 { #category : 'running' }
+FMMaterializerTestResource >> propertyA [
+
+	^ propertyA
+]
+
+{ #category : 'running' }
 FMMaterializerTestResource >> setUp [
 
 	super setUp.
@@ -38,6 +45,9 @@ FMMaterializerTestResource >> setUp [
 	metamodel add: class.
 	superclass := FM3Class named: 'ASuperClass'.
 	metamodel add: superclass.
+	propertyA := (FM3Property named: 'aProperty') type:
+		             FM3String instance.
+	class properties: { propertyA }
 ]
 
 { #category : 'accessing' }

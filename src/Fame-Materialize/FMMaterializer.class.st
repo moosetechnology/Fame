@@ -21,9 +21,13 @@ FMMaterializer >> materializeClass: aFM3Class [
 	aFM3Class package ifNil: [ FMMaterializerNoPackageError signal ].
 	superClass := aFM3Class superclass isRoot
 		              ifTrue: [ Object ]
-		              ifFalse: [ self materializeClass: aFM3Class superclass ].
+		              ifFalse: [
+		              self materializeClass: aFM3Class superclass ].
 	classBuilder := superClass << aFM3Class name package:
 		                aFM3Class package name.
+	classBuilder
+		slots: (aFM3Class primitiveProperties collect: [ :primitiveProperty |
+	primitiveProperty name ]).
 	^ classBuilder install
 ]
 
