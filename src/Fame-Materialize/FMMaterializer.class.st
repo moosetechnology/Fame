@@ -48,8 +48,8 @@ FMMaterializer >> materializeProperty: aFM3Property [
 
 	| owner accessorTransformation |
 	owner := aFM3Property mmClass implementingClass.
-	accessorTransformation := RBAddVariableAccessorTransformation
-		                          instanceVariable: aFM3Property name
+	accessorTransformation := FMMaterializerAddPrimitivePropertyAccessorTransformation
+		                          fm3Property: aFM3Property
 		                          class: owner.
 	accessorTransformation createSetterAccessor.
 	accessorTransformation performChanges
