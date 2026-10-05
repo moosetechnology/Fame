@@ -35,6 +35,20 @@ FMMaterializerTest >> testMaterializeClass [
 ]
 
 { #category : 'tests' }
+FMMaterializerTest >> testMaterializeClassPrimitivePropertySetter [
+
+	| class |
+	class := FMMaterializerTestResource current clazz.
+	class package:
+		FMMaterializerTestResource current metamodel packages anyOne.
+
+	materializer materializeClass: class.
+	self assert: ((Smalltalk globals at: class name)
+		 >> FMMaterializerTestResource current propertyA name asMutator)
+			isNotNil
+]
+
+{ #category : 'tests' }
 FMMaterializerTest >> testMaterializeClassProperty [
 
 	| class |

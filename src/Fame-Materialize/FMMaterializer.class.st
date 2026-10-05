@@ -17,7 +17,7 @@ FMMaterializer >> materialize: aFMMetaModel [
 { #category : 'as yet unclassified' }
 FMMaterializer >> materializeClass: aFM3Class [
 
-	| classBuilder superClass |
+	| classBuilder superClass implementedClass |
 	aFM3Class package ifNil: [ FMMaterializerNoPackageError signal ].
 	superClass := aFM3Class superclass isRoot
 		              ifTrue: [ Object ]
@@ -28,13 +28,31 @@ FMMaterializer >> materializeClass: aFM3Class [
 	classBuilder slots:
 		(aFM3Class primitiveProperties collect: [ :primitiveProperty |
 			 primitiveProperty name => FMProperty ]).
-	^ classBuilder install
+	implementedClass := classBuilder install.
+	aFM3Class implementingClass: implementedClass.
+
+	aFM3Class primitiveProperties do: [ :primitiveProperty |
+		self materializeProperty: primitiveProperty ].
+
+	^ implementedClass
 ]
 
 { #category : 'as yet unclassified' }
 FMMaterializer >> materializePackage: aFM3Package [
 
 	self packageOrganizer ensurePackage: aFM3Package name
+]
+
+{ #category : 'as yet unclassified' }
+FMMaterializer >> materializeProperty: aFM3Property [
+
+	| owner accessorTransformation |
+	owner := aFM3Property mmClass implementingClass.
+	accessorTransformation := RBAddVariableAccessorTransformation
+		                          instanceVariable: aFM3Property name
+		                          class: owner.
+	accessorTransformation createSetterAccessor.
+	accessorTransformation performChanges
 ]
 
 { #category : 'as yet unclassified' }
