@@ -25,6 +25,12 @@ FMMaterializer >> materializeClass: aFM3Class [
 		              self materializeClass: aFM3Class superclass ].
 	classBuilder := superClass << aFM3Class name package:
 		                aFM3Class package name.
+
+	classBuilder traits: (aFM3Class traits
+			 collect: [ :trait | self materializeTrait: trait ]
+			 as: Array).
+
+
 	classBuilder slots:
 		((aFM3Class primitiveProperties collect: [ :primitiveProperty |
 				  primitiveProperty name => FMProperty ])
@@ -87,11 +93,13 @@ FMMaterializer >> materializePrimitiveProperty: aFM3Property [
 { #category : 'as yet unclassified' }
 FMMaterializer >> materializeTrait: aFM3Trait [
 
-	| traitBuilder |
+	| traitBuilder implementingTrait |
 	aFM3Trait package ifNil: [ FMMaterializerNoPackageError signal ].
 
 	traitBuilder := (Trait << aFM3Trait name)
 		                tag: 'Traits';
 		                package: aFM3Trait package name.
-	traitBuilder install
+	implementingTrait := traitBuilder install.
+	aFM3Trait implementingClass: implementingTrait.
+	^ implementingTrait
 ]

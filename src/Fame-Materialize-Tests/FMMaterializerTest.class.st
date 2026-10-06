@@ -151,6 +151,20 @@ FMMaterializerTest >> testMaterializeClassProperty [
 ]
 
 { #category : 'tests' }
+FMMaterializerTest >> testMaterializeClassUseTrait [
+
+	| class |
+	class := FMMaterializerTestResource current clazz.
+	class package:
+		FMMaterializerTestResource current metamodel packages anyOne.
+	
+	materializer materializeClass: class.
+	self
+		assert: (Smalltalk globals at: class name) traits anyOne name
+		equals: FMMaterializerTestResource current trait name
+]
+
+{ #category : 'tests' }
 FMMaterializerTest >> testMaterializeClassWithSuperClassReverseOrder [
 
 	| class superclass |
@@ -220,7 +234,7 @@ FMMaterializerTest >> testMaterializeTrait [
 
 { #category : 'tests' }
 FMMaterializerTest >> testMaterializeTraitWithoutPackage [
-
+	FMMaterializerTestResource current metamodel traits anyOne package: nil.
 	self
 		assertBlock: [
 				materializer materializeTrait:
