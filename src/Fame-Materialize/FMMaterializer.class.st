@@ -26,15 +26,36 @@ FMMaterializer >> materializeClass: aFM3Class [
 	classBuilder := superClass << aFM3Class name package:
 		                aFM3Class package name.
 	classBuilder slots:
-		(aFM3Class primitiveProperties collect: [ :primitiveProperty |
-			 primitiveProperty name => FMProperty ]).
+		((aFM3Class primitiveProperties collect: [ :primitiveProperty |
+				  primitiveProperty name => FMProperty ])
+			 addAll:
+				 (aFM3Class complexProperties collect: [ :complexProperty |
+							  complexProperty name => FMMany
+								  type: '#' , complexProperty type name
+								  opposite:  '#' , complexProperty opposite name ]);
+			 yourself).
 	implementedClass := classBuilder install.
 	aFM3Class implementingClass: implementedClass.
 
 	aFM3Class primitiveProperties do: [ :primitiveProperty |
-		self materializeProperty: primitiveProperty ].
+		self materializePrimitiveProperty: primitiveProperty ].
+	aFM3Class complexProperties do: [ :complexProperty |
+		self materializeComplexProperty: complexProperty ].
 
 	^ implementedClass
+]
+
+{ #category : 'as yet unclassified' }
+FMMaterializer >> materializeComplexProperty: aFM3Property [
+
+	| owner accessorTransformation |
+	owner := aFM3Property mmClass implementingClass.
+	accessorTransformation := FMMaterializerAddComplexPropertyAccessorTransformation
+		                          fm3Property: aFM3Property
+		                          class: owner.
+	"accessorTransformation createSetterAccessor."
+	accessorTransformation createGetterAccessor.
+	accessorTransformation performChanges
 ]
 
 { #category : 'as yet unclassified' }
@@ -44,7 +65,7 @@ FMMaterializer >> materializePackage: aFM3Package [
 ]
 
 { #category : 'as yet unclassified' }
-FMMaterializer >> materializeProperty: aFM3Property [
+FMMaterializer >> materializePrimitiveProperty: aFM3Property [
 
 	| owner accessorTransformation |
 	owner := aFM3Property mmClass implementingClass.

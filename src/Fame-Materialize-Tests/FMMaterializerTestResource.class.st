@@ -9,11 +9,20 @@ Class {
 		'trait',
 		'class',
 		'superclass',
-		'propertyA'
+		'propertyA',
+		'anotherClass',
+		'relationClassToAnotherClass',
+		'relationAnotherClassToClass'
 	],
 	#category : 'Fame-Materialize-Tests',
 	#package : 'Fame-Materialize-Tests'
 }
+
+{ #category : 'accessing' }
+FMMaterializerTestResource >> anotherClass [
+
+	^ anotherClass
+]
 
 { #category : 'accessing' }
 FMMaterializerTestResource >> clazz [
@@ -33,6 +42,30 @@ FMMaterializerTestResource >> propertyA [
 	^ propertyA
 ]
 
+{ #category : 'accessing' }
+FMMaterializerTestResource >> relationAnotherClassToClass [
+
+	^ relationAnotherClassToClass
+]
+
+{ #category : 'accessing' }
+FMMaterializerTestResource >> relationAnotherClassToClass: anObject [
+
+	relationAnotherClassToClass := anObject
+]
+
+{ #category : 'accessing' }
+FMMaterializerTestResource >> relationClassToAnotherClass [
+
+	^ relationClassToAnotherClass
+]
+
+{ #category : 'accessing' }
+FMMaterializerTestResource >> relationClassToAnotherClass: anObject [
+
+	relationClassToAnotherClass := anObject
+]
+
 { #category : 'running' }
 FMMaterializerTestResource >> setUp [
 
@@ -43,11 +76,25 @@ FMMaterializerTestResource >> setUp [
 	metamodel add: trait.
 	class := FM3Class named: 'AClass'.
 	metamodel add: class.
+	anotherClass := FM3Class named: 'AnotherClass'.
+	metamodel add: anotherClass.
 	superclass := FM3Class named: 'ASuperClass'.
 	metamodel add: superclass.
 	propertyA := (FM3Property named: 'aProperty') type:
 		             FM3String instance.
-	class properties: { propertyA }
+	relationClassToAnotherClass := (FM3Property named:
+		                                'relationClassToAnotherClass')
+		                               type: anotherClass.
+	relationClassToAnotherClass isMultivalued: true.
+	relationAnotherClassToClass := (FM3Property named:
+		                                'relationClassToAnotherClass')
+		                               type: class.
+	relationClassToAnotherClass opposite: relationAnotherClassToClass.
+	relationAnotherClassToClass opposite: relationClassToAnotherClass.
+	class properties: {
+			propertyA.
+			relationClassToAnotherClass }.
+	anotherClass properties: { relationAnotherClassToClass }
 ]
 
 { #category : 'accessing' }
@@ -60,7 +107,7 @@ FMMaterializerTestResource >> superclass [
 FMMaterializerTestResource >> tearDown [
 
 	[ 'Fame-Materialize-TestResource' asPackage removeFromSystem ]
-		on: NotFound
+		on: Error
 		do: [ ].
 	super tearDown
 ]

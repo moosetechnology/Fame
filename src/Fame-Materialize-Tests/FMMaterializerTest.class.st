@@ -35,6 +35,45 @@ FMMaterializerTest >> testMaterializeClass [
 ]
 
 { #category : 'tests' }
+FMMaterializerTest >> testMaterializeClassComplexPropertyGetter [
+
+	| class getter |
+	class := FMMaterializerTestResource current clazz.
+	class package:
+		FMMaterializerTestResource current metamodel packages anyOne.
+
+	materializer materializeClass: class.
+
+	getter := (Smalltalk globals at: class name)
+	          >> FMMaterializerTestResource current relationClassToAnotherClass name.
+
+	self assert: (getter hasPragmaNamed: 'generated').
+	self assert: (getter hasPragmaNamed: 'FMComment:').
+	"not hosted here?"
+	self deny: (getter hasPragmaNamed: 'FMProperty:type:')
+]
+
+{ #category : 'tests' }
+FMMaterializerTest >> testMaterializeClassComplexPropertySlot [
+
+	| class implementationClass slot |
+	class := FMMaterializerTestResource current clazz.
+	class package:
+		FMMaterializerTestResource current metamodel packages anyOne.
+
+	materializer materializeClass: class.
+
+	implementationClass := Smalltalk globals at: class name.
+
+	self assert:
+		(implementationClass slots anySatisfy: [ :existingSlot |
+			 existingSlot name = 'relationClassToAnotherClass' ]).
+	slot := implementationClass slots detect: [ :existingSlot |
+		        existingSlot name = 'relationClassToAnotherClass' ].
+	self assert: slot class equals: FMMany
+]
+
+{ #category : 'tests' }
 FMMaterializerTest >> testMaterializeClassPrimitivePropertyGetter [
 
 	| class getter |
