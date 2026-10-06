@@ -87,7 +87,7 @@ FMMaterializerTestResource >> setUp [
 		                               type: anotherClass.
 	relationClassToAnotherClass isMultivalued: true.
 	relationAnotherClassToClass := (FM3Property named:
-		                                'relationClassToAnotherClass')
+		                                'relationAnotherClassToClass')
 		                               type: class.
 	relationClassToAnotherClass opposite: relationAnotherClassToClass.
 	relationAnotherClassToClass opposite: relationClassToAnotherClass.

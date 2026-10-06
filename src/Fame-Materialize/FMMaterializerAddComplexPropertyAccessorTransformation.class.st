@@ -42,14 +42,22 @@ FMMaterializerAddComplexPropertyAccessorTransformation >> defineGetterMethod [
 { #category : 'private' }
 FMMaterializerAddComplexPropertyAccessorTransformation >> defineSetterMethod [
 
-	|  sourceCode |
-	sourceCode := '<1s> anObject<r><r><t><2s> := anObject'.
-	setterMethod := self safeMethodNameFor: self definingClass basedOn: variableName asString , ':'.
-	self generateChangesFor: (RBAddMethodTransformation 
-		model: self model
-		sourceCode: (sourceCode expandMacrosWith: setterMethod with: variableName)
-		in: self definingClass 
-		withProtocol: 'accessing').
+	| sourceCode |
+	sourceCode := fm3Property isMultivalued
+		              ifTrue: [
+		              '<1s> anObject<r><r><t><2s> value: anObject' ]
+		              ifFalse: [ '<1s> anObject<r><r><t><2s> := anObject' ].
+	setterMethod := self
+		                safeMethodNameFor: self definingClass
+		                basedOn: variableName asString , ':'.
+	self generateChangesFor: (RBAddMethodTransformation
+			 model: self model
+			 sourceCode: (sourceCode
+					  expandMacrosWith: setterMethod
+					  with: variableName
+					  with: fm3Property isMultivalued)
+			 in: self definingClass
+			 withProtocol: 'accessing').
 	^ setterMethod
 ]
 

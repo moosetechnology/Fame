@@ -30,11 +30,18 @@ FMMaterializer >> materializeClass: aFM3Class [
 				  primitiveProperty name => FMProperty ])
 			 addAll:
 				 (aFM3Class complexProperties collect: [ :complexProperty |
-							  complexProperty name => FMMany
-								  type: '#' , complexProperty type name
-								  opposite:  '#' , complexProperty opposite name ]);
+							  complexProperty isMultivalued
+								  ifTrue: [
+										  complexProperty name => FMMany
+											  type: complexProperty type name asSymbol
+											  opposite: complexProperty opposite name asSymbol ]
+								  ifFalse: [
+										  complexProperty name => FMOne
+											  type: complexProperty type name asSymbol
+											  opposite: complexProperty opposite name asSymbol ] ]);
 			 yourself).
 	implementedClass := classBuilder install.
+
 	aFM3Class implementingClass: implementedClass.
 
 	aFM3Class primitiveProperties do: [ :primitiveProperty |
@@ -53,7 +60,7 @@ FMMaterializer >> materializeComplexProperty: aFM3Property [
 	accessorTransformation := FMMaterializerAddComplexPropertyAccessorTransformation
 		                          fm3Property: aFM3Property
 		                          class: owner.
-	"accessorTransformation createSetterAccessor."
+	accessorTransformation createSetterAccessor.
 	accessorTransformation createGetterAccessor.
 	accessorTransformation performChanges
 ]
