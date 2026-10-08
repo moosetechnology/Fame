@@ -14,7 +14,8 @@ Class {
 		'relationClassToAnotherClass',
 		'relationAnotherClassToClass',
 		'package',
-		'propertyWithoutOpposite'
+		'propertyWithoutOpposite',
+		'superclassProperty'
 	],
 	#category : 'Fame-Materialize-Tests',
 	#package : 'Fame-Materialize-Tests'
@@ -88,6 +89,9 @@ FMMaterializerTestResource >> setUp [
 	anotherClass := FM3Class named: 'AnotherClass'.
 	metamodel add: anotherClass.
 	superclass := FM3Class named: 'ASuperClass'.
+	superclassProperty := (FM3Property named: 'superclassProperty')
+		                      type: FM3Number instance.
+	superclass properties: { superclassProperty }.
 	metamodel add: superclass.
 	trait users: {
 			class.
@@ -113,7 +117,9 @@ FMMaterializerTestResource >> setUp [
 	class properties: {
 			propertyA.
 			relationClassToAnotherClass.
-			propertyWithoutOpposite }
+			propertyWithoutOpposite }.
+	class superclass: superclass.
+	superclass package: package
 ]
 
 { #category : 'accessing' }

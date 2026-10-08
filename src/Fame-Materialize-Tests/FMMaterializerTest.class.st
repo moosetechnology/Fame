@@ -190,7 +190,6 @@ FMMaterializerTest >> testMaterializeClassWithSuperClassReverseOrder [
 	| class superclass |
 	class := FMMaterializerTestResource current clazz.
 	superclass := FMMaterializerTestResource current superclass.
-	class superclass: superclass.
 	class package:
 		FMMaterializerTestResource current metamodel packages anyOne.
 	superclass package:
@@ -209,7 +208,6 @@ FMMaterializerTest >> testMaterializeClassWithSuperClassSimpleOrder [
 	| class superclass |
 	class := FMMaterializerTestResource current clazz.
 	superclass := FMMaterializerTestResource current superclass.
-	class superclass: superclass.
 	class package:
 		FMMaterializerTestResource current metamodel packages anyOne.
 	superclass package:
@@ -239,6 +237,49 @@ FMMaterializerTest >> testMaterializePackage [
 		FMMaterializerTestResource current metamodel packages anyOne.
 	self packageOrganizer hasPackage:
 		FMMaterializerTestResource current metamodel packages anyOne name
+]
+
+{ #category : 'tests' }
+FMMaterializerTest >> testMaterializePropertyOfSuperClass [
+
+	| class implementationClass |
+	class := FMMaterializerTestResource current clazz.
+	class package:
+		FMMaterializerTestResource current metamodel packages anyOne.
+	FMMaterializerTestResource current superclass package:
+		FMMaterializerTestResource current metamodel packages anyOne.
+
+	materializer materializeClass:
+		FMMaterializerTestResource current superclass.
+	materializer materializeClass: class.
+
+	implementationClass := Smalltalk globals at:
+		                       FMMaterializerTestResource current superclass
+			                       name.
+	self assert: (implementationClass slots anySatisfy: [ :existingSlot |
+			 existingSlot name = 'superclassProperty' ])
+]
+
+{ #category : 'tests' }
+FMMaterializerTest >> testMaterializePropertyOfSuperClassReverseOrder [
+
+	| class implementationClass |
+	class := FMMaterializerTestResource current clazz.
+	class package:
+		FMMaterializerTestResource current metamodel packages anyOne.
+	FMMaterializerTestResource current superclass package:
+		FMMaterializerTestResource current metamodel packages anyOne.
+
+	materializer materializeClass: class.
+	materializer materializeClass:
+		FMMaterializerTestResource current superclass.
+
+	implementationClass := Smalltalk globals at:
+		                       FMMaterializerTestResource current superclass
+			                       name.
+	self assert:
+		(implementationClass slots anySatisfy: [ :existingSlot |
+			 existingSlot name = 'superclassProperty' ])
 ]
 
 { #category : 'tests' }

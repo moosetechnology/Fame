@@ -28,12 +28,16 @@ FMMaterializerIntegrationTest >> tearDown [
 
 { #category : 'running' }
 FMMaterializerIntegrationTest >> testFamixTest1Model [
-	
+
 	| metamodel |
 	metamodel := FamixTest1Model resetMetamodel.
-	metamodel elements do: [ :namedElement | namedElement name: 'FMMaterializer', namedElement name ].
+	metamodel packages do: [ :namedElement |
+		namedElement name: 'FMMaterializer' , namedElement name ].
 	packages := metamodel packages.
+	packages do: [ :package |
+			package classes do: [ :class |
+				class name:
+					(package name , class name copyReplaceAll: '-' with: '') ] ].
 	FMMaterializer new materialize: metamodel.
-	self halt. 
-	
+	self halt
 ]
