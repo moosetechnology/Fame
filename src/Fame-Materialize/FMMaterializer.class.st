@@ -36,15 +36,18 @@ FMMaterializer >> materializeClass: aFM3Class [
 				  primitiveProperty name => FMProperty ])
 			 addAll:
 				 (aFM3Class complexProperties collect: [ :complexProperty |
-							  complexProperty isMultivalued
-								  ifTrue: [
-										  complexProperty name => FMMany
+							  | slotClass |
+							  slotClass := complexProperty isMultivalued
+								               ifTrue: [ FMMany ]
+								               ifFalse: [ FMOne ].
+							  complexProperty opposite
+								  ifNotNil: [
+										  complexProperty name => slotClass
 											  type: complexProperty type name asSymbol
 											  opposite: complexProperty opposite name asSymbol ]
-								  ifFalse: [
-										  complexProperty name => FMOne
-											  type: complexProperty type name asSymbol
-											  opposite: complexProperty opposite name asSymbol ] ]);
+								  ifNil: [
+										  complexProperty name => slotClass inClass:
+												  complexProperty type name asSymbol ] ]);
 			 yourself).
 	implementedClass := classBuilder install.
 

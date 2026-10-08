@@ -13,7 +13,8 @@ Class {
 		'anotherClass',
 		'relationClassToAnotherClass',
 		'relationAnotherClassToClass',
-		'package'
+		'package',
+		'propertyWithoutOpposite'
 	],
 	#category : 'Fame-Materialize-Tests',
 	#package : 'Fame-Materialize-Tests'
@@ -41,6 +42,12 @@ FMMaterializerTestResource >> metamodel [
 FMMaterializerTestResource >> propertyA [
 
 	^ propertyA
+]
+
+{ #category : 'accessing' }
+FMMaterializerTestResource >> propertyWithoutOpposite [
+
+	^ propertyWithoutOpposite
 ]
 
 { #category : 'accessing' }
@@ -98,11 +105,15 @@ FMMaterializerTestResource >> setUp [
 		                               type: class.
 	relationClassToAnotherClass opposite: relationAnotherClassToClass.
 	relationAnotherClassToClass opposite: relationClassToAnotherClass.
+	anotherClass properties: { relationAnotherClassToClass }.
+	trait package: package.
+	propertyWithoutOpposite := (FM3Property named:
+		                            'propertyWithoutOpposite') type: class.
+	propertyWithoutOpposite isMultivalued: true.
 	class properties: {
 			propertyA.
-			relationClassToAnotherClass }.
-	anotherClass properties: { relationAnotherClassToClass }.
-	trait package: package
+			relationClassToAnotherClass.
+			propertyWithoutOpposite }
 ]
 
 { #category : 'accessing' }

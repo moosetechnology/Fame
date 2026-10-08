@@ -102,6 +102,26 @@ FMMaterializerTest >> testMaterializeClassComplexPropertySlot [
 ]
 
 { #category : 'tests' }
+FMMaterializerTest >> testMaterializeClassComplexPropertyWithoutOpposite [
+
+	| class implementationClass slot |
+	class := FMMaterializerTestResource current clazz.
+	class package:
+		FMMaterializerTestResource current metamodel packages anyOne.
+
+	materializer materializeClass: class.
+
+	implementationClass := Smalltalk globals at: class name.
+
+	self assert:
+		(implementationClass slots anySatisfy: [ :existingSlot |
+			 existingSlot name = 'propertyWithoutOpposite' ]).
+	slot := implementationClass slots detect: [ :existingSlot |
+		        existingSlot name = 'propertyWithoutOpposite' ].
+	self assert: slot class equals: FMMany
+]
+
+{ #category : 'tests' }
 FMMaterializerTest >> testMaterializeClassPrimitivePropertyGetter [
 
 	| class getter |
