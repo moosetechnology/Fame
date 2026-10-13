@@ -85,9 +85,11 @@ FMMaterializerTestResource >> setUp [
 	trait := FM3Trait named: 'TATrait'.
 	metamodel add: trait.
 	class := FM3Class named: 'AClass'.
+	class package: package.
 	metamodel add: class.
 	anotherClass := FM3Class named: 'AnotherClass'.
 	metamodel add: anotherClass.
+	anotherClass package: package.
 	superclass := FM3Class named: 'ASuperClass'.
 	superclassProperty := (FM3Property named: 'superclassProperty')
 		                      type: FM3Number instance.
@@ -95,7 +97,7 @@ FMMaterializerTestResource >> setUp [
 	superclass properties: {
 			superclassProperty.
 			"duplicatedProperty are properties with the same name on two different FM3Type in the same type hierarchy"
-			((FM3Property named: 'duplicatedProperty') type: FM3Object instance) }.
+			((FM3Property named: 'duplicatedProperty') type: FM3Number instance) }.
 	metamodel add: superclass.
 	trait users: {
 			class.
@@ -124,7 +126,7 @@ FMMaterializerTestResource >> setUp [
 			propertyWithoutOpposite.
 
 			"duplicatedProperty are properties with the same name on two different FM3Type in the same type hierarchy"
-			((FM3Property named: 'duplicatedProperty') type: FM3Object instance) }.
+			((FM3Property named: 'duplicatedProperty') type: FM3Number instance) }.
 	class superclass: superclass.
 	superclass package: package
 ]

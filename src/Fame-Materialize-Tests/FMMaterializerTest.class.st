@@ -24,12 +24,20 @@ FMMaterializerTest >> setUp [
 ]
 
 { #category : 'tests' }
+FMMaterializerTest >> testMaterialize [
+
+	self
+		shouldnt: [
+			materializer materialize:
+				FMMaterializerTestResource current metamodel ]
+		raise: Error
+]
+
+{ #category : 'tests' }
 FMMaterializerTest >> testMaterializeClass [
 
 	| class |
 	class := FMMaterializerTestResource current clazz.
-	class package:
-		FMMaterializerTestResource current metamodel packages anyOne.
 	materializer materializeClass: class.
 	self assert: (Smalltalk globals includesKey: class name)
 ]
@@ -39,8 +47,6 @@ FMMaterializerTest >> testMaterializeClassComplexPropertyGetter [
 
 	| class getter |
 	class := FMMaterializerTestResource current clazz.
-	class package:
-		FMMaterializerTestResource current metamodel packages anyOne.
 
 	materializer materializeClass: class.
 
@@ -60,11 +66,7 @@ FMMaterializerTest >> testMaterializeClassComplexPropertyOneSlot [
 
 	| class implementationClass slot |
 	class := FMMaterializerTestResource current clazz.
-	class package:
-		FMMaterializerTestResource current metamodel packages anyOne.
-	FMMaterializerTestResource current anotherClass package:
-		FMMaterializerTestResource current metamodel packages anyOne.
-
+	
 	materializer materializeClass: class.
 	materializer materializeClass:
 		FMMaterializerTestResource current anotherClass.
@@ -86,8 +88,6 @@ FMMaterializerTest >> testMaterializeClassComplexPropertySlot [
 
 	| class implementationClass slot |
 	class := FMMaterializerTestResource current clazz.
-	class package:
-		FMMaterializerTestResource current metamodel packages anyOne.
 
 	materializer materializeClass: class.
 
@@ -106,8 +106,6 @@ FMMaterializerTest >> testMaterializeClassComplexPropertyWithoutOpposite [
 
 	| class implementationClass slot |
 	class := FMMaterializerTestResource current clazz.
-	class package:
-		FMMaterializerTestResource current metamodel packages anyOne.
 
 	materializer materializeClass: class.
 
@@ -126,9 +124,7 @@ FMMaterializerTest >> testMaterializeClassPrimitivePropertyGetter [
 
 	| class getter |
 	class := FMMaterializerTestResource current clazz.
-	class package:
-		FMMaterializerTestResource current metamodel packages anyOne.
-
+	
 	materializer materializeClass: class.
 
 	getter := (Smalltalk globals at: class name)
@@ -144,9 +140,7 @@ FMMaterializerTest >> testMaterializeClassPrimitivePropertySetter [
 
 	| class |
 	class := FMMaterializerTestResource current clazz.
-	class package:
-		FMMaterializerTestResource current metamodel packages anyOne.
-
+	
 	materializer materializeClass: class.
 	self assert: ((Smalltalk globals at: class name)
 		 >> FMMaterializerTestResource current propertyA name asMutator)
@@ -158,9 +152,7 @@ FMMaterializerTest >> testMaterializeClassProperty [
 
 	| class |
 	class := FMMaterializerTestResource current clazz.
-	class package:
-		FMMaterializerTestResource current metamodel packages anyOne.
-
+	
 	materializer materializeClass: class.
 	self
 		assert: (Smalltalk globals at: class name) slots anyOne name
@@ -175,8 +167,6 @@ FMMaterializerTest >> testMaterializeClassUseTrait [
 
 	| class |
 	class := FMMaterializerTestResource current clazz.
-	class package:
-		FMMaterializerTestResource current metamodel packages anyOne.
 	
 	materializer materializeClass: class.
 	self
@@ -190,10 +180,6 @@ FMMaterializerTest >> testMaterializeClassWithSuperClassReverseOrder [
 	| class superclass |
 	class := FMMaterializerTestResource current clazz.
 	superclass := FMMaterializerTestResource current superclass.
-	class package:
-		FMMaterializerTestResource current metamodel packages anyOne.
-	superclass package:
-		FMMaterializerTestResource current metamodel packages anyOne.
 	materializer materializeClass: class.
 	materializer materializeClass: superclass.
 	self assert: (Smalltalk globals includesKey: class name).
@@ -265,10 +251,6 @@ FMMaterializerTest >> testMaterializePropertyOfSuperClassReverseOrder [
 
 	| class implementationClass |
 	class := FMMaterializerTestResource current clazz.
-	class package:
-		FMMaterializerTestResource current metamodel packages anyOne.
-	FMMaterializerTestResource current superclass package:
-		FMMaterializerTestResource current metamodel packages anyOne.
 
 	materializer materializeClass: class.
 	materializer materializeClass:
@@ -307,18 +289,15 @@ FMMaterializerTest >> testMaterializeTraitWithoutPackage [
 FMMaterializerTest >> testMaterializeTwicePropertyOnSuperclassAndClass [
 
 	| class implementationClass |
+	
 	class := FMMaterializerTestResource current clazz.
-	class package:
-		FMMaterializerTestResource current metamodel packages anyOne.
-	FMMaterializerTestResource current superclass package:
-		FMMaterializerTestResource current metamodel packages anyOne.
 	materializer materializeClass:
 		FMMaterializerTestResource current superclass.
 	materializer materializeClass: class.
-
 	implementationClass := Smalltalk globals at:
 		                       FMMaterializerTestResource current superclass
 			                       name.
+	
 	self assert: (implementationClass slots anySatisfy: [ :existingSlot |
 			 existingSlot name = 'duplicatedProperty' ])
 ]

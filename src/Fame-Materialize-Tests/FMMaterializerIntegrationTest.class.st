@@ -39,5 +39,4 @@ FMMaterializerIntegrationTest >> testFamixTest1Model [
 				class name:
 					(package name , class name copyReplaceAll: '-' with: '') ] ].
 	FMMaterializer new materialize: metamodel.
-	self halt
 ]
