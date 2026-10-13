@@ -318,8 +318,18 @@ FMMaterializerTest >> testMaterializeTwicePropertyOnSuperclassAndClassReverseOrd
 	implementationClass := Smalltalk globals at:
 		                       FMMaterializerTestResource current superclass
 			                       name.
-	self assert: (implementationClass slots anySatisfy: [ :existingSlot |
+	self assert:
+		(implementationClass slots anySatisfy: [ :existingSlot |
 			 existingSlot name = 'duplicatedProperty' ])
+]
+
+{ #category : 'tests' }
+FMMaterializerTest >> testMaterializeTwicePropertyOnSuperclassAndClassWithoutTraits [
+
+	| class |
+	"Pharo uses a tool to help instaling classes with trait that can create unpredictable code generation"
+	class := FMMaterializerTestResource current clazz.
+	self assert: ((materializer computeSlotsForType: class) noneSatisfy: [ :s | s name = 'duplicatedProperty' ])
 ]
 
 { #category : 'tests' }

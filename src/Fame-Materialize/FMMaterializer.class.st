@@ -5,6 +5,32 @@ Class {
 	#package : 'Fame-Materialize'
 }
 
+{ #category : 'as yet unclassified' }
+FMMaterializer >> computeSlotsForType: aFM3Class [
+
+	| slots filteredSlots |
+	slots := aFM3Class primitiveProperties collect: [ :primitiveProperty |
+		         primitiveProperty name => FMProperty ].
+	slots addAll:
+		(aFM3Class complexProperties collect: [ :complexProperty |
+				 | slotClass |
+				 slotClass := complexProperty isMultivalued
+					              ifTrue: [ FMMany ]
+					              ifFalse: [ FMOne ].
+				 complexProperty opposite
+					 ifNotNil: [
+							 complexProperty name => slotClass
+								 type: complexProperty type name asSymbol
+								 opposite: complexProperty opposite name asSymbol ]
+					 ifNil: [
+							 complexProperty name => slotClass inClass:
+								 complexProperty type name asSymbol ] ]).
+	filteredSlots := slots reject: [ :slot |
+			aFM3Class superclass allProperties anySatisfy: [ :superProperty |
+				superProperty name = slot name ] ].
+	^ filteredSlots
+]
+
 { #category : 'private' }
 FMMaterializer >> materialize: aFMMetaModel [
 
@@ -17,7 +43,7 @@ FMMaterializer >> materialize: aFMMetaModel [
 { #category : 'as yet unclassified' }
 FMMaterializer >> materializeClass: aFM3Class [
 
-	| classBuilder superClass implementedClass |
+	| classBuilder superClass implementedClass slots |
 	aFM3Class package ifNil: [ FMMaterializerNoPackageError signal ].
 	superClass := aFM3Class superclass isRoot
 		              ifTrue: [ Object ]
@@ -25,39 +51,17 @@ FMMaterializer >> materializeClass: aFM3Class [
 		              self materializeClass: aFM3Class superclass ].
 	classBuilder := superClass << aFM3Class name package:
 		                aFM3Class package name.
-
 	classBuilder traits: (aFM3Class traits
 			 collect: [ :trait | self materializeTrait: trait ]
 			 as: Array).
-
-
-	classBuilder slots:
-		((aFM3Class primitiveProperties collect: [ :primitiveProperty |
-				  primitiveProperty name => FMProperty ])
-			 addAll:
-				 (aFM3Class complexProperties collect: [ :complexProperty |
-							  | slotClass |
-							  slotClass := complexProperty isMultivalued
-								               ifTrue: [ FMMany ]
-								               ifFalse: [ FMOne ].
-							  complexProperty opposite
-								  ifNotNil: [
-										  complexProperty name => slotClass
-											  type: complexProperty type name asSymbol
-											  opposite: complexProperty opposite name asSymbol ]
-								  ifNil: [
-										  complexProperty name => slotClass inClass:
-												  complexProperty type name asSymbol ] ]);
-			 yourself).
+	slots := self computeSlotsForType: aFM3Class.
+	classBuilder slots: slots.
 	implementedClass := classBuilder install.
-
 	aFM3Class implementingClass: implementedClass.
-
 	aFM3Class primitiveProperties do: [ :primitiveProperty |
 		self materializePrimitiveProperty: primitiveProperty ].
 	aFM3Class complexProperties do: [ :complexProperty |
 		self materializeComplexProperty: complexProperty ].
-
 	^ implementedClass
 ]
 
