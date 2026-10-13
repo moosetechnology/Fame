@@ -38,5 +38,7 @@ FMMaterializerIntegrationTest >> testFamixTest1Model [
 			package classes do: [ :class |
 				class name:
 					(package name , class name copyReplaceAll: '-' with: '') ] ].
-	FMMaterializer new materialize: metamodel.
+	self
+		shouldnt: [ FMMaterializer new materialize: metamodel ]
+		raise: Error
 ]
