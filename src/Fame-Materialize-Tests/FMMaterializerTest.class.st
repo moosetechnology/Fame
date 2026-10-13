@@ -62,6 +62,26 @@ FMMaterializerTest >> testMaterializeClassComplexPropertyGetter [
 ]
 
 { #category : 'tests' }
+FMMaterializerTest >> testMaterializeClassComplexPropertyGetterHasComment [
+
+	| class getter |
+	class := FMMaterializerTestResource current clazz.
+
+	materializer materializeClass: class.
+
+	getter := (Smalltalk globals at: class name)
+	          >>
+	          FMMaterializerTestResource current
+		          relationClassToAnotherClass name.
+
+	self
+		assert: (getter pragmaAt: #FMComment:) arguments first
+		equals:
+		FMMaterializerTestResource current
+			relationClassToAnotherClassComment
+]
+
+{ #category : 'tests' }
 FMMaterializerTest >> testMaterializeClassComplexPropertyOneSlot [
 
 	| class implementationClass slot |
@@ -133,6 +153,22 @@ FMMaterializerTest >> testMaterializeClassPrimitivePropertyGetter [
 	self assert: (getter hasPragmaNamed: 'generated').
 	self assert: (getter hasPragmaNamed: 'FMComment:').
 	self assert: (getter hasPragmaNamed: 'FMProperty:type:')
+]
+
+{ #category : 'tests' }
+FMMaterializerTest >> testMaterializeClassPrimitivePropertyGetterHasComment [
+
+	| class getter |
+	class := FMMaterializerTestResource current clazz.
+
+	materializer materializeClass: class.
+
+	getter := (Smalltalk globals at: class name)
+	          >> FMMaterializerTestResource current propertyA name.
+
+	self
+		assert: (getter pragmaAt: #FMComment:) arguments first
+		equals: FMMaterializerTestResource current propertyAComment
 ]
 
 { #category : 'tests' }

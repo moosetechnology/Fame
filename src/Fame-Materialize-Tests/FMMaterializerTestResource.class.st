@@ -15,7 +15,9 @@ Class {
 		'relationAnotherClassToClass',
 		'package',
 		'propertyWithoutOpposite',
-		'superclassProperty'
+		'superclassProperty',
+		'remotePackage',
+		'remoteClass'
 	],
 	#category : 'Fame-Materialize-Tests',
 	#package : 'Fame-Materialize-Tests'
@@ -34,6 +36,15 @@ FMMaterializerTestResource >> clazz [
 ]
 
 { #category : 'running' }
+FMMaterializerTestResource >> defineRemoteClass [
+
+	remotePackage := FM3Package named:
+		                 'Fame-Materialize-TestResource-Remote'.
+	metamodel add: remotePackage.
+	remoteClass := FM3Class named: 'RemoteClass'.
+]
+
+{ #category : 'running' }
 FMMaterializerTestResource >> metamodel [
 
 	^ metamodel
@@ -43,6 +54,12 @@ FMMaterializerTestResource >> metamodel [
 FMMaterializerTestResource >> propertyA [
 
 	^ propertyA
+]
+
+{ #category : 'as yet unclassified' }
+FMMaterializerTestResource >> propertyAComment [
+
+	^ 'This is a super property description'
 ]
 
 { #category : 'accessing' }
@@ -75,6 +92,18 @@ FMMaterializerTestResource >> relationClassToAnotherClass: anObject [
 	relationClassToAnotherClass := anObject
 ]
 
+{ #category : 'as yet unclassified' }
+FMMaterializerTestResource >> relationClassToAnotherClassComment [
+
+	^ 'A relation comment'
+]
+
+{ #category : 'running' }
+FMMaterializerTestResource >> remotePackage [
+
+	^ remotePackage
+]
+
 { #category : 'running' }
 FMMaterializerTestResource >> setUp [
 
@@ -93,7 +122,6 @@ FMMaterializerTestResource >> setUp [
 	superclass := FM3Class named: 'ASuperClass'.
 	superclassProperty := (FM3Property named: 'superclassProperty')
 		                      type: FM3Number instance.
-
 	superclass properties: {
 			superclassProperty.
 			"duplicatedProperty are properties with the same name on two different FM3Type in the same type hierarchy"
@@ -106,6 +134,7 @@ FMMaterializerTestResource >> setUp [
 	anotherClass traits: { trait }.
 	propertyA := (FM3Property named: 'aProperty') type:
 		             FM3String instance.
+	propertyA comment: self propertyAComment.
 	relationClassToAnotherClass := (FM3Property named:
 		                                'relationClassToAnotherClass')
 		                               type: anotherClass.
@@ -115,6 +144,7 @@ FMMaterializerTestResource >> setUp [
 		                               type: class.
 	relationClassToAnotherClass opposite: relationAnotherClassToClass.
 	relationAnotherClassToClass opposite: relationClassToAnotherClass.
+	relationClassToAnotherClass comment: self relationClassToAnotherClassComment.
 	anotherClass properties: { relationAnotherClassToClass }.
 	trait package: package.
 	propertyWithoutOpposite := (FM3Property named:
@@ -128,7 +158,9 @@ FMMaterializerTestResource >> setUp [
 			"duplicatedProperty are properties with the same name on two different FM3Type in the same type hierarchy"
 			((FM3Property named: 'duplicatedProperty') type: FM3Number instance) }.
 	class superclass: superclass.
-	superclass package: package
+	superclass package: package.
+	
+	self defineRemoteClass.
 ]
 
 { #category : 'accessing' }
