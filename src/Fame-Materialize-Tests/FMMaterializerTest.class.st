@@ -304,6 +304,46 @@ FMMaterializerTest >> testMaterializeTraitWithoutPackage [
 ]
 
 { #category : 'tests' }
+FMMaterializerTest >> testMaterializeTwicePropertyOnSuperclassAndClass [
+
+	| class implementationClass |
+	class := FMMaterializerTestResource current clazz.
+	class package:
+		FMMaterializerTestResource current metamodel packages anyOne.
+	FMMaterializerTestResource current superclass package:
+		FMMaterializerTestResource current metamodel packages anyOne.
+	materializer materializeClass:
+		FMMaterializerTestResource current superclass.
+	materializer materializeClass: class.
+
+	implementationClass := Smalltalk globals at:
+		                       FMMaterializerTestResource current superclass
+			                       name.
+	self assert: (implementationClass slots anySatisfy: [ :existingSlot |
+			 existingSlot name = 'duplicatedProperty' ])
+]
+
+{ #category : 'tests' }
+FMMaterializerTest >> testMaterializeTwicePropertyOnSuperclassAndClassReverseOrder [
+
+	| class implementationClass |
+	class := FMMaterializerTestResource current clazz.
+	class package:
+		FMMaterializerTestResource current metamodel packages anyOne.
+	FMMaterializerTestResource current superclass package:
+		FMMaterializerTestResource current metamodel packages anyOne.
+	materializer materializeClass: class.
+	materializer materializeClass:
+		FMMaterializerTestResource current superclass.
+
+	implementationClass := Smalltalk globals at:
+		                       FMMaterializerTestResource current superclass
+			                       name.
+	self assert: (implementationClass slots anySatisfy: [ :existingSlot |
+			 existingSlot name = 'duplicatedProperty' ])
+]
+
+{ #category : 'tests' }
 FMMaterializerTest >> testMaterializeWithSuperClass [
 
 	| class |
