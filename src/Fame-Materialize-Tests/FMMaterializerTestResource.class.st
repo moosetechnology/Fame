@@ -175,6 +175,9 @@ FMMaterializerTestResource >> tearDown [
 	[ 'Fame-Materialize-TestResource' asPackage removeFromSystem ]
 		on: Error
 		do: [ ].
+	[ 'Fame-Materialize-TestResource-Remote' asPackage removeFromSystem ]
+		on: Error
+		do: [ ].
 	super tearDown
 ]
 
