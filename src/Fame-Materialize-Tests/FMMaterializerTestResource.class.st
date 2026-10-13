@@ -17,7 +17,10 @@ Class {
 		'propertyWithoutOpposite',
 		'superclassProperty',
 		'remotePackage',
-		'remoteClass'
+		'remoteClass',
+		'relationRemoteClassToClass',
+		'relationClassToRemoteClass',
+		'classRemoteProperty'
 	],
 	#category : 'Fame-Materialize-Tests',
 	#package : 'Fame-Materialize-Tests'
@@ -42,6 +45,25 @@ FMMaterializerTestResource >> defineRemoteClass [
 		                 'Fame-Materialize-TestResource-Remote'.
 	metamodel add: remotePackage.
 	remoteClass := FM3Class named: 'RemoteClass'.
+
+	relationRemoteClassToClass := (FM3Property named:
+		                               'remoteClassToClass') type: class.
+	relationClassToRemoteClass := (FM3Property named:
+		                               'classToRemoteClass') type:
+		                              remoteClass.
+	relationClassToRemoteClass package: remotePackage.
+	relationRemoteClassToClass opposite: relationClassToRemoteClass.
+	relationClassToRemoteClass opposite: relationRemoteClassToClass.
+
+	classRemoteProperty := (FM3Property named: self remoteNumberPropertyName)
+		                       type: FM3Number instance.
+	classRemoteProperty package: remotePackage.
+	class properties addAll: {
+			relationClassToRemoteClass.
+			classRemoteProperty }.
+	remoteClass properties: { relationRemoteClassToClass }.
+	metamodel add: remoteClass.
+	remoteClass package: remotePackage
 ]
 
 { #category : 'running' }
@@ -98,10 +120,22 @@ FMMaterializerTestResource >> relationClassToAnotherClassComment [
 	^ 'A relation comment'
 ]
 
+{ #category : 'as yet unclassified' }
+FMMaterializerTestResource >> remoteNumberPropertyName [
+
+	^ 'remoteNumberProperty'
+]
+
 { #category : 'running' }
 FMMaterializerTestResource >> remotePackage [
 
 	^ remotePackage
+]
+
+{ #category : 'as yet unclassified' }
+FMMaterializerTestResource >> remotePackageName [
+
+	^ 'Fame-Materialize-TestResource-Remote'
 ]
 
 { #category : 'running' }
@@ -175,7 +209,7 @@ FMMaterializerTestResource >> tearDown [
 	[ 'Fame-Materialize-TestResource' asPackage removeFromSystem ]
 		on: Error
 		do: [ ].
-	[ 'Fame-Materialize-TestResource-Remote' asPackage removeFromSystem ]
+	[ self remotePackageName asPackage removeFromSystem ]
 		on: Error
 		do: [ ].
 	super tearDown

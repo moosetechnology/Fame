@@ -184,6 +184,23 @@ FMMaterializerTest >> testMaterializeClassPrimitivePropertySetter [
 ]
 
 { #category : 'tests' }
+FMMaterializerTest >> testMaterializeClassPrimitiveRemotePropertyGetter [
+
+	| class getter |
+	class := FMMaterializerTestResource current clazz.
+
+	materializer materializeClass: class.
+
+	getter := (Smalltalk globals at: class name)
+	          >>
+	          FMMaterializerTestResource current remoteNumberPropertyName
+		          asSymbol.
+	self
+		assert: getter package name
+		equals: FMMaterializerTestResource current remotePackageName
+]
+
+{ #category : 'tests' }
 FMMaterializerTest >> testMaterializeClassProperty [
 
 	| class |
