@@ -264,7 +264,8 @@ FMMaterializerTest >> testMaterializeClassPrimitiveRemotePropertyGetter [
 	          FMMaterializerTestResource current remoteNumberPropertyName.
 	self
 		assert: getter package name
-		equals: FMMaterializerTestResource current remotePackageName
+		equals: FMMaterializerTestResource current remotePackageName.
+	self assert: (getter hasPragmaNamed: 'generated')
 ]
 
 { #category : 'tests' }
@@ -277,10 +278,12 @@ FMMaterializerTest >> testMaterializeClassPrimitiveRemotePropertySetter [
 
 	setter := (Smalltalk globals at: class name)
 	          >>
-	          FMMaterializerTestResource current remoteNumberPropertyName asMutator.
+	          FMMaterializerTestResource current remoteNumberPropertyName
+		          asMutator.
 	self
 		assert: setter package name
-		equals: FMMaterializerTestResource current remotePackageName
+		equals: FMMaterializerTestResource current remotePackageName.
+	self assert: (setter hasPragmaNamed: 'generated')
 ]
 
 { #category : 'tests' }
