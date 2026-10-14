@@ -9,25 +9,34 @@ Class {
 FMMaterializer >> computeSlotsForType: aFM3Class [
 
 	| slots filteredSlots |
-	slots := aFM3Class primitiveProperties collect: [ :primitiveProperty |
+	slots := aFM3Class primitiveProperties
+		         reject: [ :primitiveProperty |
+				         primitiveProperty package isNotNil and: [
+					         primitiveProperty package ~= aFM3Class package ] ]
+		         thenCollect: [ :primitiveProperty |
 		         primitiveProperty name => FMProperty ].
-	slots addAll:
-		(aFM3Class complexProperties collect: [ :complexProperty |
-				 | slotClass |
-				 slotClass := complexProperty isMultivalued
-					              ifTrue: [ FMMany ]
-					              ifFalse: [ FMOne ].
-				 complexProperty opposite
-					 ifNotNil: [
-							 complexProperty name => slotClass
-								 type: complexProperty type name asSymbol
-								 opposite: complexProperty opposite name asSymbol ]
-					 ifNil: [
-							 complexProperty name => slotClass inClass:
-								 complexProperty type name asSymbol ] ]).
+	
+	slots addAll: (aFM3Class complexProperties
+			 reject: [ :primitiveProperty |
+					 primitiveProperty package isNotNil and: [
+						 primitiveProperty package ~= aFM3Class package ] ]
+			 thenCollect: [ :complexProperty |
+					 | slotClass |
+					 slotClass := complexProperty isMultivalued
+						              ifTrue: [ FMMany ]
+						              ifFalse: [ FMOne ].
+					 complexProperty opposite
+						 ifNotNil: [
+								 complexProperty name => slotClass
+									 type: complexProperty type name asSymbol
+									 opposite: complexProperty opposite name asSymbol ]
+						 ifNil: [
+								 complexProperty name => slotClass inClass:
+									 complexProperty type name asSymbol ] ]).
 	filteredSlots := slots reject: [ :slot |
-			aFM3Class superclass allProperties anySatisfy: [ :superProperty |
-				superProperty name = slot name ] ].
+			                 aFM3Class superclass allProperties anySatisfy: [
+				                 :superProperty | superProperty name = slot name ] ].
+
 	^ filteredSlots
 ]
 

@@ -184,6 +184,20 @@ FMMaterializerTest >> testMaterializeClassPrimitivePropertySetter [
 ]
 
 { #category : 'tests' }
+FMMaterializerTest >> testMaterializeClassPrimitiveRemoteProperty [
+	"remote properties are added using getter in a remote method and using cache instead of with a slot"
+
+	| class |
+	class := FMMaterializerTestResource current clazz.
+
+	materializer materializeClass: class.
+	self assert:
+		((Smalltalk globals at: class name) slots noneSatisfy: [ :slot |
+				 slot name
+				 = FMMaterializerTestResource current remoteNumberPropertyName ])
+]
+
+{ #category : 'tests' }
 FMMaterializerTest >> testMaterializeClassPrimitiveRemotePropertyGetter [
 
 	| class getter |
@@ -193,8 +207,7 @@ FMMaterializerTest >> testMaterializeClassPrimitiveRemotePropertyGetter [
 
 	getter := (Smalltalk globals at: class name)
 	          >>
-	          FMMaterializerTestResource current remoteNumberPropertyName
-		          asSymbol.
+	          FMMaterializerTestResource current remoteNumberPropertyName.
 	self
 		assert: getter package name
 		equals: FMMaterializerTestResource current remotePackageName

@@ -123,7 +123,7 @@ FMMaterializerTestResource >> relationClassToAnotherClassComment [
 { #category : 'as yet unclassified' }
 FMMaterializerTestResource >> remoteNumberPropertyName [
 
-	^ 'remoteNumberProperty'
+	^ #'remoteNumberProperty' 
 ]
 
 { #category : 'running' }
@@ -135,7 +135,7 @@ FMMaterializerTestResource >> remotePackage [
 { #category : 'as yet unclassified' }
 FMMaterializerTestResource >> remotePackageName [
 
-	^ 'Fame-Materialize-TestResource-Remote'
+	^ #'Fame-Materialize-TestResource-Remote'
 ]
 
 { #category : 'running' }
