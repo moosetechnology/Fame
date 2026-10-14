@@ -5,7 +5,7 @@ Class {
 	#package : 'Fame-Materialize'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'private' }
 FMMaterializer >> computeSlotsForType: aFM3Class [
 
 	| slots filteredSlots |
@@ -40,14 +40,14 @@ FMMaterializer >> computeSlotsForType: aFM3Class [
 	^ filteredSlots
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'private' }
 FMMaterializer >> isPropertyRemote: aFM3Property [
 
 	^ aFM3Property package isNotNil and: [
 		  aFM3Property package ~= aFM3Property owner package ]
 ]
 
-{ #category : 'private' }
+{ #category : 'api' }
 FMMaterializer >> materialize: aFMMetaModel [
 
 	aFMMetaModel packages do: [ :package |
@@ -56,7 +56,7 @@ FMMaterializer >> materialize: aFMMetaModel [
 	aFMMetaModel classes do: [ :fm3Class | self materializeClass: fm3Class ].
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'private' }
 FMMaterializer >> materializeClass: aFM3Class [
 
 	| classBuilder superClass implementedClass slots |
@@ -78,10 +78,22 @@ FMMaterializer >> materializeClass: aFM3Class [
 		self materializePrimitiveProperty: primitiveProperty ].
 	aFM3Class complexProperties do: [ :complexProperty |
 		self materializeComplexProperty: complexProperty ].
+	self materializeClassFameAnnotation: aFM3Class.
 	^ implementedClass
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'private' }
+FMMaterializer >> materializeClassFameAnnotation: aFM3Class [
+
+	| sourceCode |
+	sourceCode := 'annotation<r><r><t>%<ignoreForCoverage><r><t>%<FMClass: #<1s> super: #<3s>><r><t>%<package: #''<2s>''><r><t>%<generated>'.
+	(RBAddMethodTransformation
+		 sourceCode: (sourceCode expandMacrosWithArguments: { aFM3Class name. aFM3Class package name . aFM3Class superclass name })
+		 in: aFM3Class implementingClass class
+		 withProtocol: #meta) generateChanges execute
+]
+
+{ #category : 'private' }
 FMMaterializer >> materializeComplexProperty: aFM3Property [
 
 	| owner accessorTransformation |
@@ -100,13 +112,13 @@ FMMaterializer >> materializeComplexProperty: aFM3Property [
 	accessorTransformation performChanges
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'private' }
 FMMaterializer >> materializePackage: aFM3Package [
 
 	(RBAddPackageChange addPackageNamed: aFM3Package name) execute
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'private' }
 FMMaterializer >> materializePrimitiveProperty: aFM3Property [
 
 	| owner accessorTransformation |
@@ -125,7 +137,7 @@ FMMaterializer >> materializePrimitiveProperty: aFM3Property [
 	accessorTransformation performChanges
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'private' }
 FMMaterializer >> materializeTrait: aFM3Trait [
 
 	| traitBuilder implementingTrait |
