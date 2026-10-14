@@ -42,3 +42,23 @@ FMMaterializerIntegrationTest >> testFamixTest1Model [
 		shouldnt: [ FMMaterializer new materialize: metamodel ]
 		raise: Error
 ]
+
+{ #category : 'running' }
+FMMaterializerIntegrationTest >> testFamixTest1ModelSamePackages [
+
+	| metamodel materializedMetamodel |
+	metamodel := FamixTest1Model resetMetamodel.
+	metamodel packages do: [ :namedElement |
+		namedElement name: 'FMMaterializer' , namedElement name ].
+	packages := metamodel packages.
+	packages do: [ :package |
+			package classes do: [ :class |
+				class name:
+					(package name , class name copyReplaceAll: '-' with: '') ] ].
+	FMMaterializer new materialize: metamodel.
+	materializedMetamodel := FMMetaModelBuilder metamodelFromPackages:
+		             (metamodel packages collect: [ :fm3package |
+			              fm3package name asPackage ]).
+	
+	self assert: materializedMetamodel packages size equals: metamodel packages size
+]
