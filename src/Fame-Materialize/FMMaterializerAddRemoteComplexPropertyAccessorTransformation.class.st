@@ -22,19 +22,25 @@ FMMaterializerAddRemoteComplexPropertyAccessorTransformation class >> fm3Propert
 { #category : 'private' }
 FMMaterializerAddRemoteComplexPropertyAccessorTransformation >> defineGetterMethod [
 
-	| packageName |
+	| packageName sourceCode |
+	sourceCode := fm3Property isMultivalued
+		              ifTrue: [
+			              '<1s><r><r><t>%<generated><r><t>%<FMProperty: #<1s> type: #<3s>><r><t>%<FMComment: <4p>><r><t>%<multivalued><r><t>^ self attributeAt: #<2s> ifAbsent: [ FMMultiMultivalueLink on: self opposite: #<5s> ]' ]
+		              ifFalse: [
+			              '<1s><r><r><t>%<generated><r><t>%<FMProperty: #<1s> type: #<3s>><r><t>%<FMComment: <4p>><r><t>^ self attributeAt: #<2s> ifAbsent: [ nil ]' ].
+
 	getterMethod := self
 		                safeMethodNameFor: self definingClass
 		                basedOn: variableName asString.
 	packageName := ('*' , fm3Property package name) asSymbol.
 	self generateChangesFor: (RBAddMethodTransformation
 			 model: self model
-			 sourceCode:
-				 ('<1s><r><r><t>%<generated><r><t>%<FMComment: <4p>><r><t>^ <2s>'
-					  expandMacrosWith: getterMethod
-					  with: variableName
-					  with: fm3Property type name
-					  with: (fm3Property comment ifNil: [ '' ]))
+			 sourceCode: (sourceCode expandMacrosWithArguments: {
+						  getterMethod.
+						  variableName.
+						  fm3Property type name.
+						  (fm3Property comment ifNil: [ '' ]).
+						  fm3Property opposite name })
 			 in: self definingClass
 			 withProtocol: packageName).
 
@@ -47,7 +53,7 @@ FMMaterializerAddRemoteComplexPropertyAccessorTransformation >> defineSetterMeth
 	| sourceCode packageName |
 	sourceCode := fm3Property isMultivalued
 		              ifTrue: [
-		              '<1s> anObject<r><r><t><2s> value: anObject' ]
+		              '<1s> anObject<r><r><t>self <2s> value: anObject' ]
 		              ifFalse: [ '<1s> anObject<r><r><t><2s> := anObject' ].
 	setterMethod := self
 		                safeMethodNameFor: self definingClass
