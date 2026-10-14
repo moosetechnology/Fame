@@ -25,7 +25,11 @@ FMMaterializerAddRemoteComplexPropertyAccessorTransformation >> defineGetterMeth
 	| packageName sourceCode |
 	sourceCode := fm3Property isMultivalued
 		              ifTrue: [
-			              '<1s><r><r><t>%<generated><r><t>%<FMProperty: #<1s> type: #<3s>><r><t>%<FMComment: <4p>><r><t>%<multivalued><r><t>^ self attributeAt: #<2s> ifAbsent: [ FMMultiMultivalueLink on: self opposite: #<5s> ]' ]
+				              fm3Property opposite isMultivalued
+					              ifTrue: [
+						              '<1s><r><r><t>%<generated><r><t>%<FMProperty: #<1s> type: #<3s>><r><t>%<FMComment: <4p>><r><t>%<multivalued><r><t>^ self attributeAt: #<2s> ifAbsent: [ FMMultiMultivalueLink on: self opposite: #<5s> ]' ]
+					              ifFalse: [
+						              '<1s><r><r><t>%<generated><r><t>%<FMProperty: #<1s> type: #<3s>><r><t>%<FMComment: <4p>><r><t>%<multivalued><r><t>^ self attributeAt: #<2s> ifAbsent: [ FMMultivalueLink on: self opposite: #<5s> ]' ] ]
 		              ifFalse: [
 			              '<1s><r><r><t>%<generated><r><t>%<FMProperty: #<1s> type: #<3s>><r><t>%<FMComment: <4p>><r><t>^ self attributeAt: #<2s> ifAbsent: [ nil ]' ].
 
