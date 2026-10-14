@@ -121,6 +121,12 @@ FMMaterializerTestResource >> relationClassToAnotherClassComment [
 ]
 
 { #category : 'as yet unclassified' }
+FMMaterializerTestResource >> relationClassToRemoteClass [
+
+	^ relationClassToRemoteClass
+]
+
+{ #category : 'as yet unclassified' }
 FMMaterializerTestResource >> remoteNumberPropertyName [
 
 	^ #'remoteNumberProperty' 

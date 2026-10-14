@@ -86,7 +86,13 @@ FMMaterializer >> materializeComplexProperty: aFM3Property [
 
 	| owner accessorTransformation |
 	owner := aFM3Property mmClass implementingClass.
-	accessorTransformation := FMMaterializerAddComplexPropertyAccessorTransformation
+	accessorTransformation := ((self isPropertyRemote: aFM3Property)
+		                           ifTrue: [
+				                           self materializePackage:
+					                           aFM3Property package.
+				                           FMMaterializerAddRemoteComplexPropertyAccessorTransformation ]
+		                           ifFalse: [
+		                           FMMaterializerAddComplexPropertyAccessorTransformation ])
 		                          fm3Property: aFM3Property
 		                          class: owner.
 	accessorTransformation createSetterAccessor.

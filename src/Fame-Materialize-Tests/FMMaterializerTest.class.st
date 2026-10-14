@@ -140,6 +140,55 @@ FMMaterializerTest >> testMaterializeClassComplexPropertyWithoutOpposite [
 ]
 
 { #category : 'tests' }
+FMMaterializerTest >> testMaterializeClassComplexRemotePropertyGetterPackage [
+
+	| class getter |
+	class := FMMaterializerTestResource current clazz.
+
+	materializer materializeClass: class.
+
+	getter := (Smalltalk globals at: class name)
+	          >>
+	          FMMaterializerTestResource current relationClassToRemoteClass name.
+	self
+		assert: getter package name
+		equals: FMMaterializerTestResource current relationClassToRemoteClass package name
+]
+
+{ #category : 'tests' }
+FMMaterializerTest >> testMaterializeClassComplexRemotePropertySetterPackage [
+
+	| class getter |
+	class := FMMaterializerTestResource current clazz.
+
+	materializer materializeClass: class.
+
+	getter := (Smalltalk globals at: class name)
+	          >>
+		          FMMaterializerTestResource current
+			          relationClassToRemoteClass name asMutator.
+	self
+		assert: getter package name
+		equals:
+			FMMaterializerTestResource current relationClassToRemoteClass
+				package name
+]
+
+{ #category : 'tests' }
+FMMaterializerTest >> testMaterializeClassComplexRemotePropertySlot [
+
+	| class |
+	class := FMMaterializerTestResource current clazz.
+
+	materializer materializeClass: class.
+
+	self assert:
+		((Smalltalk globals at: class name) slots noneSatisfy: [ :slot |
+				 slot name
+				 = FMMaterializerTestResource current remoteNumberPropertyName ])
+]
+
+{ #category : 'tests' }
 FMMaterializerTest >> testMaterializeClassPrimitivePropertyGetter [
 
 	| class getter |
@@ -210,6 +259,22 @@ FMMaterializerTest >> testMaterializeClassPrimitiveRemotePropertyGetter [
 	          FMMaterializerTestResource current remoteNumberPropertyName.
 	self
 		assert: getter package name
+		equals: FMMaterializerTestResource current remotePackageName
+]
+
+{ #category : 'tests' }
+FMMaterializerTest >> testMaterializeClassPrimitiveRemotePropertySetter [
+
+	| class setter |
+	class := FMMaterializerTestResource current clazz.
+
+	materializer materializeClass: class.
+
+	setter := (Smalltalk globals at: class name)
+	          >>
+	          FMMaterializerTestResource current remoteNumberPropertyName asMutator.
+	self
+		assert: setter package name
 		equals: FMMaterializerTestResource current remotePackageName
 ]
 
