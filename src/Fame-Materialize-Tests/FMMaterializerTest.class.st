@@ -194,6 +194,15 @@ FMMaterializerTest >> testMaterializeClassComplexRemotePropertySlot [
 ]
 
 { #category : 'tests' }
+FMMaterializerTest >> testMaterializeClassHasAnnotationClassSide [
+
+	| class implementingClass |
+	class := FMMaterializerTestResource current clazz.
+	implementingClass := materializer materializeClass: class.
+	self assert: (implementingClass class >> #annotation hasPragmaNamed: #'FMClass:super:')
+]
+
+{ #category : 'tests' }
 FMMaterializerTest >> testMaterializeClassPrimitivePropertyGetter [
 
 	| class getter |
