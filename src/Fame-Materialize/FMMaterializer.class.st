@@ -40,6 +40,13 @@ FMMaterializer >> computeSlotsForType: aFM3Class [
 	^ filteredSlots
 ]
 
+{ #category : 'as yet unclassified' }
+FMMaterializer >> isPropertyRemote: aFM3Property [
+
+	^ aFM3Property package isNotNil and: [
+		  aFM3Property package ~= aFM3Property owner package ]
+]
+
 { #category : 'private' }
 FMMaterializer >> materialize: aFMMetaModel [
 
@@ -90,7 +97,7 @@ FMMaterializer >> materializeComplexProperty: aFM3Property [
 { #category : 'as yet unclassified' }
 FMMaterializer >> materializePackage: aFM3Package [
 
-	self packageOrganizer ensurePackage: aFM3Package name
+	(RBAddPackageChange addPackageNamed: aFM3Package name) execute
 ]
 
 { #category : 'as yet unclassified' }
@@ -98,7 +105,13 @@ FMMaterializer >> materializePrimitiveProperty: aFM3Property [
 
 	| owner accessorTransformation |
 	owner := aFM3Property mmClass implementingClass.
-	accessorTransformation := FMMaterializerAddPrimitivePropertyAccessorTransformation
+	accessorTransformation := ((self isPropertyRemote: aFM3Property)
+		                           ifTrue: [
+				                           self materializePackage:
+					                           aFM3Property package.
+				                           FMMaterializerAddRemotePrimitivePropertyAccessorTransformation ]
+		                           ifFalse: [
+		                           FMMaterializerAddPrimitivePropertyAccessorTransformation ])
 		                          fm3Property: aFM3Property
 		                          class: owner.
 	accessorTransformation createSetterAccessor.
