@@ -149,29 +149,34 @@ FMMaterializerTest >> testMaterializeClassComplexRemotePropertyGetterPackage [
 
 	getter := (Smalltalk globals at: class name)
 	          >>
-	          FMMaterializerTestResource current relationClassToRemoteClass name.
+	          FMMaterializerTestResource current
+		          relationClassToRemoteClass name.
 	self
 		assert: getter package name
-		equals: FMMaterializerTestResource current relationClassToRemoteClass package name
+		equals:
+			FMMaterializerTestResource current relationClassToRemoteClass
+				package name.
+	self assert: (getter hasPragmaNamed: 'generated')
 ]
 
 { #category : 'tests' }
 FMMaterializerTest >> testMaterializeClassComplexRemotePropertySetterPackage [
 
-	| class getter |
+	| class setter |
 	class := FMMaterializerTestResource current clazz.
 
 	materializer materializeClass: class.
 
-	getter := (Smalltalk globals at: class name)
+	setter := (Smalltalk globals at: class name)
 	          >>
 		          FMMaterializerTestResource current
 			          relationClassToRemoteClass name asMutator.
 	self
-		assert: getter package name
+		assert: setter package name
 		equals:
 			FMMaterializerTestResource current relationClassToRemoteClass
-				package name
+				package name.
+	self assert: (setter hasPragmaNamed: 'generated')
 ]
 
 { #category : 'tests' }
