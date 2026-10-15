@@ -194,6 +194,7 @@ FMMaterializerTestResource >> setUp [
 			propertyA.
 			relationClassToAnotherClass.
 			propertyWithoutOpposite.
+			((FM3Property named: 'objectProperty') type: FM3Object instance).
 
 			"duplicatedProperty are properties with the same name on two different FM3Type in the same type hierarchy"
 			((FM3Property named: 'duplicatedProperty') type: FM3Number instance) }.

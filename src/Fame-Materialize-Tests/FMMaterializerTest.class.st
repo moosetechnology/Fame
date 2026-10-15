@@ -216,6 +216,22 @@ FMMaterializerTest >> testMaterializeClassHasAnnotationClassSide [
 ]
 
 { #category : 'tests' }
+FMMaterializerTest >> testMaterializeClassPrimitiveObjectPropertyGetter [
+
+	| class getter |
+	class := FMMaterializerTestResource current clazz.
+	
+	materializer materializeClass: class.
+
+	getter := (Smalltalk globals at: class name)
+	          >> #objectProperty.
+
+	self assert: (getter hasPragmaNamed: 'generated').
+	self assert: (getter hasPragmaNamed: 'FMComment:').
+	self assert: (getter hasPragmaNamed: 'FMProperty:type:')
+]
+
+{ #category : 'tests' }
 FMMaterializerTest >> testMaterializeClassPrimitivePropertyGetter [
 
 	| class getter |

@@ -74,10 +74,10 @@ FMMaterializer >> materializeClass: aFM3Class [
 	classBuilder slots: slots.
 	implementedClass := classBuilder install.
 	aFM3Class implementingClass: implementedClass.
-	aFM3Class primitiveProperties do: [ :primitiveProperty |
-		self materializePrimitiveProperty: primitiveProperty ].
-	aFM3Class complexProperties do: [ :complexProperty |
-		self materializeComplexProperty: complexProperty ].
+	aFM3Class allProperties do: [ :property |
+			property type isConstant
+				ifTrue: [ self materializePrimitiveProperty: property ]
+				ifFalse: [ self materializeComplexProperty: property ] ].
 	self materializeTypeFameAnnotation: aFM3Class.
 	^ implementedClass
 ]
