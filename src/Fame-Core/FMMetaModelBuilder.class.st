@@ -242,7 +242,6 @@ FMMetaModelBuilder >> processCompiledMethod: aMethod [
 				          compileAndInstallCompiledMethod;
 				          compiledMethod ].
 	self assert: method isCompiledMethod.
-
 	method pragmas
 		detect: [ :each |
 				#( #FMProperty:type:opposite: #FMProperty:type: #FMProperty:type:defaultValue: )
@@ -277,16 +276,20 @@ FMMetaModelBuilder >> processInfosFrom: aMethod for: prop [
 
 { #category : 'private' }
 FMMetaModelBuilder >> processSlot: aSlot in: aClass [
+
 	| prop |
 	prop := FM3Property named: aSlot name.
 	prop implementingSelector: aSlot name.
 	prop isMultivalued: aSlot isToMany.
+	self haltIf: [ prop name = #modelHasProperties ].
 
 	typeDict at: prop put: aSlot targetClass.
 	mmClassDict at: prop put: aClass.
 	oppositeDict at: prop put: aSlot inverseName.
 
-	aClass compiledMethodAt: aSlot name asSymbol ifPresent: [ :aMethod | self processInfosFrom: aMethod for: prop ].
+	aClass
+		compiledMethodAt: aSlot name asSymbol
+		ifPresent: [ :aMethod | self processInfosFrom: aMethod for: prop ].
 
 	elements add: prop
 ]
@@ -334,7 +337,6 @@ FMMetaModelBuilder >> queue: var [
 
 { #category : 'private' }
 FMMetaModelBuilder >> resolveObjectReferences [
-
 	"establish class-package and property-package links"
 	packDict keysAndValuesDo: [ :fm3Element :value | fm3Element package: (self ensurePackage: value) ].
 

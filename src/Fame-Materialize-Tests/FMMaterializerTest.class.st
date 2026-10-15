@@ -232,6 +232,22 @@ FMMaterializerTest >> testMaterializeClassPrimitiveObjectPropertyGetter [
 ]
 
 { #category : 'tests' }
+FMMaterializerTest >> testMaterializeClassPrimitiveObjectPropertySlot [
+
+	| class slot |
+	class := FMMaterializerTestResource current clazz.
+
+	materializer materializeClass: class.
+
+	slot := (Smalltalk globals at: class name) slots detect: [ :s |
+		        s name = #objectProperty ].
+
+	self assert: slot isNotNil.
+	"Complex propery that uses type Object are properties and not relation"
+	self assert: slot class equals: FMProperty
+]
+
+{ #category : 'tests' }
 FMMaterializerTest >> testMaterializeClassPrimitivePropertyGetter [
 
 	| class getter |

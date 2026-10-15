@@ -9,17 +9,19 @@ Class {
 FMMaterializer >> computeSlotsForType: aFM3Class [
 
 	| slots filteredSlots |
-	slots := aFM3Class primitiveProperties
-		         reject: [ :primitiveProperty |
-				         primitiveProperty package isNotNil and: [
-					         primitiveProperty package ~= aFM3Class package ] ]
+	slots := aFM3Class properties
+		         reject: [ :property |
+				         property type isConstant not or: [
+						         property package isNotNil and: [
+							         property package ~= aFM3Class package ] ] ]
 		         thenCollect: [ :primitiveProperty |
 		         primitiveProperty name => FMProperty ].
-	
-	slots addAll: (aFM3Class complexProperties
+
+	slots addAll: (aFM3Class properties
 			 reject: [ :primitiveProperty |
-					 primitiveProperty package isNotNil and: [
-						 primitiveProperty package ~= aFM3Class package ] ]
+					 primitiveProperty type isConstant or: [
+							 primitiveProperty package isNotNil and: [
+								 primitiveProperty package ~= aFM3Class package ] ] ]
 			 thenCollect: [ :complexProperty |
 					 | slotClass |
 					 slotClass := complexProperty isMultivalued
