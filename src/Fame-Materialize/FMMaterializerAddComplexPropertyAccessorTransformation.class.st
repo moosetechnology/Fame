@@ -45,8 +45,8 @@ FMMaterializerAddComplexPropertyAccessorTransformation >> defineSetterMethod [
 	| sourceCode |
 	sourceCode := fm3Property isMultivalued
 		              ifTrue: [
-		              '<1s> anObject<r><r><t><2s> value: anObject' ]
-		              ifFalse: [ '<1s> anObject<r><r><t><2s> := anObject' ].
+		              '<1s> anObject<r><r><t>%<generated><r><t><2s> value: anObject' ]
+		              ifFalse: [ '<1s> anObject<r><r><t>%<generated><r><t><2s> := anObject' ].
 	setterMethod := self
 		                safeMethodNameFor: self definingClass
 		                basedOn: variableName asString , ':'.
