@@ -59,6 +59,6 @@ FMMaterializerIntegrationTest >> testFamixTest1ModelSamePackages [
 	materializedMetamodel := FMMetaModelBuilder metamodelFromPackages:
 		             (metamodel packages collect: [ :fm3package |
 			              fm3package name asPackage ]).
-	
+
 	self assert: materializedMetamodel packages size equals: metamodel packages size
 ]

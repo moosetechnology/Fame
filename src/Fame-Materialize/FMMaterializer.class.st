@@ -78,19 +78,8 @@ FMMaterializer >> materializeClass: aFM3Class [
 		self materializePrimitiveProperty: primitiveProperty ].
 	aFM3Class complexProperties do: [ :complexProperty |
 		self materializeComplexProperty: complexProperty ].
-	self materializeClassFameAnnotation: aFM3Class.
+	self materializeTypeFameAnnotation: aFM3Class.
 	^ implementedClass
-]
-
-{ #category : 'private' }
-FMMaterializer >> materializeClassFameAnnotation: aFM3Class [
-
-	| sourceCode |
-	sourceCode := 'annotation<r><r><t>%<ignoreForCoverage><r><t>%<FMClass: #<1s> super: #<3s>><r><t>%<package: #''<2s>''><r><t>%<generated>'.
-	(RBAddMethodTransformation
-		 sourceCode: (sourceCode expandMacrosWithArguments: { aFM3Class name. aFM3Class package name . aFM3Class superclass name })
-		 in: aFM3Class implementingClass class
-		 withProtocol: #meta) generateChanges execute
 ]
 
 { #category : 'private' }
@@ -148,5 +137,22 @@ FMMaterializer >> materializeTrait: aFM3Trait [
 		                package: aFM3Trait package name.
 	implementingTrait := traitBuilder install.
 	aFM3Trait implementingClass: implementingTrait.
+	self materializeTypeFameAnnotation: aFM3Trait.
 	^ implementingTrait
+]
+
+{ #category : 'private' }
+FMMaterializer >> materializeTypeFameAnnotation: aFM3Type [
+
+	| sourceCode |
+	sourceCode := 'annotation<r><r><t>%<ignoreForCoverage><r><t>%<FMClass: #<1s> super: #<3s>><r><t>%<package: #''<2s>''><r><t>%<generated>'.
+	(RBAddMethodTransformation
+		 sourceCode: (sourceCode expandMacrosWithArguments: {
+					  aFM3Type name.
+					  aFM3Type package name.
+					  (aFM3Type isFM3Trait
+						   ifTrue: [ 'Object' ]
+						   ifFalse: [ aFM3Type superclass name ]) })
+		 in: aFM3Type implementingClass class
+		 withProtocol: #meta) generateChanges execute
 ]

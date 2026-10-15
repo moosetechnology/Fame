@@ -43,6 +43,19 @@ FMMaterializerTest >> testMaterializeClass [
 ]
 
 { #category : 'tests' }
+FMMaterializerTest >> testMaterializeClassAnnotationSuperIsImplementation [
+
+	| class implementingClass |
+	class := FMMaterializerTestResource current clazz.
+	implementingClass := materializer materializeClass: class.
+	self
+		assert:
+			((implementingClass class >> #annotation pragmaAt: #FMClass:super:)
+				 argumentNamed: #super:)
+		equals: implementingClass superclass name
+]
+
+{ #category : 'tests' }
 FMMaterializerTest >> testMaterializeClassComplexPropertyGetter [
 
 	| class getter |
@@ -421,6 +434,15 @@ FMMaterializerTest >> testMaterializeTrait [
 		FMMaterializerTestResource current metamodel packages anyOne.
 	materializer materializeTrait: trait.
 	self assert: (Smalltalk globals includesKey: trait name)
+]
+
+{ #category : 'tests' }
+FMMaterializerTest >> testMaterializeTraitHasAnnotationClassSide [
+
+	| trait implementingTrait |
+	trait := FMMaterializerTestResource current trait.
+	implementingTrait := materializer materializeTrait: trait.
+	self assert: (implementingTrait class >> #annotation hasPragmaNamed: #'FMClass:super:')
 ]
 
 { #category : 'tests' }
