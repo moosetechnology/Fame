@@ -35,7 +35,8 @@ Class {
 	#superclass : 'FMModel',
 	#instVars : [
 		'typeDict',
-		'nameDict'
+		'nameDict',
+		'version'
 	],
 	#category : 'Fame-Core-Models',
 	#package : 'Fame-Core',
@@ -164,4 +165,16 @@ FMMetaModel >> updateCacheWith: element [
 	(element isFM3Class or: [ element isFM3Trait ]) ifTrue: [ 
 		element implementingClass ifNotNil: [ :class | 
 			typeDict at: class put: element ] ]
+]
+
+{ #category : 'accessing' }
+FMMetaModel >> version [
+
+	^ version
+]
+
+{ #category : 'accessing' }
+FMMetaModel >> version: aString [
+
+	version := aString
 ]
