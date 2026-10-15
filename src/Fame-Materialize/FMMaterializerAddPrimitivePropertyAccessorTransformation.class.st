@@ -39,6 +39,20 @@ FMMaterializerAddPrimitivePropertyAccessorTransformation >> defineGetterMethod [
 	^ getterMethod
 ]
 
+{ #category : 'private' }
+FMMaterializerAddPrimitivePropertyAccessorTransformation >> defineSetterMethod [
+
+	|  sourceCode |
+	sourceCode := '<1s> anObject<r><r><t>%<generated><r><t><2s> := anObject'.
+	setterMethod := self safeMethodNameFor: self definingClass basedOn: variableName asString , ':'.
+	self generateChangesFor: (RBAddMethodTransformation 
+		model: self model
+		sourceCode: (sourceCode expandMacrosWith: setterMethod with: variableName)
+		in: self definingClass 
+		withProtocol: 'accessing').
+	^ setterMethod
+]
+
 { #category : 'accessing' }
 FMMaterializerAddPrimitivePropertyAccessorTransformation >> fm3Property [
 

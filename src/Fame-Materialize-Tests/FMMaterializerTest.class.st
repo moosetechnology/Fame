@@ -266,13 +266,15 @@ FMMaterializerTest >> testMaterializeClassPrimitivePropertyGetterHasComment [
 { #category : 'tests' }
 FMMaterializerTest >> testMaterializeClassPrimitivePropertySetter [
 
-	| class |
+	| class setter |
 	class := FMMaterializerTestResource current clazz.
-	
+
 	materializer materializeClass: class.
-	self assert: ((Smalltalk globals at: class name)
-		 >> FMMaterializerTestResource current propertyA name asMutator)
-			isNotNil
+	setter := (Smalltalk globals at: class name)
+	          >>
+	          FMMaterializerTestResource current propertyA name asMutator.
+	self assert: setter isNotNil.
+	self assert: (setter hasPragmaNamed: 'generated')
 ]
 
 { #category : 'tests' }
